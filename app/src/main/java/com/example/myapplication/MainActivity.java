@@ -14,9 +14,7 @@ import io.realm.mongodb.User;
 import io.realm.mongodb.Credentials;
 // MongoDB Service Packages
 import io.realm.mongodb.functions.Functions;
-import io.realm.mongodb.mongo.MongoClient;
-import io.realm.mongodb.mongo.MongoDatabase;
-import io.realm.mongodb.mongo.MongoCollection;
+
 // Utility Packages
 import org.bson.Document;
 
@@ -25,11 +23,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     String AppId = "mobileappdev-hwhug";
-    String databaseName = "test-database";
-    String collectionName = "test-collection";
     App app;
-    MongoClient mongoClient;
-    MongoDatabase mongoDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +35,13 @@ public class MainActivity extends AppCompatActivity {
                 .appName("My App")
                 .build());
 
-        app.loginAsync(Credentials.anonymous(), it -> {
+        Credentials credentials = Credentials.emailPassword("21021458@vnu.edu.vn","chinh2003");
+
+
+        app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
                 User user = app.currentUser();
+                //app.getEmailPassword().confirmUser();
                 assert user != null;
                 Functions functionsManager = app.getFunctions(user);
                 List<String> args = new ArrayList<>();
