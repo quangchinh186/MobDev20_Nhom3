@@ -40,14 +40,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "You suck!", Toast.LENGTH_SHORT).show();
             return;
         }
-        Log.v("TEST_INFO", email.toString() + " - " + password.toString());
+
         Credentials credentials = Credentials.emailPassword(email, password);
-        Credentials anotherCredentials = Credentials.emailPassword("21021463@vnu.edu.vn", "dung14b");
-        Log.v("TEST_CRE", credentials.asJson() + " - " + anotherCredentials.asJson());
-        Log.v("credentials", credentials.toString());
+        Log.v("credentials", credentials.asJson());
         app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
-                Log.v("TEST_LOGIN", "login as anonymous");
+                Log.v("TEST_LOGIN", "login successfully");
                 /* change activity */
 //                Intent emptyActivity = new Intent(MainActivity.this, EmptyActivity.class);
 //                emptyActivity.putExtra("email", email);
@@ -74,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         sendLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.v("TEST_LOGIN", "login clicked");
                 logIn(MainActivity.this.email, MainActivity.this.password);
             }
         });
