@@ -42,9 +42,15 @@
                 android:labelFor="@+id/email__box"/>
 
             <EditText
-                android:id="@+id/email_box"
+                android:id="@+id/email__input"
                 android:layout_width="wrap_content"
                 android:layout_height="43.7dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:textColorHint="#aaa"
+                android:hint="Email hoặc username"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
@@ -67,10 +73,17 @@
 
             <EditText
                 android:id="@+id/pasword__input"
+                android:inputType="textPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="43.78dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:textColorHint="#aaa"
+                android:hint="Shhhh!"
                 android:layout_marginTop="6.36dp"
                 android:background="@drawable/edittext_box1" />
 

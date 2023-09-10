@@ -1,9 +1,7 @@
 package com.example.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,18 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.bson.Document;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
 import io.realm.Realm;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
-import io.realm.mongodb.User;
-import io.realm.mongodb.functions.Functions;
 
 public class LoginActivity extends AppCompatActivity {
     String AppId = "mobileappdev-hwhug";
@@ -46,10 +36,8 @@ public class LoginActivity extends AppCompatActivity {
             if(it.isSuccess()){
                 Log.v("TEST_LOGIN", "login successfully");
                 /* change activity */
-                Intent emptyActivity = new Intent(LoginActivity.this, EmptyActivity.class);
-                emptyActivity.putExtra("email", email);
-                emptyActivity.putExtra("password", password);
-                startActivity(emptyActivity);
+                Intent application = new Intent(getApplicationContext(), ApplicationActivity.class);
+                startActivity(application);
             }
             else {
                 Log.v("TEST_LOGIN", "login failed");
@@ -57,14 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_page);
-
-        EditText emailInput = findViewById(R.id.email_box);
-        EditText passwordInput = findViewById(R.id.pasword__input);
-
+    private void startEmailChangeListener() {
+        EditText emailInput = findViewById(R.id.email__input);
         emailInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -81,23 +63,28 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
+    }
+    private void startPasswordChangeListener() {
+        EditText passwordInput = findViewById(R.id.pasword__input);
         passwordInput.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 LoginActivity.this.password = passwordInput.getText().toString();
             }
-
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_page);
+
+        this.startEmailChangeListener();
+        this.startPasswordChangeListener();
 
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
