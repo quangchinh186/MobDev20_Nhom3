@@ -1,57 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="#12101A">-->
-<!--    <ImageView-->
-<!--        android:id="@+id/login__logo"-->
-<!--        android:layout_width="665px"-->
-<!--        android:layout_height="222px"-->
-<!--        android:src="@drawable/logo"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="345px"-->
-<!--        />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/login__title"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Đăng nhập"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="60px"-->
-<!--        android:layout_alignBottom="@id/login__logo"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:translationY="15dp"-->
-<!--        android:textStyle="bold"-->
-<!--        />-->
-
-<!--    <AbsoluteLayout-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="fill_parent"-->
-<!--        tools:ignore="Deprecated"-->
-<!--        >-->
-<!--        <ImageView-->
-<!--            android:layout_width="519.415px"-->
-<!--            android:layout_height="584px"-->
-<!--            android:src="@drawable/blur_login"-->
-<!--            android:layout_x="250dp"-->
-<!--            android:layout_y="400dp"-->
-<!--            />-->
-<!--    </AbsoluteLayout>-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical"-->
-<!--        android:layout_alignBottom="@+id/login__title"-->
-<!--        android:layout_centerHorizontal="true">-->
-<!--        <EditText-->
-<!--            android:layout_width="675px"-->
-<!--            android:layout_height="110px"-->
-<!--            android:background="#777" />-->
-<!--    </LinearLayout>-->
-<!--</RelativeLayout>-->
 
 <!--<?xml version="1.0" encoding="utf-8"?>-->
 <FrameLayout android:layout_width="match_parent"
@@ -61,72 +8,71 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#12101A"
         android:gravity="center_horizontal"
-        android:paddingRight="124px"
-        android:paddingLeft="124px">
+        android:paddingRight="49dp"
+        android:paddingLeft="49dp">
 
         <ImageView
             android:id="@+id/login__logo"
-            android:layout_width="665px"
-            android:layout_height="222px"
+            android:layout_width="265dp"
+            android:layout_height="88dp"
             android:src="@drawable/logo"
-            android:layout_marginTop="345px" />
+            android:layout_marginTop="137.3dp" />
         <TextView
             android:id="@+id/login__title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng nhập"
             android:textColor="@color/white"
-            android:textSize="60px"
+            android:textSize="24dp"
             android:textStyle="bold"
             android:layout_marginTop="-10dp" />
         <LinearLayout
             android:id="@+id/email_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="160px"
+            android:layout_marginTop="63dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên đăng nhập"
-                android:textSize="40px"
+                android:textSize="16dp"
                 android:textColor="@color/white"
                 android:labelFor="@+id/email__box"/>
 
-            <Button
+            <EditText
                 android:id="@+id/email_box"
                 android:layout_width="wrap_content"
-                android:layout_height="110px"
+                android:layout_height="43.7dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20px"
-                android:background="@drawable/editext_box1" />
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_box1" />
 
         </LinearLayout>
         <LinearLayout
             android:id="@+id/password_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="65px"
+            android:layout_marginTop="25.87dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mật khẩu"
-                android:textSize="40px"
+                android:textSize="16dp"
                 android:textColor="@color/white"
                 android:labelFor="@id/pasword__input"/>
 
-            <Button
+            <EditText
                 android:id="@+id/pasword__input"
                 android:layout_width="wrap_content"
-                android:layout_height="110px"
+                android:layout_height="43.78dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20px"
-                android:background="@drawable/editext_box1" />
+                android:layout_marginTop="6.36dp"
+                android:background="@drawable/edittext_box1" />
 
         </LinearLayout>
         <TextView
@@ -134,9 +80,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Quên mật khẩu?"
-            android:layout_marginTop="45px"
+            android:layout_marginTop="18dp"
             android:textColor="@color/white"
-            android:textSize="40px"
+            android:textSize="16dp"
             android:alpha="0.6"/>
         <TextView
             android:layout_width="wrap_content"
@@ -144,30 +90,33 @@
             android:text="Đăng ký tài khoản mới"
 
             android:textColor="@color/white"
-            android:textSize="32px"
-            android:layout_marginTop="192px" />
+            android:textSize="12.73dp"
+            android:layout_marginTop="46.71dp" />
         
         <Button
             android:id="@+id/login__submit"
-            android:layout_width="675px"
-            android:layout_height="100px"
+            android:layout_width="268.65dp"
+            android:layout_height="39.8dp"
             android:background="@color/white"
             android:textColor="@color/white"
-            android:layout_marginTop="52px"
+            android:layout_marginTop="20.7dp"
             android:text="Đăng nhập" />
 
     </LinearLayout>
     <AbsoluteLayout
         android:id="@+id/decor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:translationZ="-1dp"
+        android:background="#12101A">
+
         <ImageView
             android:id="@+id/decor_blur"
             android:layout_width="346.415dp"
             android:layout_height="389dp"
-            android:src="@drawable/blur_login"
             android:layout_x="135dp"
-            android:layout_y="280dp"
-            />
+            android:layout_y="335dp"
+            android:src="@drawable/blur_login" />
     </AbsoluteLayout>
 </FrameLayout>
