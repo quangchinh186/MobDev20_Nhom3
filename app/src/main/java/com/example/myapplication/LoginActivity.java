@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.v("TEST_LOGIN", "login successfully");
                 /* change activity */
                 Intent application = new Intent(getApplicationContext(), ApplicationActivity.class);
+                application.putExtra("email", LoginActivity.this.email);
+                application.putExtra("password", LoginActivity.this.password);
                 startActivity(application);
             }
             else {

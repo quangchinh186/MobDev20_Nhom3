@@ -36,26 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String password;
 
     protected void logIn(String email, String password) {
-        if (email == null || password == null) {
-            Toast.makeText(getApplicationContext(), "You suck!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        Credentials credentials = Credentials.emailPassword(email, password);
-        Log.v("credentials", credentials.asJson());
-        app.loginAsync(credentials, it -> {
-            if(it.isSuccess()){
-                Log.v("TEST_LOGIN", "login successfully");
-                /* change activity */
-//                Intent emptyActivity = new Intent(MainActivity.this, EmptyActivity.class);
-//                emptyActivity.putExtra("email", email);
-//                emptyActivity.putExtra("password", password);
-//                startActivity(emptyActivity);
-            }
-            else {
-                Log.v("TEST_LOGIN", "login failed");
-            }
-        });
     }
 
     @Override
