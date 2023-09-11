@@ -2,8 +2,16 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 // Base Realm Packages
 import io.realm.Realm;
@@ -24,6 +32,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     String AppId = "mobileappdev-hwhug";
     App app;
+    private String email;
+    private String password;
+
+    protected void logIn(String email, String password) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,34 +49,52 @@ public class MainActivity extends AppCompatActivity {
                 .appName("My App")
                 .build());
 
-        Credentials credentials = Credentials.emailPassword("21021458@vnu.edu.vn","chinh2003");
-
-
-        app.loginAsync(credentials, it -> {
-            if(it.isSuccess()){
-                User user = app.currentUser();
-                //app.getEmailPassword().confirmUser();
-                assert user != null;
-                Functions functionsManager = app.getFunctions(user);
-                List<String> args = new ArrayList<>();
-                functionsManager.callFunctionAsync("getAllUsers", args, ArrayList.class, result -> {
-                    if (result.isSuccess()) {
-                        Log.v("USERS", "users list: " + result.get());
-                        ArrayList<Document> usersList = result.get();
-                        for (Document u : usersList) {
-                            System.out.println(u.toJson());
-                        }
-                    } else {
-                        Log.e("USERS", "failed to get data: " + result.getError());
-                    }
-                });
-                Log.v("user", "login as anonymous");
-            }
-            else {
-                Log.v("user", "login failed");
+        Button sendLogin = findViewById(R.id.sendLogin);
+        sendLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("TEST_LOGIN", "login clicked");
+                logIn(MainActivity.this.email, MainActivity.this.password);
             }
         });
+    }
 
+    private void onEmailChange() {
+        EditText email_box = findViewById(R.id.mail);
+        email_box.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                MainActivity.this.email = email_box.getText().toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+
+    private void onPasswordChange() {
+        EditText password_box = findViewById(R.id.password);
+        password_box.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                MainActivity.this.password = password_box.getText().toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        onEmailChange();
+        onPasswordChange();
     }
 }

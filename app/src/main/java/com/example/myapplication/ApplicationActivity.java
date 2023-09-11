@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -15,10 +14,8 @@ public class ApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
 
-        Intent intent = getIntent();
-        String email = intent.getStringExtra("email");
-        String password = intent.getStringExtra("password");
-        TextView textView = findViewById(R.id.app_page);
-        textView.setText("Your info: " + email.toString() + " - " + password.toString());
+        Intent application = getIntent();
+        TextView textView = findViewById(R.id.info_app);
+        textView.setText("email: " + application.getStringExtra("email"));
     }
 }
