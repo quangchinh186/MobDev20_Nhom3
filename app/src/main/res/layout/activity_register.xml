@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
@@ -15,77 +16,127 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="170px"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="665px"
-                android:layout_height="332px"
+                android:layout_width="264.67dp"
+                android:layout_height="132.14dp"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/register_logo" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-40dp"
-                android:textSize="60px"
+                android:textSize="23.88dp"
                 android:text="Đăng Ký Tài Khoản"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:textStyle="bold"
-                android:fontFamily="@font/PlusJakartaSans"
-                ></TextView>
+                android:fontFamily="@font/plusjakartasans" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="361dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="#1AFFFFFF"
+                android:paddingRight="25.5dp"
+                android:paddingLeft="25.5dp"
+                android:paddingTop="23dp"
+                android:paddingBottom="23dp"
+                android:alpha="80">
 
                 <TextView
-                    android:layout_width="395px"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16dp"
                     android:layout_height="wrap_content"
-                    android:text="Tên Đăng Nhập"></TextView>
+                    android:text="Tên Đăng Nhập"
+                    android:labelFor="@+id/username_input"/>
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="110px"
+                    android:id="@+id/username_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43.7dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="#aaa"
+                    android:hint="Username của bạn"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/editext_box1"></EditText>
+                    android:inputType="textEmailAddress"
+                    android:background="@drawable/editext_box1" />
 
                 <TextView
-                    android:layout_width="395px"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mật Khẩu"></TextView>
+                    android:text="Mật Khẩu"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:labelFor="@+id/password_input"/>
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="110px"
+                    android:id="@+id/password_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43.7dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/editext_box1"></EditText>
+                    android:background="@drawable/editext_box1"
+                    android:inputType="textPassword"
+                    android:hint="Shhhh!"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="#aaa"
+                    android:textSize="15dp" />
 
                 <TextView
-                    android:layout_width="395px"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nhập lại mật khẩu"></TextView>
+                    android:text="Nhập lại mật khẩu"
+                    android:textSize="16dp"
+                    android:textColor="@color/white" />
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="110px"
+                    android:id="@+id/verifyPassword_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43.7dp"
+                    android:inputType="textPassword"
+                    android:hint="Nhớ nhập cho chuẩn nhé!"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="#aaa"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/editext_box1">
 
                 </EditText>
 
                 <TextView
-                    android:layout_width="395px"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"></TextView>
+                    android:textSize="16dp"
+                    android:text="Email"
+                    android:textColor="@color/white"/>
 
                 <EditText
-                    android:layout_width="fill_parent"
-                    android:layout_height="110px"
-                    android:background="@drawable/editext_box1"></EditText>
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43.7dp"
+                    android:hint="Email của bạn"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="#aaa"
+                    android:background="@drawable/editext_box1"
+                    android:inputType="textEmailAddress"/>
             </LinearLayout>
 
             <Button
@@ -93,6 +144,7 @@
                 android:backgroundTint="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="23.8dp"
                 android:text="Tiếp Tục"
                 android:textColor="@color/black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />

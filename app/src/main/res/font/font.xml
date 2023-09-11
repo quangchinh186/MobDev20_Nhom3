@@ -3,10 +3,10 @@
 
     <font android:fontStyle="normal"
         android:fontWeight="600"
-        android:font="@font/PlusJakartaSans"
+        android:font="@font/plusjakartasans"
         ></font>
     <font android:fontStyle="italic"
         android:fontWeight="600"
-        android:font="@font/PlusJakartaSans_Italic"
+        android:font="@font/plusjakartasans_italic"
         ></font>
 </font-family>
