@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     App app;
     String email;
     String password;
+    private final String SHARE_PREF = "share_pref";
 
     protected void onLogIn(String email, String password) {
         if (email == null || password == null) {
@@ -35,12 +37,17 @@ public class LoginActivity extends AppCompatActivity {
         Log.v("credentials", credentials.asJson());
         app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
-                Log.v("TEST_LOGIN", "login successfully");
+                SharedPreferences sharedPreferences = getSharedPreferences("share_pref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("login", true);
+                editor.putString("email", email);
+                editor.apply();
                 /* change activity */
                 Intent application = new Intent(getApplicationContext(), ApplicationActivity.class);
                 application.putExtra("email", LoginActivity.this.email);
                 application.putExtra("password", LoginActivity.this.password);
                 startActivity(application);
+                finish();
             }
             else {
                 Log.v("TEST_LOGIN", "login failed");
@@ -93,6 +100,16 @@ public class LoginActivity extends AppCompatActivity {
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
+        boolean alreadyLogin = sharedPreferences.getBoolean("login", false);
+        Log.v("check_login", String.valueOf(alreadyLogin));
+        if (alreadyLogin) {
+            Intent application = new Intent(getApplicationContext(), ApplicationActivity.class);
+            application.putExtra("password", LoginActivity.this.password);
+            startActivity(application);
+            finish();
+        }
 
         Button loginButton = findViewById(R.id.login__submit);
         loginButton.setOnClickListener(new View.OnClickListener() {

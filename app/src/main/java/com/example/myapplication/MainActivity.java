@@ -40,61 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Realm.init(this);
-        app = new App(new AppConfiguration.Builder(AppId)
-                .appName("My App")
-                .build());
-
-        Button sendLogin = findViewById(R.id.sendLogin);
-        sendLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("TEST_LOGIN", "login clicked");
-                logIn(MainActivity.this.email, MainActivity.this.password);
-            }
-        });
-    }
-
-    private void onEmailChange() {
-        EditText email_box = findViewById(R.id.mail);
-        email_box.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                MainActivity.this.email = email_box.getText().toString();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
-    }
-
-    private void onPasswordChange() {
-        EditText password_box = findViewById(R.id.password);
-        password_box.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                MainActivity.this.password = password_box.getText().toString();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
-        onEmailChange();
-        onPasswordChange();
     }
 }
