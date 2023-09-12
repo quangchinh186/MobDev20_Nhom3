@@ -97,6 +97,7 @@
             android:textSize="16sp"
             android:alpha="0.6"/>
         <TextView
+            android:id="@+id/registerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng ký tài khoản mới"

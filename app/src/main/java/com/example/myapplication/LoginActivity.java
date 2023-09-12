@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private void forgetPassListener() {
-        TextView forgetPass = findViewById(R.id.login_forget_pass);
+    private void onRegisterClick() {
+        TextView forgetPass = findViewById(R.id.registerBtn);
         forgetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
         this.startEmailChangeListener();
         this.startPasswordChangeListener();
-        this.forgetPassListener();
+        this.onRegisterClick();
 
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
