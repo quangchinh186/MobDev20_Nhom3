@@ -23,108 +23,64 @@ import io.realm.mongodb.Credentials;
 
 public class LoginActivity extends AppCompatActivity {
     String AppId = "mobileappdev-hwhug";
+    private final String SHARE_PREF = "share_pref";
     App app;
-    String email;
-    String password;
-    private Button Login;
-    private Intent application;
-    private Intent registerActivity;
+    private EditText emailInput;
+    private EditText passwordInput;
 
-    protected void onLogIn(String email, String password) {
-        if (email == null || password == null) {
-            Toast.makeText(getApplicationContext(), "You suck!", Toast.LENGTH_SHORT).show();
+    private void sendMessage(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onLoginClick(View v) {
+        if (emailInput.getText().toString().equals("") || passwordInput.getText().toString().equals("")) {
+            sendMessage("Bạn cần nhập đầy đủ thông tin");
             return;
         }
-
-        Credentials credentials = Credentials.emailPassword(email, password);
-        Log.v("credentials", credentials.asJson());
+        String emailUser = emailInput.getText().toString();
+        String passwordUser = passwordInput.getText().toString();
+        Credentials credentials = Credentials.emailPassword(emailUser, passwordUser);
         app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
                 // cache login state
                 SharedPreferences sharedPreferences = getSharedPreferences("share_pref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("login", true);
-                editor.putString("email", email);
+                editor.putString("email", emailUser);
                 editor.apply();
                 /* change activity */
-                startActivity(application);
+                startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
                 finish();
             }
             else {
-                Log.v("TEST_LOGIN", "login failed");
+                sendMessage("Tài khoản hoặc mật khẩu không chính xác");
             }
         });
     }
-    private void onRegisterClick() {
-        TextView forgetPass = findViewById(R.id.registerBtn);
-        forgetPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(registerActivity);
-                finish();
-            }
-        });
-    }
-
-    private void startEmailChangeListener() {
-        EditText emailInput = findViewById(R.id.email__input);
-        emailInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                LoginActivity.this.email = emailInput.getText().toString();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-    }
-    private void startPasswordChangeListener() {
-        EditText passwordInput = findViewById(R.id.pasword__input);
-        passwordInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                LoginActivity.this.password = passwordInput.getText().toString();
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
+    public void onRegisterNavClick(View view) {
+        startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+        finish();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // to check login state
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
+        boolean alreadyLogin = sharedPreferences.getBoolean("login", false);
+        if (alreadyLogin) {
+            startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+            finish();
+        }
+        // initialize
         setContentView(R.layout.activity_login_page);
-
-        Login = findViewById(R.id.loginBtn);
-        application = new Intent(getApplicationContext(), ApplicationActivity.class);
-        registerActivity = new Intent(getApplicationContext(), RegisterActivity.class);
-
-        this.startEmailChangeListener();
-        this.startPasswordChangeListener();
-        this.onRegisterClick();
+        emailInput = findViewById(R.id.email__input);
+        passwordInput = findViewById(R.id.password__input);
 
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
-
-        String SHARE_PREF = "share_pref";
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
-        boolean alreadyLogin = sharedPreferences.getBoolean("login", false);
-        if (alreadyLogin) {
-            startActivity(application);
-            finish();
-        }
-        Login.setOnClickListener(view -> onLogIn(LoginActivity.this.email, LoginActivity.this.password));
     }
 
     @Override

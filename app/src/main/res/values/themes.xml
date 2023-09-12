@@ -13,7 +13,7 @@
     <style name="button_corner_radius.white" parent="button_corner_radius">
         <item name="backgroundColor">@color/white</item>
     </style>
-    <style name="inputBox_corner_radius">
+    <style name="card_corner_radius">
         <item name="cornerRadius">6dp</item>
     </style>
 </resources>

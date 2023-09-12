@@ -13,6 +13,7 @@
         android:paddingLeft="49dp" >
 
         <ImageView
+            android:contentDescription="@string/logo"
             android:id="@+id/login__logo"
             android:layout_width="265dp"
             android:layout_height="88dp"
@@ -50,9 +51,8 @@
                 android:textColor="@color/white"
                 android:textColorHint="#aaa"
                 android:hint="Email hoặc username"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
+                android:inputType="textEmailAddress"
                 android:background="@drawable/custom_edit_text" />
 
         </LinearLayout>
@@ -68,15 +68,13 @@
                 android:text="Mật khẩu"
                 android:textSize="16sp"
                 android:textColor="@color/white"
-                android:labelFor="@id/pasword__input"/>
+                android:labelFor="@id/password__input"/>
 
             <EditText
-                android:id="@+id/pasword__input"
+                android:id="@+id/password__input"
                 android:inputType="textPassword"
                 android:layout_width="fill_parent"
                 android:layout_height="43.78dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="14sp"
@@ -97,12 +95,12 @@
             android:textSize="16sp"
             android:alpha="0.6"/>
         <TextView
-            android:id="@+id/registerBtn"
+            android:id="@+id/registerNav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng ký tài khoản mới"
-            android:onClick="onClick"
             android:clickable="true"
+            android:onClick="onRegisterNavClick"
             android:textColor="@color/white"
             android:textSize="12.73sp"
             android:layout_marginTop="46.71dp" />
@@ -115,6 +113,7 @@
             android:textColor="@color/black"
             android:layout_marginTop="20.7dp"
             android:text="Đăng nhập"
+            android:onClick="onLoginClick"
             style="@style/button_corner_radius.white"/>
 
     </LinearLayout>
