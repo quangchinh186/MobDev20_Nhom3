@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,7 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     App app;
     String email;
     String password;
-    private final String SHARE_PREF = "share_pref";
+    private Button Login;
+    private Intent application;
+    private Intent registerActivity;
 
     protected void onLogIn(String email, String password) {
         if (email == null || password == null) {
@@ -37,20 +40,28 @@ public class LoginActivity extends AppCompatActivity {
         Log.v("credentials", credentials.asJson());
         app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
+                // cache login state
                 SharedPreferences sharedPreferences = getSharedPreferences("share_pref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("login", true);
                 editor.putString("email", email);
                 editor.apply();
                 /* change activity */
-                Intent application = new Intent(getApplicationContext(), ApplicationActivity.class);
-                application.putExtra("email", LoginActivity.this.email);
-                application.putExtra("password", LoginActivity.this.password);
                 startActivity(application);
                 finish();
             }
             else {
                 Log.v("TEST_LOGIN", "login failed");
+            }
+        });
+    }
+    private void forgetPassListener() {
+        TextView forgetPass = findViewById(R.id.login_forget_pass);
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(registerActivity);
+                finish();
             }
         });
     }
@@ -93,31 +104,27 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
+        Login = findViewById(R.id.loginBtn);
+        application = new Intent(getApplicationContext(), ApplicationActivity.class);
+        registerActivity = new Intent(getApplicationContext(), RegisterActivity.class);
+
         this.startEmailChangeListener();
         this.startPasswordChangeListener();
+        this.forgetPassListener();
 
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
 
+        String SHARE_PREF = "share_pref";
         SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
         boolean alreadyLogin = sharedPreferences.getBoolean("login", false);
-        Log.v("check_login", String.valueOf(alreadyLogin));
         if (alreadyLogin) {
-            Intent application = new Intent(getApplicationContext(), ApplicationActivity.class);
-            application.putExtra("password", LoginActivity.this.password);
             startActivity(application);
             finish();
         }
-
-        Button loginButton = findViewById(R.id.login__submit);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onLogIn(LoginActivity.this.email, LoginActivity.this.password);
-            }
-        });
+        Login.setOnClickListener(view -> onLogIn(LoginActivity.this.email, LoginActivity.this.password));
     }
 
     @Override
