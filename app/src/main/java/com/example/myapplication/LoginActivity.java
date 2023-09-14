@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
             sendMessage("Bạn cần nhập đầy đủ thông tin");
             return;
         }
+        findViewById(R.id.loading_scene).setVisibility(View.VISIBLE);
         String emailUser = emailInput.getText().toString();
         String passwordUser = passwordInput.getText().toString();
         Credentials credentials = Credentials.emailPassword(emailUser, passwordUser);
@@ -47,12 +48,15 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("login", true);
                 editor.putString("email", emailUser);
+                editor.putString("recentEmail", emailUser);
                 editor.apply();
                 /* change activity */
                 startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
                 finish();
             }
             else {
+                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
                 sendMessage("Tài khoản hoặc mật khẩu không chính xác");
             }
         });
@@ -76,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_page);
         emailInput = findViewById(R.id.email__input);
         passwordInput = findViewById(R.id.password__input);
-
+        // automatically fill text if app has recent email        
+        emailInput.setText(sharedPreferences.getString("recentEmail", ""));
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")

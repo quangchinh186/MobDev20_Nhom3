@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".RegisterActivity">
     <LinearLayout
         android:id="@+id/register_logo"
         android:layout_width="match_parent"
@@ -169,5 +170,16 @@
             android:layout_y="150dp"
             android:src="@drawable/register_blur" />
     </AbsoluteLayout>
-
+    <LinearLayout
+        android:id="@+id/loading_scene"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:translationZ="1dp"
+        android:background="#88000000"
+        android:visibility="invisible"
+        android:gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </FrameLayout>
