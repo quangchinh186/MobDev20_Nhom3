@@ -15,6 +15,18 @@ public class ApplicationActivity extends AppCompatActivity {
     String SHARE_PREF = "share_pref";
     String email;
 
+    public void onLogout(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("login", false);
+        editor.putString("email", "");
+        editor.apply();
+        Log.v("logout", "true");
+        Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(loginActivity);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,24 +35,7 @@ public class ApplicationActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
         this.email = sharedPreferences.getString("email", "");
 
-        Intent application = getIntent();
         TextView textView = findViewById(R.id.info_app);
         textView.setText("email: " + this.email.toString());
-
-        Button logoutBtn = findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("login", false);
-                editor.putString("email", "");
-                editor.apply();
-                Log.v("logout", "true");
-                Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(loginActivity);
-                finish();
-            }
-        });
-
     }
 }

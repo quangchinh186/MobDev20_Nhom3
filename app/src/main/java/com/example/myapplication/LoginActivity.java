@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_page);
         emailInput = findViewById(R.id.email__input);
         passwordInput = findViewById(R.id.password__input);
-        // automatically fill text if app has recent email        
+        // automatically fill text if app has recent email
         emailInput.setText(sharedPreferences.getString("recentEmail", ""));
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
