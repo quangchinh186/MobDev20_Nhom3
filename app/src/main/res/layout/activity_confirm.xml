@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        android:id="@+id/register_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="48.55dp"
+        android:paddingRight="48.55dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="264.67dp"
+                android:layout_height="132.14dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/register_logo" />
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                android:background="#1AFFFFFF"
+                android:paddingRight="25.5dp"
+                android:paddingLeft="25.5dp"
+                android:paddingTop="23dp"
+                android:paddingBottom="23dp"
+                android:alpha="80">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:labelFor="@+id/username_input"
+                    android:text="Đăng ký thành công"
+                    android:textColor="@color/white"
+                    android:textSize="27sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/greentick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    app:srcCompat="@drawable/green_tick" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:labelFor="@+id/username_input"
+                    android:text="Trăng lên đỉnh núi trăng tà"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:labelFor="@+id/username_input"
+                    android:text="Nàng match ta thật hay là match chơi"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/button_corner_radius.white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/white"
+                    android:text="Thêm thông tin để tìm cạ hợp gu"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <AbsoluteLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#12101A"
+        android:translationZ="-999dp"
+        tools:ignore="Deprecated">
+
+        <ImageView
+            android:layout_width="346dp"
+            android:layout_height="389dp"
+            android:layout_x="-60dp"
+            android:layout_y="150dp"
+            android:rotation="180"
+            android:src="@drawable/register_blur" />
+    </AbsoluteLayout>
+
+</FrameLayout>

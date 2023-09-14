@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingRight="49dp"
+        android:paddingLeft="49dp" >
+
+        <ImageView
+            android:id="@+id/login__logo"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:src="@drawable/phone_logo" />
+        <TextView
+            android:id="@+id/login__title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhập mã OTP"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hãy nhập mã được gửi tới email"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:labelFor="@+id/email__box"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:labelFor="@+id/email__box"
+            android:text="Tên Email"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/email_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="63dp"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/email__input"
+                android:layout_width="fill_parent"
+                android:layout_height="43.7dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_edit_text"
+                android:hint="Nhập OTP xác nhận vào đây"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="#aaa"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/login__submit"
+            android:layout_width="268.65dp"
+            android:layout_height="45dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_marginTop="50dp"
+            android:text="Gửi mã OTP"
+            style="@style/button_corner_radius.white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:labelFor="@+id/email__box"
+            android:text="Không nhận được OTP? Gửi lại"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+    <AbsoluteLayout
+        android:id="@+id/decor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:translationZ="-1dp"
+        android:background="#12101A">
+    </AbsoluteLayout>
+</FrameLayout>
