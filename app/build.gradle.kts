@@ -39,12 +39,23 @@ android {
         viewBinding = true
         compose = true
     }
-
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+    packagingOptions{
+        // Exclude file to avoid
+        // Error: Duplicate files during packaging of APK
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/license.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/notice.txt")
+        exclude("META-INF/ASL2.0")
+        exclude("META-INF/services/javax.annotation.processing.Processor")
+        exclude("META-INF/*.kotlin_module")
+        exclude("META-INF/NOTICE.md")
+        exclude("META-INF/LICENSE.md")
     }
+
 }
 
 realm {
@@ -58,6 +69,11 @@ dependencies {
 
     implementation("io.realm:realm-gradle-plugin:10.16.1")
 
+    //mail package
+    // https://mvnrepository.com/artifact/com.sun.activation/jakarta.activation
+    implementation("com.sun.activation:jakarta.activation:2.0.1")
+    // https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail
+    implementation("com.sun.mail:jakarta.mail:2.0.1")
 
 
     testImplementation("junit:junit:4.13.2")
