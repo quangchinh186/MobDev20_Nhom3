@@ -23,7 +23,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
     public void onVerify(View view) {
         String userOtp = otpInput.getText().toString();
         if (userOtp.equals(otpCode)) {
-            app.getEmailPassword().retryCustomConfirmationAsync(email, result -> {
+            LoginActivity.app.getEmailPassword().retryCustomConfirmationAsync(email, result -> {
                 if (result.isSuccess()) {
                     SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -40,33 +40,34 @@ public class VerifyOtpActivity extends AppCompatActivity {
         }
     }
 
-    public void onChaneText() {
-        otpInput = findViewById(R.id.otpInput);
-        otpInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (otpCode.equals(otpInput.getText().toString())) {
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-    }
+//    public void onChaneText() {
+//
+//        otpInput.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                if (otpCode.equals(otpInput.getText().toString())) {
+//
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_otp2);
-        onChaneText();
+        setContentView(R.layout.activity_verify_otp);
+        //onChaneText();
+        otpInput = findViewById(R.id.otpInput);
         otpCode = getIntent().getStringExtra("otp");
         email = getIntent().getStringExtra("email");
 

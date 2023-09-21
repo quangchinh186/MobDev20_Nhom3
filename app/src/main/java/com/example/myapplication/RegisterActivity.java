@@ -33,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
   EditText passwordInput;
   EditText passwordVerifyInput;
   String AppId = "mobileappdev-hwhug";
-  String SHARE_PREF = "share_pref";
   String code;
 
   //----------------------------------------
@@ -125,16 +124,13 @@ public class RegisterActivity extends AppCompatActivity {
         sendMessage("Đăng ký thành công!");
         //send mail
         sendVerificationCode(emailInput.getText().toString());
-        // cache email that recently login in app
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("recentEmail", emailInput.getText().toString());
-        editor.apply();
+        Log.v("mail","success");
         // change activity
         Intent verifyOtpAct = new Intent(getApplicationContext(), VerifyOtpActivity.class);
         verifyOtpAct.putExtra("email", emailInput.getText().toString());
         verifyOtpAct.putExtra("otp", this.code);
         findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+        startActivity(verifyOtpAct);
         finish();
       } else {
         findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);

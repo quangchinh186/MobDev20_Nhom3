@@ -24,7 +24,7 @@ import io.realm.mongodb.Credentials;
 public class LoginActivity extends AppCompatActivity {
     String AppId = "mobileappdev-hwhug";
     private final String SHARE_PREF = "share_pref";
-    App app;
+    static App app;
     private EditText emailInput;
     private EditText passwordInput;
 
