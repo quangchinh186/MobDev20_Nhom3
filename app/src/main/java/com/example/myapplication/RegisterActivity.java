@@ -33,69 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
   EditText passwordInput;
   EditText passwordVerifyInput;
   String AppId = "mobileappdev-hwhug";
-  String code;
 
-  //----------------------------------------
-  // It will generate 6 digit random Number.
-  // from 0 to 999999
-  public static String getRandomNumberString() {
-
-    Random rnd = new Random();
-    int number = rnd.nextInt(999999);
-
-    // this will convert any number sequence into 6 character.
-    return String.format("%06d", number);
-  }
-  //-----------------------------------------
-  //send code to email
-  public void sendVerificationCode(String email){
-    code = getRandomNumberString();
-    try {
-      String senderEmail = "batosrsoft@gmail.com";
-      String receiverEmail = email;
-      String senderEmailPassword = "cvqducttiblezttq";
-      String stringHost = "smtp.gmail.com";
-      Properties properties = System.getProperties();
-      properties.put("mail.smtp.host", stringHost);
-      properties.put("mail.smtp.port", "465");
-      properties.put("mail.smtp.ssl.enable", "true");
-      properties.put("mail.smtp.auth", "true");
-      jakarta.mail.Session session = Session.getInstance(properties, new Authenticator() {
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-          return new PasswordAuthentication(senderEmail, senderEmailPassword);
-        }
-      });
-
-      MimeMessage mimeMessage = new MimeMessage(session);
-      mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverEmail));
-      String message = "<h2 style='color:black;'>Hello con sói cô độc, </h2><br/>" +
-              "<div style='color:black;'>Nhập code này để hoàn tất đăng ký tài khoản nhé <3 </div><br/>" +
-              "<b style='color:blue;'>" + code + "</b>" +
-              "<h3>Cheers!</h3>" +
-              "<p>Team Batosoft</p>";
-
-      mimeMessage.setSubject("Đăng ký tài khoản BatoLove");
-      mimeMessage.setContent(message, "text/html; charset=utf-8");
-
-      Thread thread = new Thread(() -> {
-        try {
-          Transport.send(mimeMessage);
-        } catch (MessagingException e) {
-          e.printStackTrace();
-        }
-      });
-      thread.start();
-
-    } catch (AddressException e) {
-      e.printStackTrace();
-    } catch (MessagingException e) {
-      e.printStackTrace();
-    }
-    finally {
-      Log.v("notice", "send function complete running");
-    }
-  }
   //-----------------------------------------
   //send popup toast notification
   private void sendMessage(String msg) {
@@ -122,13 +60,10 @@ public class RegisterActivity extends AppCompatActivity {
       if (it.isSuccess()) {
         //send toast
         sendMessage("Đăng ký thành công!");
-        //send mail
-        sendVerificationCode(emailInput.getText().toString());
         Log.v("mail","success");
         // change activity
         Intent verifyOtpAct = new Intent(getApplicationContext(), VerifyOtpActivity.class);
         verifyOtpAct.putExtra("email", emailInput.getText().toString());
-        verifyOtpAct.putExtra("otp", this.code);
         findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
         startActivity(verifyOtpAct);
         finish();
