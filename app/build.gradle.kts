@@ -74,7 +74,8 @@ dependencies {
     implementation("com.sun.activation:jakarta.activation:2.0.1")
     // https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail
     implementation("com.sun.mail:jakarta.mail:2.0.1")
-
+    //load image from url
+    implementation("com.squareup.picasso:picasso:2.8")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

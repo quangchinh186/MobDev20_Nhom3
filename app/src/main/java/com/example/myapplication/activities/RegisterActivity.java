@@ -1,30 +1,20 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Properties;
-import java.util.Random;
+import com.example.myapplication.R;
+import com.example.myapplication.activities.VerifyOtpActivity;
 
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 //Mailing package
-import jakarta.mail.Authenticator;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.AddressException;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
 
 
 public class RegisterActivity extends AppCompatActivity {
