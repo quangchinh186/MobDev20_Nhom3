@@ -1,5 +1,7 @@
 package com.example.myapplication.activities;
 
+import static com.example.myapplication.system.BatoSystem.sendMessage;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,28 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.VerifyOtpActivity;
-
-import io.realm.mongodb.App;
-import io.realm.mongodb.AppConfiguration;
-//Mailing package
-
 
 public class RegisterActivity extends AppCompatActivity {
-  App app;
   EditText emailInput;
   EditText passwordInput;
   EditText passwordVerifyInput;
-  String AppId = "mobileappdev-hwhug";
 
-  //-----------------------------------------
-  //send popup toast notification
-  private void sendMessage(String msg) {
-    Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-  }
   //-----------------------------------------
   //clicking register
   public void onRegisterClick(View view) {
@@ -37,19 +25,19 @@ public class RegisterActivity extends AppCompatActivity {
     passwordVerifyInput = findViewById(R.id.verifyPassword_regis_input);
     if (emailInput.getText().equals("") ||
             passwordInput.getText().equals("")) {
-      sendMessage("Bạn cần nhập đầy đủ thông tin");
+      sendMessage("Bạn cần nhập đầy đủ thông tin", this);
       return;
     } else if (!passwordVerifyInput.getText().toString().equals(passwordInput.getText().toString())) {
-      sendMessage("Xác nhận mật khẩu không trùng khớp!");
+      sendMessage("Xác nhận mật khẩu không trùng khớp!", this);
       return;
     }
 //    loading view
     findViewById(R.id.loading_scene).setVisibility(View.VISIBLE);
 //    register
-    app.getEmailPassword().registerUserAsync(emailInput.getText().toString(), passwordInput.getText().toString(), it -> {
+    ApplicationActivity.app.getEmailPassword().registerUserAsync(emailInput.getText().toString(), passwordInput.getText().toString(), it -> {
       if (it.isSuccess()) {
         //send toast
-        sendMessage("Đăng ký thành công!");
+        sendMessage("Đăng ký thành công!", this);
         Log.v("mail","success");
         // change activity
         Intent verifyOtpAct = new Intent(getApplicationContext(), VerifyOtpActivity.class);
@@ -59,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
       } else {
         findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
-        sendMessage("Email đã tồn tại!");
+        sendMessage("Email đã tồn tại!", this);
       }
     });
 
@@ -75,7 +63,5 @@ public class RegisterActivity extends AppCompatActivity {
     emailInput = findViewById(R.id.email_regis_input);
     passwordInput = findViewById(R.id.password_regis_input);
     passwordVerifyInput = findViewById(R.id.verifyPassword_regis_input);
-
-    app = new App(new AppConfiguration.Builder(AppId).build());
   }
 }

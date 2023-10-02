@@ -30,10 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    String AppId = "mobileappdev-hwhug";
-    App app;
-    private String email;
-    private String password;
 
 
     @Override

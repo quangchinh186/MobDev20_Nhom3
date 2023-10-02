@@ -3,7 +3,6 @@ package com.example.myapplication.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.activities.LoginActivity;
+import com.example.myapplication.system.BatoSystem;
 
 import java.util.Properties;
 import java.util.Random;
@@ -30,17 +29,13 @@ public class VerifyOtpActivity extends AppCompatActivity {
     String otpCode;
     String email;
     EditText otpInput;
-    String SHARE_PREF = "share_pref";
 
     public void onVerify(View view) {
         String userOtp = otpInput.getText().toString();
         if (userOtp.equals(otpCode)) {
-            LoginActivity.app.getEmailPassword().retryCustomConfirmationAsync(email, result -> {
+            ApplicationActivity.app.getEmailPassword().retryCustomConfirmationAsync(email, result -> {
                 if (result.isSuccess()) {
-                    SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("recentEmail", email);
-                    editor.apply();
+                    BatoSystem.writeString("recentEmail", email);
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
                 } else {
@@ -89,7 +84,6 @@ public class VerifyOtpActivity extends AppCompatActivity {
                     "<b style='color:blue;'>" + otpCode + "</b>" +
                     "<h3>Cheers!</h3>" +
                     "<p>Team Batosoft</p>";
-
             mimeMessage.setSubject("Đăng ký tài khoản BatoLove");
             mimeMessage.setContent(message, "text/html; charset=utf-8");
 

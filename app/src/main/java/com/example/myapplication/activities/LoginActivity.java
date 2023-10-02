@@ -1,60 +1,48 @@
 package com.example.myapplication.activities;
 
+import static com.example.myapplication.system.BatoSystem.sendMessage;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.system.BatoSystem;
 
-import io.realm.Realm;
-import io.realm.mongodb.App;
-import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
 
 public class LoginActivity extends AppCompatActivity {
-    String AppId = "mobileappdev-hwhug";
-    private final String SHARE_PREF = "share_pref";
-    static App app;
     private EditText emailInput;
     private EditText passwordInput;
-
-    private void sendMessage(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
     public void onLoginClick(View v) {
-        if (emailInput.getText().toString().equals("") || passwordInput.getText().toString().equals("")) {
-            sendMessage("Bạn cần nhập đầy đủ thông tin");
+        String emailUser = emailInput.getText().toString();
+        String passwordUser = passwordInput.getText().toString();
+        if (emailUser.equals("") || passwordUser.equals("")) {
+            sendMessage("Bạn cần nhập đầy đủ thông tin", this);
             return;
         }
         findViewById(R.id.loading_scene).setVisibility(View.VISIBLE);
-        String emailUser = emailInput.getText().toString();
-        String passwordUser = passwordInput.getText().toString();
+
         Credentials credentials = Credentials.emailPassword(emailUser, passwordUser);
-        app.loginAsync(credentials, it -> {
+        ApplicationActivity.app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
                 // cache login state
-                SharedPreferences sharedPreferences = getSharedPreferences("share_pref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("login", true);
-                editor.putString("email", emailUser);
-                editor.putString("recentEmail", emailUser);
-                editor.apply();
+                BatoSystem.writeBoolean("login", true);
+                BatoSystem.writeString("email", emailUser);
+                BatoSystem.writeString("recentEmail", emailUser);
                 /* change activity */
-                startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+                startActivity(new Intent(this, ApplicationActivity.class));
                 findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
                 finish();
             }
             else {
                 findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
-                sendMessage("Tài khoản hoặc mật khẩu không chính xác");
+                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
             }
         });
     }
@@ -65,14 +53,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Realm.init(this);
-        app = new App(new AppConfiguration.Builder(AppId)
-                .appName("My App")
-                .build());
         super.onCreate(savedInstanceState);
         // to check login state
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
-        boolean alreadyLogin = sharedPreferences.getBoolean("login", false);
+        boolean alreadyLogin = BatoSystem.readBoolean("login", false);
         if (alreadyLogin) {
             startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
             finish();
@@ -82,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         emailInput = findViewById(R.id.email__input);
         passwordInput = findViewById(R.id.password__input);
         // automatically fill text if app has recent email
-        emailInput.setText(sharedPreferences.getString("recentEmail", ""));
+        emailInput.setText(BatoSystem.readString("recentEmail", ""));
     }
 
     @Override
