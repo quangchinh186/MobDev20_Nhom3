@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.SetupActivity.SetupActivity">
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="48.55dp"
+        android:paddingRight="48.55dp"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="264.67dp"
+            android:layout_height="132.14dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/register_logo" />
+        <HorizontalScrollView
+            android:clickable="false"
+            android:id="@+id/progressSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+            <LinearLayout
+                android:id="@+id/progress"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/setup_frag_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="30dp">
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="1"
+                        android:gravity="center"
+                        android:background="@drawable/solid_circle"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thông tin cơ bản"
+                        android:textColor="#ccc" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/setup_frag_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="30dp">
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="2"
+                        android:gravity="center"
+                        android:background="@drawable/solid_circle"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thông tin cá nhân"
+                        android:textColor="#ccc" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/setup_frag_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="30dp">
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="3"
+                        android:gravity="center"
+                        android:background="@drawable/solid_circle"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mô tả bản thân"
+                        android:textColor="#ccc" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/setup_frag_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="30dp">
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:text="4"
+                        android:gravity="center"
+                        android:background="@drawable/solid_circle"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hoàn tất"
+                        android:textColor="#ccc" />
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragment_container" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="55.72dp"
+            android:text="Những thông tin trên của bạn sẽ được công khai với những người dùng khác"
+            android:textSize="16sp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_submit_setup"
+            android:layout_width="268.65dp"
+            android:layout_height="45dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:text="Tôi hiểu và muốn tiếp tục"
+            android:onClick="onNextFragment"
+            android:layout_gravity="center"
+            style="@style/button_corner_radius.white"/>
+    </LinearLayout>
+    <AbsoluteLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="-999dp"
+        android:background="#12101A"
+        tools:ignore="Deprecated">
+
+        <ImageView
+            android:layout_width="346dp"
+            android:layout_height="389dp"
+            android:layout_x="130dp"
+            android:layout_y="277dp"
+            android:src="@drawable/register_blur" />
+    </AbsoluteLayout>
+    <LinearLayout
+        android:id="@+id/loading_scene"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:translationZ="1dp"
+        android:background="#88000000"
+        android:visibility="invisible"
+        android:gravity="center">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="basic_info_setup_month_input" type="id" />
+    <item name="basic_info_setup_year_input" type="id" />
+    <item name="basic_info_setup_gender_input" type="id" />
+</resources>
