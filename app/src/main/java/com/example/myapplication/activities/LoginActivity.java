@@ -1,20 +1,17 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.R;
 
 import io.realm.Realm;
 import io.realm.mongodb.App;
@@ -24,7 +21,7 @@ import io.realm.mongodb.Credentials;
 public class LoginActivity extends AppCompatActivity {
     String AppId = "mobileappdev-hwhug";
     private final String SHARE_PREF = "share_pref";
-    App app;
+    static App app;
     private EditText emailInput;
     private EditText passwordInput;
 
@@ -68,6 +65,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Realm.init(this);
+        app = new App(new AppConfiguration.Builder(AppId)
+                .appName("My App")
+                .build());
         super.onCreate(savedInstanceState);
         // to check login state
         SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREF, MODE_PRIVATE);
@@ -82,10 +83,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.password__input);
         // automatically fill text if app has recent email
         emailInput.setText(sharedPreferences.getString("recentEmail", ""));
-        Realm.init(this);
-        app = new App(new AppConfiguration.Builder(AppId)
-                .appName("My App")
-                .build());
     }
 
     @Override

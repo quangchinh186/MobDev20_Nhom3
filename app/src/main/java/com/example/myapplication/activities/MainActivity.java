@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,12 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private String email;
     private String password;
 
-    protected void logIn(String email, String password) {
-
-    }
 
     @Override
     protected void onStart() {
+        
         super.onStart();
     }
 }
