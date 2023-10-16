@@ -76,11 +76,12 @@
             android:backgroundTint="@color/white"
             android:textColor="@color/black"
             android:layout_marginTop="50dp"
-            android:text="Gửi mã OTP"
+            android:text="Xác minh tài khoản"
             android:onClick="onVerify"
             style="@style/button_corner_radius.white"/>
 
         <TextView
+            android:onClick="resendOtpCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

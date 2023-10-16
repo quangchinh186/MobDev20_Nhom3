@@ -1,49 +1,52 @@
 package com.example.myapplication.schema;
 
-import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
-import java.util.Map;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmField;
+import io.realm.annotations.Required;
 
-public class AppUser {
-    private String name;
-    private int age;
-    private String gender;
-    private String occupy;
-    private String aboutMe;
-    private ArrayList<String> achievement;
-    private ArrayList<String> review;
-    private ArrayList<String> photo;
-    private ArrayList<String> hobby;
-    public AppUser(){}
-
-    public AppUser(Document document) {
-        name = document.getString("name");
-        age = document.getInteger("age");
-        gender = document.getString("gender");
-        aboutMe = document.getString("aboutMe");
-        achievement = (ArrayList<String>) document.get("achievement");
-        review = (ArrayList<String>) document.get("review");
-        photo = (ArrayList<String>) document.get("photo");
-        hobby = (ArrayList<String>) document.get("hobby");
+public class AppUser extends RealmObject {
+    @PrimaryKey
+    @RealmField("_id")
+    private ObjectId id;
+    private Profile profile;
+    private MatchingState matchingState;
+    @Required
+    private RealmList<ObjectId> chatRoomList;
+    public RealmList<ObjectId> getChatRoomList() {
+        return chatRoomList;
     }
 
-    public Document toDocument(){
-        Document document = new Document();
-        document.put("email", name);
-
-        return document;
+    public void setChatRoomList(RealmList<ObjectId> chatRoomList) {
+        this.chatRoomList = chatRoomList;
     }
 
-    public String getAvatar(){
-        return photo.get(0);
+    public MatchingState getMatchingState() {
+        return matchingState;
     }
 
-    @Override
-    public String toString(){
-        return "user: " + this.name + " " + this.age + " " + this.gender + " " + this.aboutMe + " " + this.photo + " " ;
+    public void setMatchingState(MatchingState matchingState) {
+        this.matchingState = matchingState;
     }
 
+    public Profile getProfile() {
+        return profile;
+    }
 
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
 }
+
+
