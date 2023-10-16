@@ -17,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.schema.Profile;
 
 public class SetupActivity extends AppCompatActivity {
   int currentFragment = 0;
   int numFragments = 4;
+  Profile profile = new Profile();
 
   @SuppressLint("ResourceAsColor")
   @Override
@@ -29,7 +31,25 @@ public class SetupActivity extends AppCompatActivity {
     setContentView(R.layout.activity_setup);
     transactionFragment(R.id.fragment_container, BasicInfoSetupFragment.class);
     setColorForProgress(findViewById(R.id.setup_frag_1), getResources().getColor(R.color.white), Typeface.BOLD, true);
+
     currentFragment = 1;
+  }
+
+  private void getData() {
+    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    if (fragment instanceof BasicInfoSetupFragment) {
+      profile.setName(((BasicInfoSetupFragment) fragment).getName());
+//      profile.setAge(((BasicInfoSetupFragment) fragment).getDob());
+      profile.setGender(((BasicInfoSetupFragment) fragment).getGender());
+      profile.setInterest(((BasicInfoSetupFragment) fragment).getSearch());
+      System.out.println(profile.getName());
+    } else if (fragment instanceof ProfileSetupFragment) {
+
+    } else if (fragment instanceof ProfileDescriptionSetup) {
+      // get data from fragment
+    } else if (fragment instanceof FinalSetup) {
+      // get data from fragment
+    }
   }
 
   private void setColorForProgress(LinearLayout progressLayout, int color, int style, boolean scrollTo) {
@@ -68,7 +88,7 @@ public class SetupActivity extends AppCompatActivity {
 
   public void onNextFragment(View view) {
     // get data of fragment and send to activity
-
+    getData();
     if (currentFragment == 1) {
       transactionFragment(R.id.fragment_container, ProfileSetupFragment.class);
       setColorForProgress(findViewById(R.id.setup_frag_2), getResources().getColor(R.color.white), Typeface.BOLD, true);

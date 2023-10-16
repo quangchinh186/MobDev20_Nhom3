@@ -54,7 +54,6 @@ public class ApplicationActivity extends AppCompatActivity {
         Profile profile = new Profile();
         profile.setName(newUsername.getText().toString());
         profile.setAge(Integer.parseInt(newUserAge.getText().toString()));
-
         queryHelper.insert(profile);
     }
 

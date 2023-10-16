@@ -14,9 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.schema.Profile;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -27,6 +29,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class BasicInfoSetupFragment extends Fragment {
+  private Profile profile = new Profile();
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,20 +39,29 @@ public class BasicInfoSetupFragment extends Fragment {
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
+//  data
+
+  public String getName() {
+    return ((TextView) requireActivity().findViewById(R.id.basic_info_setup_name_input)).getText().toString();
+  }
+
+  public String getDob() {
+    return  ((TextView) requireActivity().findViewById(R.id.basic_info_setup_day_input)).getText().toString() + "/" +
+      ((TextView) requireActivity().findViewById(R.id.basic_info_setup_month_input)).getText().toString() + "/" +
+      ((TextView) requireActivity().findViewById(R.id.basic_info_setup_year_input)).getText().toString();
+  }
+
+  public String getGender() {
+    return ((TextView) requireActivity().findViewById(R.id.autoCompleteGender)).getText().toString();
+  }
+
+  public String getSearch() {
+    return ((TextView) requireActivity().findViewById(R.id.autoCompleteSearch)).getText().toString();
+  }
 
   public BasicInfoSetupFragment() {
     // Required empty public constructor
   }
-
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment BasicInfoSetupFragment.
-   */
-  // TODO: Rename and change types and number of parameters
   public static BasicInfoSetupFragment newInstance(String param1, String param2) {
     BasicInfoSetupFragment fragment = new BasicInfoSetupFragment();
     Bundle args = new Bundle();
@@ -132,9 +144,5 @@ public class BasicInfoSetupFragment extends Fragment {
     // Inflate the layout for this fragment
 
     return inflater.inflate(R.layout.fragment_basic_info_setup, container, false);
-  }
-
-  public void getData() {
-    
   }
 }
