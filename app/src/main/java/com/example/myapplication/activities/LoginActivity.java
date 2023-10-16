@@ -54,12 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // to check login state
-        boolean alreadyLogin = BatoSystem.readBoolean("login", false);
-        if (alreadyLogin) {
-            startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
-            finish();
-        }
         // initialize
         setContentView(R.layout.activity_login_page);
         emailInput = findViewById(R.id.email__input);
