@@ -133,4 +133,8 @@ public class BasicInfoSetupFragment extends Fragment {
 
     return inflater.inflate(R.layout.fragment_basic_info_setup, container, false);
   }
+
+  public void getData() {
+    
+  }
 }

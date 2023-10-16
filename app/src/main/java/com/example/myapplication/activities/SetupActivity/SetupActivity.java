@@ -1,6 +1,7 @@
 package com.example.myapplication.activities.SetupActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -28,6 +29,7 @@ public class SetupActivity extends AppCompatActivity {
     setContentView(R.layout.activity_setup);
     transactionFragment(R.id.fragment_container, BasicInfoSetupFragment.class);
     setColorForProgress(findViewById(R.id.setup_frag_1), getResources().getColor(R.color.white), Typeface.BOLD, true);
+    currentFragment = 1;
   }
 
   private void setColorForProgress(LinearLayout progressLayout, int color, int style, boolean scrollTo) {
@@ -51,7 +53,7 @@ public class SetupActivity extends AppCompatActivity {
   @Override
   public void onBackPressed() {
     super.onBackPressed();
-    currentFragment -= (currentFragment >= 0) ? 1 : 0;
+    if (currentFragment > 0) currentFragment -= 1;
     if (currentFragment == 1) {
       setColorForProgress(findViewById(R.id.setup_frag_1), getResources().getColor(R.color.white), Typeface.BOLD, true);
       setColorForProgress(findViewById(R.id.setup_frag_2), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
@@ -65,7 +67,8 @@ public class SetupActivity extends AppCompatActivity {
   }
 
   public void onNextFragment(View view) {
-    currentFragment += (currentFragment < numFragments) ? 1 : 0;
+    // get data of fragment and send to activity
+
     if (currentFragment == 1) {
       transactionFragment(R.id.fragment_container, ProfileSetupFragment.class);
       setColorForProgress(findViewById(R.id.setup_frag_2), getResources().getColor(R.color.white), Typeface.BOLD, true);
@@ -81,5 +84,6 @@ public class SetupActivity extends AppCompatActivity {
     } else {
       Toast.makeText(this, "You're done!", Toast.LENGTH_SHORT).show();
     }
+    if (currentFragment < numFragments) currentFragment += 1;
   }
 }
