@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SetupActivity.ProfileDescriptionSetup">
+    android:paddingTop="40.59dp"
+    android:paddingBottom="53.33dp"
+    android:orientation="vertical"
+    android:background="@color/black"
+    tools:context=".activities.SetupActivity.ProfileSetupFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Mô tả profile của bản thân" />
+    <EditText
+        android:id="@+id/setup_profile_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="description profile setup" />
-
-</FrameLayout>
+        android:layout_height="400dp"
+        android:layout_marginTop="18.7dp"
+        android:cropToPadding="true"
+        android:padding="29.85dp"
+        android:scaleType="centerInside"
+        android:background="@drawable/custom_edit_text" />
+</LinearLayout>

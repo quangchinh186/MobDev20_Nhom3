@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="40.59dp"
+    android:paddingBottom="53.33dp"
     android:orientation="vertical"
     android:paddingTop="48.55dp"
     tools:context=".activities.SetupActivity.ProfileSetupFragment">
