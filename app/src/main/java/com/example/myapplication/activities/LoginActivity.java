@@ -3,7 +3,6 @@ package com.example.myapplication.activities;
 import static com.example.myapplication.system.BatoSystem.sendMessage;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.system.BatoSystem;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.realm.mongodb.Credentials;
 
@@ -27,8 +28,20 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         findViewById(R.id.loading_scene).setVisibility(View.VISIBLE);
-
+        AtomicBoolean isConfirmed = new AtomicBoolean(false);
         Credentials credentials = Credentials.emailPassword(emailUser, passwordUser);
+//        ApplicationActivity.app.getEmailPassword().retryCustomConfirmationAsync(emailUser, it -> {
+//            isConfirmed.set(it.isSuccess());
+//        });
+//        if(!isConfirmed.get()){
+//            findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+//            BatoSystem.sendMessage("Tài khoản chưa được xác nhận", this);
+//            Intent verifyOtpAct = new Intent(getApplicationContext(), VerifyOtpActivity.class);
+//            verifyOtpAct.putExtra("email", emailInput.getText().toString());
+//            verifyOtpAct.putExtra("password", passwordInput.getText().toString());
+//            startActivity(verifyOtpAct);
+//            return;
+//        }
         ApplicationActivity.app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
                 // cache login state
@@ -41,8 +54,9 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
             else {
-                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
-                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
+//                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+//                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
+                System.out.println(it.getError());
             }
         });
     }

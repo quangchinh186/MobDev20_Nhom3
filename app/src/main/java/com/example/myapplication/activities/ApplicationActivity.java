@@ -90,8 +90,6 @@ public class ApplicationActivity extends AppCompatActivity {
         tempUser = findViewById(R.id.tempUser);
         TextView textView = findViewById(R.id.info_app);
         textView.setText("email: " + email);
-
-
     }
 
 
