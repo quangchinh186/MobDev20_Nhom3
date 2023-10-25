@@ -10,15 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.myapplication.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileSetupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileSetupFragment extends Fragment {
-
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
 
@@ -27,18 +19,7 @@ public class ProfileSetupFragment extends Fragment {
   private String mParam2;
 
   public ProfileSetupFragment() {
-    // Required empty public constructor
   }
-
-  /**
-   * Use this factory method to create a new instance of
-   * this fragment using the provided parameters.
-   *
-   * @param param1 Parameter 1.
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment ProfileSetupFragment.
-   */
-  // TODO: Rename and change types and number of parameters
   public static ProfileSetupFragment newInstance(String param1, String param2) {
     ProfileSetupFragment fragment = new ProfileSetupFragment();
     Bundle args = new Bundle();
@@ -63,4 +44,6 @@ public class ProfileSetupFragment extends Fragment {
     // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_setup_profile, container, false);
   }
+
+
 }

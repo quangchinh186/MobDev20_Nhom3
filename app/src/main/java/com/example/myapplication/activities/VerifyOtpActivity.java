@@ -3,6 +3,7 @@ package com.example.myapplication.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import io.realm.mongodb.Credentials;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import java.util.Random;
 public class VerifyOtpActivity extends AppCompatActivity {
     String otpCode;
     String email;
+    String password;
     EditText otpInput;
 
     public void onVerify(View view) {

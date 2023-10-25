@@ -6,7 +6,6 @@
     android:paddingTop="40.59dp"
     android:paddingBottom="53.33dp"
     android:orientation="vertical"
-    android:background="@color/black"
     tools:context=".activities.SetupActivity.ProfileSetupFragment">
 
     <TextView
@@ -17,10 +16,16 @@
     <EditText
         android:id="@+id/setup_profile_description"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_marginTop="18.7dp"
         android:cropToPadding="true"
-        android:padding="29.85dp"
-        android:scaleType="centerInside"
+        android:gravity="top"
+        android:singleLine="false"
+        android:lines="12"
+        android:paddingTop="10.85dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:maxLength="336"
+        android:layout_gravity="center"
         android:background="@drawable/custom_edit_text" />
 </LinearLayout>
