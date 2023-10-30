@@ -24,6 +24,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -53,7 +54,7 @@ public class ApplicationActivity extends AppCompatActivity {
     public void onInsert(View view){
         Profile profile = new Profile();
         profile.setName(newUsername.getText().toString());
-        profile.setAge(Integer.parseInt(newUserAge.getText().toString()));
+        profile.setDob(new Date(2003, 06, 18));
         queryHelper.insert(profile);
     }
 
@@ -97,15 +98,14 @@ public class ApplicationActivity extends AppCompatActivity {
 
 
     private void createRealm(){
-        if(app != null){
-            return;
-        }
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
+        if(app.currentUser() != null){
+            queryHelper = new QueryHelper(app);
+        }
 
-        queryHelper = new QueryHelper(app);
     }
 
     public void onLogout(View view) {
