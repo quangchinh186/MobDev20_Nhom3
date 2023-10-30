@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.system.BatoSystem;
 
 import java.util.Random;
@@ -27,7 +28,8 @@ public class VerifyOtpActivity extends AppCompatActivity {
             ApplicationActivity.app.getEmailPassword().retryCustomConfirmationAsync(email, result -> {
                 if (result.isSuccess()) {
                     BatoSystem.writeString("recentEmail", email);
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    BatoSystem.writeString("email", password);
+                    startActivity(new Intent(getApplicationContext(), SetupActivity.class));
                     finish();
                 } else {
                     BatoSystem.sendMessage("Có lỗi đã xảy ra, vui lòng thử lại sau", this);

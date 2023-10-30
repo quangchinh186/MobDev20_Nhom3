@@ -27,7 +27,7 @@ public class Profile extends RealmObject {
     private RealmList<String> hobby;
 
     public Profile(){
-        this.name = "";
+        this.name = "Nameless";
         this.age = 0;
         this.gender = "gender";
         this.interest = "";

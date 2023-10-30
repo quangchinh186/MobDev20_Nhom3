@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,7 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.ApplicationActivity;
+import com.example.myapplication.activities.LoginActivity;
 import com.example.myapplication.schema.Profile;
+import com.example.myapplication.system.BatoSystem;
 
 public class SetupActivity extends AppCompatActivity {
   int currentFragment = 0;
@@ -102,7 +106,14 @@ public class SetupActivity extends AppCompatActivity {
       setColorForProgress(findViewById(R.id.setup_frag_4), getResources().getColor(R.color.white), Typeface.BOLD, true);
       setColorForProgress(findViewById(R.id.setup_frag_3), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
     } else {
-      Toast.makeText(this, "You're done!", Toast.LENGTH_SHORT).show();
+      // send data to server
+      Toast.makeText(this, "Đã hoàn thành", Toast.LENGTH_SHORT).show();
+      BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
+      BatoSystem.writeBoolean("login", true);
+
+      
+      startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+      finish();
     }
     if (currentFragment < numFragments) currentFragment += 1;
   }

@@ -67,13 +67,18 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // initialize
-        setContentView(R.layout.activity_login_page);
-        emailInput = findViewById(R.id.email__input);
-        passwordInput = findViewById(R.id.password__input);
-        // automatically fill text if app has recent email
-        emailInput.setText(BatoSystem.readString("recentEmail", ""));
+        try {
+            super.onCreate(savedInstanceState);
+            // initialize
+            setContentView(R.layout.activity_login_page);
+            emailInput = findViewById(R.id.email__input);
+            passwordInput = findViewById(R.id.password__input);
+            // automatically fill text if app has recent email
+            emailInput.setText(BatoSystem.readString("recentEmail", ""));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
