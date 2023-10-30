@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.AppUser;
+import com.example.myapplication.schema.ChatMessage;
+import com.example.myapplication.schema.ChatRoom;
 import com.example.myapplication.schema.MatchingState;
 import com.example.myapplication.schema.Profile;
 
@@ -30,18 +32,19 @@ public class QueryHelper {
     }
 
     private void openRealm(App app){
-        if(app.currentUser() == null){
-            return;
-        }
         // add an initial subscription to the sync configuration
         SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
                 .allowQueriesOnUiThread(true)
                 .allowWritesOnUiThread(true)
                 .initialSubscriptions((realm, subscriptions) -> {
                     Log.v("realm", "subscription size: "+ subscriptions.size());
-                    subscriptions.addOrUpdate(Subscription.create(app.currentUser().getId(),
+                    subscriptions.addOrUpdate(Subscription.create("user query",
                             realm.where(AppUser.class)));
-                })
+                    subscriptions.addOrUpdate(Subscription.create("chat query",
+                            realm.where(ChatMessage.class)));
+                    subscriptions.addOrUpdate(Subscription.create("chat room query",
+                            realm.where(ChatRoom.class)));
+                    })
                 .build();
         // instantiate a realm instance with the flexible sync configuration
         Log.v("EXAMPLE", "Successfully build a realm.");
@@ -56,10 +59,10 @@ public class QueryHelper {
         });
     }
 
-    public void insert(Profile profile){
+    public void createUser(Profile profile, String id){
         realmApp.executeTransaction(r -> {
             AppUser appUser = new AppUser();
-            appUser.setId(new ObjectId());
+            appUser.setId(new ObjectId(id));
             appUser.setProfile(profile);
             appUser.setChatRoomList(new RealmList<>());
             MatchingState matchingState = new MatchingState();
@@ -74,9 +77,7 @@ public class QueryHelper {
         RealmResults<AppUser> a = result.findAll();
         Log.v("realm", "found: " + result.count() + " result");
         Log.v("realm", a.asJSON());
-//        for (int i = 0; i < result.count(); i++) {
-//            Log.v("realm", a.asJSON());
-//        }
+
     }
 
 }

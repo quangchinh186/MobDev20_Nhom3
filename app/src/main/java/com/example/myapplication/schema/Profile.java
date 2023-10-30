@@ -2,6 +2,8 @@ package com.example.myapplication.schema;
 
 import androidx.annotation.NonNull;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
@@ -10,7 +12,8 @@ import io.realm.annotations.Required;
 @RealmClass(embedded = true)
 public class Profile extends RealmObject {
     private String name;
-    private int age;
+    @Required
+    private Date dob;
     @Required
     private String gender;
     @Required
@@ -27,8 +30,8 @@ public class Profile extends RealmObject {
     private RealmList<String> hobby;
 
     public Profile(){
-        this.name = "Nameless";
-        this.age = 0;
+        this.name = "";
+        this.dob = new Date();
         this.gender = "gender";
         this.interest = "";
         this.occupy = "occupy";
@@ -39,11 +42,11 @@ public class Profile extends RealmObject {
         this.hobby = new RealmList<>();
     }
 
-    public Profile(String name, int age, String gender, String occupy, String description,
+    public Profile(String name, Date dob, String gender, String occupy, String description,
                    RealmList<String> achievement, RealmList<String> review, RealmList<String> photo,
                    RealmList<String> hobby) {
         this.name = name;
-        this.age = age;
+        this.dob = dob;
         this.gender = gender;
         this.occupy = occupy;
         this.description = description;
@@ -109,11 +112,11 @@ public class Profile extends RealmObject {
         this.hobby = hobby;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
-    public int getAge() {
-        return age;
+    public Date getDob() {
+        return this.dob;
     }
 
     public void setName(String name) {
@@ -133,6 +136,6 @@ public class Profile extends RealmObject {
     @NonNull
     @Override
     public String toString() {
-        return this.name + this.age;
+        return this.name + this.description;
     }
 }
