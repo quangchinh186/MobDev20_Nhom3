@@ -59,10 +59,10 @@ public class QueryHelper {
         });
     }
 
-    public void insert(Profile profile){
+    public void createUser(Profile profile, String id){
         realmApp.executeTransaction(r -> {
             AppUser appUser = new AppUser();
-            appUser.setId(new ObjectId());
+            appUser.setId(new ObjectId(id));
             appUser.setProfile(profile);
             appUser.setChatRoomList(new RealmList<>());
             MatchingState matchingState = new MatchingState();
@@ -77,9 +77,7 @@ public class QueryHelper {
         RealmResults<AppUser> a = result.findAll();
         Log.v("realm", "found: " + result.count() + " result");
         Log.v("realm", a.asJSON());
-//        for (int i = 0; i < result.count(); i++) {
-//            Log.v("realm", a.asJSON());
-//        }
+
     }
 
 }

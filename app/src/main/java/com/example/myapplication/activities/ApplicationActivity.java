@@ -54,8 +54,8 @@ public class ApplicationActivity extends AppCompatActivity {
     public void onInsert(View view){
         Profile profile = new Profile();
         profile.setName(newUsername.getText().toString());
-        profile.setDob(new Date(2003, 06, 18));
-        queryHelper.insert(profile);
+        profile.setDob(new Date());
+        queryHelper.createUser(profile, app.currentUser().getId());
     }
 
     public void onEdit(View view) {
