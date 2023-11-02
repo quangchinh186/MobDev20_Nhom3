@@ -22,6 +22,7 @@ import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.activities.LoginActivity;
 import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
+import com.example.myapplication.system.QueryHelper;
 
 public class SetupActivity extends AppCompatActivity {
   int currentFragment = 0;
@@ -111,7 +112,6 @@ public class SetupActivity extends AppCompatActivity {
       BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
       BatoSystem.writeBoolean("login", true);
 
-      
       startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
       finish();
     }

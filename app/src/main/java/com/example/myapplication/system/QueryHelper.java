@@ -77,7 +77,13 @@ public class QueryHelper {
         RealmResults<AppUser> a = result.findAll();
         Log.v("realm", "found: " + result.count() + " result");
         Log.v("realm", a.asJSON());
+    }
 
+    public Boolean hasUser(String id){
+        RealmQuery<AppUser> result = realmApp.where(AppUser.class).equalTo("_id", new ObjectId(id));
+        RealmResults<AppUser> a = result.findAll();
+
+        return a.size() != 0;
     }
 
 }

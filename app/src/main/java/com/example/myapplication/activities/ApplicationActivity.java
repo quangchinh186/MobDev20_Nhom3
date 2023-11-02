@@ -26,6 +26,7 @@ import org.bson.types.ObjectId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -66,12 +67,10 @@ public class ApplicationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         createRealm();
         BatoSystem.initPref(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
 
         // to check login state
-
         Boolean isLogin = BatoSystem.readBoolean("login", false);
         if (!isLogin) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
@@ -83,6 +82,8 @@ public class ApplicationActivity extends AppCompatActivity {
             }
             Log.v("realm", "current user: "+ app.currentUser().getId());
         }
+
+
 
         //UI
         newUserAge = findViewById(R.id.new_user_age);
@@ -102,9 +103,16 @@ public class ApplicationActivity extends AppCompatActivity {
                 .build());
         if(app.currentUser() != null){
             queryHelper = new QueryHelper(app);
+            if(queryHelper.hasUser(Objects.requireNonNull(app.currentUser()).getId())){
+                Log.v("realm", "user exist");
+            } else {
+                Log.v("realm", "user not exist");
+                queryHelper.createUser(new Profile(), Objects.requireNonNull(app.currentUser()).getId());
+            }
         }
 
     }
+
 
     public void onLogout(View view) {
         BatoSystem.writeBoolean("login", false);
