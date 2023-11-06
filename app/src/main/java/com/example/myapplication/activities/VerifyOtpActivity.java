@@ -29,7 +29,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                 if (result.isSuccess()) {
                     BatoSystem.writeString("recentEmail", email);
                     BatoSystem.writeString("email", password);
-                    startActivity(new Intent(getApplicationContext(), SetupActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
                     finish();
                 } else {
                     BatoSystem.sendMessage("Có lỗi đã xảy ra, vui lòng thử lại sau", this);

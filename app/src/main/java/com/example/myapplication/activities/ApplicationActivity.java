@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.schema.AppUser;
 import com.example.myapplication.schema.ChatMessage;
 import com.example.myapplication.schema.Profile;
@@ -41,27 +42,12 @@ public class ApplicationActivity extends AppCompatActivity {
     //Mongodb stuff
     String AppId = "mobileappdev-hwhug";
     public static App app;
-    QueryHelper queryHelper;
-
-    //UI stuff
-    ListView userList;
-    TextView tempUser;
-    EditText newUsername;
-    EditText newUserAge;
+    public static Profile userProfile;
+    public static QueryHelper queryHelper;
     public void onShow(View view){
         queryHelper.findUsers();
     }
 
-    public void onInsert(View view){
-        Profile profile = new Profile();
-        profile.setName(newUsername.getText().toString());
-        profile.setDob(new Date());
-        queryHelper.createUser(profile, app.currentUser().getId());
-    }
-
-    public void onEdit(View view) {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +55,6 @@ public class ApplicationActivity extends AppCompatActivity {
         BatoSystem.initPref(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
-
         // to check login state
         Boolean isLogin = BatoSystem.readBoolean("login", false);
         if (!isLogin) {
@@ -83,53 +68,38 @@ public class ApplicationActivity extends AppCompatActivity {
             Log.v("realm", "current user: "+ app.currentUser().getId());
         }
 
-
-
-        //UI
-        newUserAge = findViewById(R.id.new_user_age);
-        newUsername = findViewById(R.id.new_username);
         String email = BatoSystem.readString("email", "");
-        tempUser = findViewById(R.id.tempUser);
         TextView textView = findViewById(R.id.info_app);
         textView.setText("email: " + email);
     }
 
-
-
+    //create local realm and open sync realm if user is logged in
     private void createRealm(){
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
         if(app.currentUser() != null){
-            queryHelper = new QueryHelper(app);
-            if(queryHelper.hasUser(Objects.requireNonNull(app.currentUser()).getId())){
-                Log.v("realm", "user exist");
-            } else {
-                Log.v("realm", "user not exist");
-                queryHelper.createUser(new Profile(), Objects.requireNonNull(app.currentUser()).getId());
+            queryHelper = new QueryHelper(app.currentUser());
+            if(!queryHelper.hasUser(app.currentUser().getId())){
+                startActivity(new Intent(this, SetupActivity.class));
             }
         }
-
     }
-
 
     public void onLogout(View view) {
         BatoSystem.writeBoolean("login", false);
         BatoSystem.writeString("email", "");
-        Log.v("logout", "true");
         Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginActivity);
-
         app.currentUser().logOutAsync(res -> {
             if(res.isSuccess()){
+                queryHelper.closeRealm();
                 Log.v("realm", "log out success");
             } else {
                 Log.v("realm", "fail: " + res.getError().toString());
             }
         });
-
-
         finish();
     }
 

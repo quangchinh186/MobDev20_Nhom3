@@ -44,7 +44,7 @@ public class SetupActivity extends AppCompatActivity {
     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     if (fragment instanceof BasicInfoSetupFragment) {
       profile.setName(((BasicInfoSetupFragment) fragment).getName());
-//      profile.setAge(((BasicInfoSetupFragment) fragment).getDob());
+      profile.setDob(((BasicInfoSetupFragment) fragment).getDob());
       profile.setGender(((BasicInfoSetupFragment) fragment).getGender());
       profile.setInterest(((BasicInfoSetupFragment) fragment).getSearch());
       System.out.println(profile.getName());
@@ -112,7 +112,7 @@ public class SetupActivity extends AppCompatActivity {
       BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
       BatoSystem.writeBoolean("login", true);
 
-      startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+      ApplicationActivity.queryHelper.createUser(profile);
       finish();
     }
     if (currentFragment < numFragments) currentFragment += 1;

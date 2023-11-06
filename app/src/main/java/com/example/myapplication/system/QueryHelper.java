@@ -18,48 +18,43 @@ import io.realm.RealmResults;
 import io.realm.mongodb.App;
 import io.realm.mongodb.User;
 import io.realm.mongodb.sync.Subscription;
+import io.realm.mongodb.sync.SubscriptionSet;
 import io.realm.mongodb.sync.SyncConfiguration;
 
 public class QueryHelper {
     private Realm realmApp;
+    private User user;
 
-    public QueryHelper(App app){
-        openRealm(app);
+    public QueryHelper(User user){
+        openRealm(user);
     }
 
     public void closeRealm(){
         realmApp.close();
     }
 
-    private void openRealm(App app){
+    private void openRealm(User user){
+        this.user = user;
         // add an initial subscription to the sync configuration
-        SyncConfiguration config = new SyncConfiguration.Builder(app.currentUser())
-                .allowQueriesOnUiThread(true)
+        SyncConfiguration config =
+                new SyncConfiguration.Builder(user)
                 .allowWritesOnUiThread(true)
                 .initialSubscriptions((realm, subscriptions) -> {
-                    Log.v("realm", "subscription size: "+ subscriptions.size());
                     subscriptions.addOrUpdate(Subscription.create("user query",
-                            realm.where(AppUser.class)));
+                                realm.where(AppUser.class)));
                     subscriptions.addOrUpdate(Subscription.create("chat query",
-                            realm.where(ChatMessage.class)));
+                                realm.where(ChatMessage.class)));
                     subscriptions.addOrUpdate(Subscription.create("chat room query",
-                            realm.where(ChatRoom.class)));
-                    })
+                                realm.where(ChatRoom.class)));
+                })
                 .build();
         // instantiate a realm instance with the flexible sync configuration
-        Log.v("EXAMPLE", "Successfully build a realm.");
-        Realm.getInstanceAsync(config, new Realm.Callback() {
-            @Override
-            public void onSuccess(Realm realm) {
-                realmApp = realm;
-                Log.v("EXAMPLE", "Successfully opened a realm.");
-                Log.v("EXAMPLE","Successfully opened the default realm at: " + realm.getPath());
-            }
-
-        });
+        realmApp = Realm.getInstance(config);
+        Log.v("EXAMPLE","Successfully opened the default realm at: " + realmApp);
     }
 
-    public void createUser(Profile profile, String id){
+    public void createUser(Profile profile){
+        String id = user.getId();
         realmApp.executeTransaction(r -> {
             AppUser appUser = new AppUser();
             appUser.setId(new ObjectId(id));
