@@ -1,7 +1,12 @@
 package com.example.myapplication.activities;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.BoringLayout;
@@ -10,9 +15,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.schema.AppUser;
@@ -39,6 +49,7 @@ import io.realm.mongodb.sync.Subscription;
 import io.realm.mongodb.sync.SyncConfiguration;
 
 public class ApplicationActivity extends AppCompatActivity {
+    Cloudinary cloudinary = new Cloudinary();
     //Mongodb stuff
     String AppId = "mobileappdev-hwhug";
     public static App app;
@@ -49,8 +60,11 @@ public class ApplicationActivity extends AppCompatActivity {
     }
 
 
+    ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         createRealm();
         BatoSystem.initPref(this);
         super.onCreate(savedInstanceState);
@@ -71,6 +85,7 @@ public class ApplicationActivity extends AppCompatActivity {
         String email = BatoSystem.readString("email", "");
         TextView textView = findViewById(R.id.info_app);
         textView.setText("email: " + email);
+        imageView = findViewById(R.id.imageHolder);
     }
 
     //create local realm and open sync realm if user is logged in
@@ -80,6 +95,7 @@ public class ApplicationActivity extends AppCompatActivity {
                 .appName("My App")
                 .build());
         if(app.currentUser() != null){
+            MediaManager.init(this);
             queryHelper = new QueryHelper(app.currentUser());
             if(!queryHelper.hasUser(app.currentUser().getId())){
                 startActivity(new Intent(this, SetupActivity.class));
@@ -102,5 +118,59 @@ public class ApplicationActivity extends AppCompatActivity {
         });
         finish();
     }
+
+    //upload image by this function
+    public void selectImage(View view){
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        launchSomeActivity.launch(i);
+    }
+    //launch a select image view
+    ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode()
+                        == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    // do your operation from here....
+                    if (data != null && data.getData() != null) {
+                        Uri selectedImageUri = data.getData();
+                        imageView.setImageURI(selectedImageUri);
+                        MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
+                            @Override
+                            public void onStart(String requestId) {
+                                //start upload request
+                            }
+
+                            @Override
+                            public void onProgress(String requestId, long bytes, long totalBytes) {
+                                //request in progress
+                            }
+
+                            @Override
+                            public void onSuccess(String requestId, Map resultData) {
+                                //success upload the image
+                                //result
+                                Log.v("result data", resultData.toString());
+                                //image url
+                                Log.v("link image", resultData.get("url").toString());
+                            }
+
+                            @Override
+                            public void onError(String requestId, ErrorInfo error) {
+                                //handle error
+                            }
+
+                            @Override
+                            public void onReschedule(String requestId, ErrorInfo error) {
+
+                            }
+                        }).dispatch();
+                        Log.v("Image URI",selectedImageUri.toString());
+                    }
+                }
+            });
+
 
 }

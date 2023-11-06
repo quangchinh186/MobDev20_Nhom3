@@ -69,6 +69,10 @@ dependencies {
 
     implementation("io.realm:realm-gradle-plugin:10.16.1")
 
+    //cloudinary
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+    implementation("com.cloudinary:cloudinary-android-download:2.3.1")
+    implementation("com.cloudinary:cloudinary-android-preprocess:2.3.1")
     //mail package
     // https://mvnrepository.com/artifact/com.sun.activation/jakarta.activation
     implementation("com.sun.activation:jakarta.activation:2.0.1")
