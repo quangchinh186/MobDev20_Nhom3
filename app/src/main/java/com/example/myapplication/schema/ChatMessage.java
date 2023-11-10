@@ -18,6 +18,7 @@ public class ChatMessage extends RealmObject {
     private ObjectId from;
     private ObjectId chatRoom;
     private String message;
+    private String imageUrl;
     private Date dateTime;
 
     public ObjectId getFrom() {
@@ -58,4 +59,11 @@ public class ChatMessage extends RealmObject {
         return message;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

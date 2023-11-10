@@ -32,13 +32,9 @@ import io.realm.mongodb.sync.SyncSession;
 public class QueryHelper {
     private Realm realmApp;
     private User user;
-    public RealmQuery<AppUser> appUsers;
-    public RealmQuery<ChatMessage> chatMessages;
-
     public QueryHelper(User user){
         openRealm(user);
     }
-
 
     public void closeRealm(){
         realmApp.close();
@@ -61,9 +57,6 @@ public class QueryHelper {
                 .build();
         // instantiate a realm instance with the flexible sync configuration
         realmApp = Realm.getInstance(config);
-        appUsers = realmApp.where(AppUser.class);
-        chatMessages = realmApp.where(ChatMessage.class);
-
         Log.v("EXAMPLE","Successfully opened the default realm at: " + realmApp);
     }
 
@@ -82,29 +75,38 @@ public class QueryHelper {
     }
 
     public void findUsers() {
-        Log.v("realm", appUsers.findAll().asJSON());
+        RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class);
+        Log.v("realm", realmQuery.findAll().asJSON());
     }
 
-    public AppUser getUser(String id){
-        //RealmQuery<AppUser> result = realmApp.where(AppUser.class).equalTo("_id", new ObjectId(id));
-        //return result.findFirst();
-        return appUsers.equalTo("_id", new ObjectId(id)).findFirst();
+    public AppUser getUser(ObjectId id){
+        RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class).equalTo("_id", id);
+        return realmQuery.findFirst();
     }
 
-    public Boolean hasUser(String id){
-//        RealmQuery<AppUser> result = realmApp.where(AppUser.class).equalTo("_id", new ObjectId(id));
-//        RealmResults<AppUser> a = result.findAll();
-//        return a.size() != 0;
-        RealmResults<AppUser> a = appUsers.equalTo("_id", new ObjectId(id)).findAll();
+    public Boolean hasUser(ObjectId id){
+        RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class).equalTo("_id", id);
+        RealmResults<AppUser> a = realmQuery.findAll();
         return a.size() != 0;
     }
 
-    public void createConversation(AppUser appUser){
+    public void createConversation(AppUser user_1, ObjectId user_2, String type){
         realmApp.executeTransaction(r -> {
+            //create chatroom
             ObjectId room = new ObjectId();
-            appUser.getChatRoomList().add(room);
-            r.insertOrUpdate(appUser);
-
+            ChatRoom chatRoom = new ChatRoom();
+            chatRoom.setId(room);
+            chatRoom.setUser_1(user_1.getId());
+            chatRoom.setUser_2(user_2);
+            chatRoom.setType(type);
+            r.insert(chatRoom);
+            //create in opponent
+            AppUser u_2 = getUser(user_2);
+            u_2.getChatRoomList().add(room);
+            r.insertOrUpdate(u_2);
+            //Create in self
+            user_1.getChatRoomList().add(room);
+            r.insertOrUpdate(user_1);
             Log.v("realm conversation", "created new conversation!!");
         });
     }
@@ -122,10 +124,9 @@ public class QueryHelper {
         });
     }
 
-    public String getMessageInConversation(ObjectId room){
+    public RealmQuery<ChatMessage> getRealmQuery(ObjectId room){
         RealmQuery<ChatMessage> realmQuery = realmApp.where(ChatMessage.class).equalTo("chatRoom", room);
-        RealmResults<ChatMessage> realmResults = realmQuery.findAll();
-        return realmResults.asJSON();
+        return realmQuery;
     }
 
 }

@@ -15,10 +15,12 @@ import com.example.myapplication.schema.ChatMessage;
 import org.bson.types.ObjectId;
 
 import io.realm.OrderedRealmCollectionChangeListener;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class Conversation extends AppCompatActivity {
     private ObjectId roomId;
+    private RealmQuery<ChatMessage> realmQuery;
     TextView title;
     EditText messageInput;
     TextView messages;
@@ -28,12 +30,15 @@ public class Conversation extends AppCompatActivity {
         roomId = new ObjectId(intent.getStringExtra("chatId"));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-
+        //UI
         title = findViewById(R.id.chatName);
         title.setText(roomId.toString());
         messageInput = findViewById(R.id.message);
         messages = findViewById(R.id.messages);
+        //business logic
+        realmQuery = ApplicationActivity.queryHelper.getRealmQuery(roomId);
         addChangeListener();
+        getMessages();
     }
 
     public void send(View view){
@@ -45,19 +50,19 @@ public class Conversation extends AppCompatActivity {
         ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
     }
 
-    public void getMessages(View view){
-        String m = ApplicationActivity.queryHelper.getMessageInConversation(roomId);
+    public void getMessages(){
+        String m = realmQuery.findAll().asJSON();
         messages.setText(m);
     }
 
     public void addChangeListener(){
         OrderedRealmCollectionChangeListener<RealmResults<ChatMessage>> changeListener = (collection, changeSet) -> {
             if(changeSet.getInsertions().length != 0){
-                String m = ApplicationActivity.queryHelper.getMessageInConversation(roomId);
+                String m = realmQuery.findAll().asJSON();
                 messages.setText(m);
             }
         };
-        ApplicationActivity.queryHelper.chatMessages.findAll().addChangeListener(changeListener);
+        realmQuery.findAll().addChangeListener(changeListener);
     }
 
     @Override

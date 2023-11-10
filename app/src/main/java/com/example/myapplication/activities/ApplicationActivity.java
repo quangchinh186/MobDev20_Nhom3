@@ -97,10 +97,10 @@ public class ApplicationActivity extends AppCompatActivity {
 
         if(app.currentUser() != null){
             queryHelper = new QueryHelper(app.currentUser());
-            if(!queryHelper.hasUser(app.currentUser().getId())){
+            if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
                 startActivity(new Intent(this, SetupActivity.class));
             }
-            user = queryHelper.getUser(app.currentUser().getId());
+            user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
         }
     }
 
@@ -140,7 +140,8 @@ public class ApplicationActivity extends AppCompatActivity {
     }
 
     public void createConversation(View view){
-        queryHelper.createConversation(user);
+        ObjectId u2 = new ObjectId("65489fc8fe2d6a72e50353b0");
+        queryHelper.createConversation(user, u2, "default");
     }
 
     //upload image by this function
@@ -199,6 +200,8 @@ public class ApplicationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        queryHelper.closeRealm();
+        if(app.currentUser() != null){
+            queryHelper.closeRealm();
+        }
     }
 }
