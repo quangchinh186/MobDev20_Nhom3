@@ -42,6 +42,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -53,19 +54,17 @@ public class ApplicationActivity extends AppCompatActivity {
     //Mongodb stuff
     String AppId = "mobileappdev-hwhug";
     public static App app;
-    public static Profile userProfile;
+    public static AppUser user;
     public static QueryHelper queryHelper;
     public void onShow(View view){
         queryHelper.findUsers();
     }
-
-
     ImageView imageView;
+    ListView chatList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        createRealm();
+        init();
         BatoSystem.initPref(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
@@ -86,20 +85,22 @@ public class ApplicationActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.info_app);
         textView.setText("email: " + email);
         imageView = findViewById(R.id.imageHolder);
+        chatList = findViewById(R.id.chatList);
     }
 
     //create local realm and open sync realm if user is logged in
-    private void createRealm(){
+    private void init(){
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
+
         if(app.currentUser() != null){
-            MediaManager.init(this);
             queryHelper = new QueryHelper(app.currentUser());
             if(!queryHelper.hasUser(app.currentUser().getId())){
                 startActivity(new Intent(this, SetupActivity.class));
             }
+            user = queryHelper.getUser(app.currentUser().getId());
         }
     }
 
@@ -117,6 +118,29 @@ public class ApplicationActivity extends AppCompatActivity {
             }
         });
         finish();
+    }
+
+    public void viewMyProfile(View view){
+        Log.v("realm test profile", user.getProfile().toString());
+    }
+
+    public void viewConversation(View view){
+        RealmList<ObjectId> list = user.getChatRoomList();
+        Log.v("realm test conversation", list.toString());
+        ArrayAdapter<ObjectId> arrayAdapter = new ArrayAdapter<>(this, R.layout.app_list_view, R.id.list_item, list);
+        chatList.setAdapter(arrayAdapter);
+        chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), Conversation.class);
+                intent.putExtra("chatId", arrayAdapter.getItem(i).toString());
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void createConversation(View view){
+        queryHelper.createConversation(user);
     }
 
     //upload image by this function
@@ -172,5 +196,9 @@ public class ApplicationActivity extends AppCompatActivity {
                 }
             });
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        queryHelper.closeRealm();
+    }
 }
