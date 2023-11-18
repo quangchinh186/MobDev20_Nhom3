@@ -17,13 +17,36 @@ public class MatchingState extends RealmObject {
     private RealmList<ObjectId> like;
     @Required
     private RealmList<ObjectId> notLike;
+    @Required
+    private RealmList<ObjectId> isNotLikedBy;
+    @Required
+    private RealmList<ObjectId> unMatch;
 
     public MatchingState() {
         matched = new RealmList<>();
         isLikedBy = new RealmList<>();
         like = new RealmList<>();
         notLike = new RealmList<>();
+        isNotLikedBy = new RealmList<>();
+        unMatch = new RealmList<>();
     }
+
+    public RealmList<ObjectId> getUnMatch() {
+        return unMatch;
+    }
+
+    public void setUnMatch(RealmList<ObjectId> unMatch) {
+        this.unMatch = unMatch;
+    }
+
+    public RealmList<ObjectId> getIsNotLikedBy() {
+        return isNotLikedBy;
+    }
+
+    public void setIsNotLikedBy(RealmList<ObjectId> isNotLikedBy) {
+        this.isNotLikedBy = isNotLikedBy;
+    }
+
     public RealmList<ObjectId> getMatched() {
         return matched;
     }

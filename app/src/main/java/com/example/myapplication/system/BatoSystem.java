@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.cloudinary.android.MediaManager;
 import com.squareup.picasso.Picasso;
 
+import org.bson.types.ObjectId;
+
 import java.util.Properties;
 
 import jakarta.mail.Authenticator;
@@ -75,7 +77,7 @@ public class BatoSystem {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public static void sendVerificationCode(String email, String code){
+    public static void sendVerificationCode(String email, String code) {
         try {
             String senderEmail = "batosrsoft@gmail.com";
             String receiverEmail = email;
@@ -97,10 +99,10 @@ public class BatoSystem {
             mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(receiverEmail));
             String message =
                     "<h2 style='color:black;'>Hello con sói cô độc, </h2><br/>" +
-                    "<div style='color:black;'>Nhập code này để xác minh email nhé <3 </div><br/>" +
-                    "<b style='color:blue;'>" + code + "</b>" +
-                    "<h3>Cheers!</h3>" +
-                    "<p>Team Batosoft</p>";
+                            "<div style='color:black;'>Nhập code này để xác minh email nhé <3 </div><br/>" +
+                            "<b style='color:blue;'>" + code + "</b>" +
+                            "<h3>Cheers!</h3>" +
+                            "<p>Team Batosoft</p>";
             mimeMessage.setSubject("Quản lý tài khoản BatoLove");
             mimeMessage.setContent(message, "text/html; charset=utf-8");
 
@@ -117,12 +119,9 @@ public class BatoSystem {
             e.printStackTrace();
         } catch (MessagingException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             Log.v("notice", "send function complete running");
         }
     }
-
-
 
 }

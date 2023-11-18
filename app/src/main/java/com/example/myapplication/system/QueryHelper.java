@@ -60,6 +60,8 @@ public class QueryHelper {
         Log.v("EXAMPLE","Successfully opened the default realm at: " + realmApp);
     }
 
+    //user query
+
     public void createUser(Profile profile){
         String id = user.getId();
         realmApp.executeTransaction(r -> {
@@ -74,7 +76,7 @@ public class QueryHelper {
         });
     }
 
-    public void findUsers() {
+    public void findAllUsers() {
         RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class);
         Log.v("realm", realmQuery.findAll().asJSON());
     }
@@ -90,22 +92,26 @@ public class QueryHelper {
         return a.size() != 0;
     }
 
-    public void createConversation(AppUser user_1, ObjectId user_2, String type){
+    //Message
+
+    public void createConversation(ObjectId user1, ObjectId user2, String type){
+        //create chatroom
+        ObjectId room = new ObjectId();
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setId(room);
+        chatRoom.setUser_1(user1);
+        chatRoom.setUser_2(user2);
+        chatRoom.setType(type);
+
+        //create
+        AppUser user_2 = getUser(user2);
+        AppUser user_1 = getUser(user1);
+        user_2.getChatRoomList().add(room);
+        user_1.getChatRoomList().add(room);
         realmApp.executeTransaction(r -> {
-            //create chatroom
-            ObjectId room = new ObjectId();
-            ChatRoom chatRoom = new ChatRoom();
-            chatRoom.setId(room);
-            chatRoom.setUser_1(user_1.getId());
-            chatRoom.setUser_2(user_2);
-            chatRoom.setType(type);
             r.insert(chatRoom);
-            //create in opponent
-            AppUser u_2 = getUser(user_2);
-            u_2.getChatRoomList().add(room);
-            r.insertOrUpdate(u_2);
-            //Create in self
-            user_1.getChatRoomList().add(room);
+            //insert
+            r.insertOrUpdate(user_2);
             r.insertOrUpdate(user_1);
             Log.v("realm conversation", "created new conversation!!");
         });
@@ -127,6 +133,63 @@ public class QueryHelper {
     public RealmQuery<ChatMessage> getRealmQuery(ObjectId room){
         RealmQuery<ChatMessage> realmQuery = realmApp.where(ChatMessage.class).equalTo("chatRoom", room);
         return realmQuery;
+    }
+
+    //matching
+    public void matching(ObjectId user1, ObjectId user2){
+        AppUser u1 = getUser(user1);
+        AppUser u2 = getUser(user2);
+        u1.getMatchingState().getMatched().add(user2);
+        u2.getMatchingState().getMatched().add(user1);
+
+        u1.getMatchingState().getIsLikedBy().remove(user2);
+        u2.getMatchingState().getIsLikedBy().remove(user1);
+
+        u1.getMatchingState().getLike().remove(user2);
+        u2.getMatchingState().getLike().remove(user1);
+
+        realmApp.executeTransaction(r -> {
+            r.insertOrUpdate(u1);
+            r.insertOrUpdate(u2);
+        });
+    }
+
+    public void like(ObjectId user, ObjectId like){
+        AppUser u = getUser(user);
+        AppUser u2 = getUser(like);
+        u.getMatchingState().getLike().add(like);
+        u2.getMatchingState().getIsLikedBy().add(user);
+        realmApp.executeTransaction(r -> {
+            r.insertOrUpdate(u);
+            r.insertOrUpdate(u2);
+        });
+    }
+
+    public void dislike(ObjectId user, ObjectId dis){
+        AppUser u = getUser(user);
+        AppUser u2 = getUser(dis);
+        u.getMatchingState().getNotLike().add(dis);
+        u2.getMatchingState().getIsNotLikedBy().add(user);
+        realmApp.executeTransaction(r -> {
+            r.insertOrUpdate(u);
+            r.insertOrUpdate(u2);
+        });
+    }
+
+    public void unMatch(ObjectId user1, ObjectId user2){
+        AppUser u1 = getUser(user1);
+        AppUser u2 = getUser(user2);
+        u1.getMatchingState().getMatched().remove(user2);
+        u2.getMatchingState().getMatched().remove(user1);
+
+        u1.getMatchingState().getUnMatch().add(user2);
+        u2.getMatchingState().getUnMatch().add(user1);
+
+        realmApp.executeTransaction(r -> {
+            r.insertOrUpdate(u1);
+            r.insertOrUpdate(u2);
+        });
+
     }
 
 }

@@ -57,7 +57,7 @@ public class ApplicationActivity extends AppCompatActivity {
     public static AppUser user;
     public static QueryHelper queryHelper;
     public void onShow(View view){
-        queryHelper.findUsers();
+        queryHelper.findAllUsers();
     }
     ImageView imageView;
     ListView chatList;
@@ -140,8 +140,8 @@ public class ApplicationActivity extends AppCompatActivity {
     }
 
     public void createConversation(View view){
-        ObjectId u2 = new ObjectId("65489fc8fe2d6a72e50353b0");
-        queryHelper.createConversation(user, u2, "default");
+        //ObjectId u2 = new ObjectId("65489fc8fe2d6a72e50353b0");
+        //queryHelper.createConversation(user, u2, "default");
     }
 
     //upload image by this function
