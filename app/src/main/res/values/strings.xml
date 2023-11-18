@@ -14,4 +14,11 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_application">ApplicationActivity</string>
     <string name="logo">Logo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ch_n">Chọn</string>
+    <string-array name="rangeSliderValues">
+        <item>10</item>
+        <item>30</item>
+    </string-array>
 </resources>
