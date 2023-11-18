@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="48.55dp"
+    android:background="@color/black"
+    tools:context=".activities.SetupActivity.ProfileSetupFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Ảnh cho profile của bạn" />
+    <ImageView
+        android:id="@+id/setup_profile_img"
+        android:layout_width="99.5dp"
+        android:layout_height="99.5dp"
+        android:layout_marginTop="18.7dp"
+        android:cropToPadding="true"
+        android:padding="29.85dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/setup_add_img"
+        android:background="@drawable/custom_edit_text" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Thêm sở thích"
+        android:layout_marginTop="31.8dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_edit_text"
+        android:orientation="horizontal"
+        android:layout_marginTop="18.7dp">
+        <EditText
+            android:id="@+id/setup_profile_hobby"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Thêm" />
+    </LinearLayout>
+</LinearLayout>
