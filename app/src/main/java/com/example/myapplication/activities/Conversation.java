@@ -14,6 +14,8 @@ import com.example.myapplication.schema.ChatMessage;
 
 import org.bson.types.ObjectId;
 
+import java.util.ArrayList;
+
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -21,6 +23,8 @@ import io.realm.RealmResults;
 public class Conversation extends AppCompatActivity {
     private ObjectId roomId;
     private RealmQuery<ChatMessage> realmQuery;
+
+    ArrayList<ChatMessage> history = new ArrayList<>();
     TextView title;
     EditText messageInput;
     TextView messages;
@@ -51,14 +55,18 @@ public class Conversation extends AppCompatActivity {
     }
 
     public void getMessages(){
-        String m = realmQuery.findAll().asJSON();
-        messages.setText(m);
+        RealmResults<ChatMessage> m = realmQuery.findAll();
+        for (ChatMessage t: m) {
+            history.add(t);
+        }
     }
 
     public void addChangeListener(){
         OrderedRealmCollectionChangeListener<RealmResults<ChatMessage>> changeListener = (collection, changeSet) -> {
             if(changeSet.getInsertions().length != 0){
+                //changeSet.getInsertions().
                 String m = realmQuery.findAll().asJSON();
+                realmQuery.findAll();
                 messages.setText(m);
             }
         };

@@ -148,6 +148,8 @@ public class QueryHelper {
         u1.getMatchingState().getLike().remove(user2);
         u2.getMatchingState().getLike().remove(user1);
 
+        createConversation(user1, user2, "default");
+
         realmApp.executeTransaction(r -> {
             r.insertOrUpdate(u1);
             r.insertOrUpdate(u2);

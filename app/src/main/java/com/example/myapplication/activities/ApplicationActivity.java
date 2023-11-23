@@ -26,28 +26,18 @@ import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.schema.AppUser;
-import com.example.myapplication.schema.ChatMessage;
-import com.example.myapplication.schema.Profile;
+
 import com.example.myapplication.system.BatoSystem;
 import com.example.myapplication.system.QueryHelper;
 
-import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmQuery;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
-import io.realm.mongodb.sync.Subscription;
-import io.realm.mongodb.sync.SyncConfiguration;
 
 public class ApplicationActivity extends AppCompatActivity {
     Cloudinary cloudinary = new Cloudinary();
