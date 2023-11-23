@@ -85,6 +85,7 @@ public class Conversation extends AppCompatActivity {
 
     public void getMessages(){
         RealmResults<ChatMessage> results = realmQuery.findAll();
+        historyMessages.clear();
         historyMessages.addAll(results);
     }
 
