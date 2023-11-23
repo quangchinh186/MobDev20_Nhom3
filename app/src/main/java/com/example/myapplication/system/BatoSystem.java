@@ -12,6 +12,11 @@ import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Properties;
 
 import jakarta.mail.Authenticator;
@@ -122,6 +127,29 @@ public class BatoSystem {
         } finally {
             Log.v("notice", "send function complete running");
         }
+    }
+
+
+    //test
+    public static String chatWithAI(String message) throws IOException {
+        // Replace YOUR_API_KEY with your actual API key from character.ai
+        String apiKey = "U3dJdreV9rrvUiAnILMauI-oNH838a8E_kEYfOFPalE";
+        String url = "https://api.character.ai/chat?apiKey=" + apiKey + "&message=" + message;
+
+        // Send GET request to the AI API
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod("GET");
+
+        // Read the response from the AI
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+        reader.close();
+
+        return response.toString();
     }
 
 }

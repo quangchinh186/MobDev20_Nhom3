@@ -139,10 +139,6 @@ public class ApplicationActivity extends AppCompatActivity {
         });
     }
 
-    public void createConversation(View view){
-        //ObjectId u2 = new ObjectId("65489fc8fe2d6a72e50353b0");
-        //queryHelper.createConversation(user, u2, "default");
-    }
 
     //upload image by this function
     public void selectImage(View view){
