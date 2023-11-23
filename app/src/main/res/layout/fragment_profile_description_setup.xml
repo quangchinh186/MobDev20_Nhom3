@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="40.59dp"
+    android:paddingBottom="53.33dp"
+    android:orientation="vertical"
+    tools:context=".activities.SetupActivity.ProfileSetupFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Mô tả profile của bản thân" />
+    <EditText
+        android:id="@+id/setup_profile_description"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="18.7dp"
+        android:cropToPadding="true"
+        android:gravity="top"
+        android:singleLine="false"
+        android:lines="12"
+        android:paddingTop="10.85dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:maxLength="336"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_edit_text" />
+</LinearLayout>
