@@ -21,7 +21,7 @@
             android:name=".activities.SetupActivity.SetupActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".activities.Authentication.RegisterActivity"
             android:exported="true" />
         <activity
             android:name=".activities.ApplicationActivity"
@@ -36,11 +36,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.Authentication.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".activities.VerifyOtpActivity"
+            android:name=".activities.Authentication.VerifyOtpActivity"
             android:exported="true" />
 
         <meta-data

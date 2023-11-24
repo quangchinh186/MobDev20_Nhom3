@@ -11,22 +11,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
-import android.text.BoringLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
+import com.example.myapplication.activities.Authentication.LoginActivity;
 import com.example.myapplication.activities.MainActivity.ChatFragment;
 import com.example.myapplication.activities.MainActivity.HomeFragment;
 import com.example.myapplication.activities.MainActivity.ProfileFragment;
@@ -101,10 +98,6 @@ public class ApplicationActivity extends AppCompatActivity {
         }
 
         String email = BatoSystem.readString("email", "");
-//        TextView textView = findViewById(R.id.info_app);
-//        textView.setText("email: " + email);
-//        imageView = findViewById(R.id.imageHolder);
-//        chatList = findViewById(R.id.chatList);
 
     }
 
