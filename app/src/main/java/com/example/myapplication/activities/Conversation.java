@@ -126,6 +126,7 @@ public class Conversation extends AppCompatActivity {
                     String imageUrl = Objects.requireNonNull(resultData.get("url")).toString();
                     ApplicationActivity.queryHelper.sendImage(roomId, ApplicationActivity.user.getId(), imageUrl);
                     addChangeListener();
+                    getMessages();
                     chatRecycler.scrollToPosition(historyMessages.size() - 1);
                 }
 
