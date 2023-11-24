@@ -19,12 +19,15 @@
             android:exported="false" />
         <activity
             android:name=".activities.SetupActivity.SetupActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="true" />
         <activity
             android:name=".activities.ApplicationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.SlashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +38,7 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".activities.VerifyOtpActivity"
             android:exported="true" />

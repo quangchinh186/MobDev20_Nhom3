@@ -59,7 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatModelViewH
         holder.leftChatTextview.setText(messages.get(position).getMessage());
         holder.receiveTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
         Picasso.get()
-                .load("https://i.imgur.com/w4mkpDj.jpg")
+                .load(ApplicationActivity.queryHelper.getProfilePicture(messages.get(position).getFrom()))
                 .into(holder.senderChatImage);
       }
 

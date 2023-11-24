@@ -32,11 +32,10 @@ public class Conversation extends AppCompatActivity {
     private RealmQuery<ChatMessage> realmQuery;
 
     ObjectId oppo;
-    TextView title;
     EditText messageInput;
-    TextView messages;
     ChatAdapter chatAdapter;
     RecyclerView chatRecycler;
+    TextView senderName;
 
     ArrayList<ChatMessage> historyMessages = new ArrayList<>();
 
@@ -54,6 +53,7 @@ public class Conversation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
         messageInput = findViewById(R.id.message_edit_text);
+        senderName = findViewById(R.id.sender_name);
         //UI
         chatRecycler = findViewById(R.id.chat_recycler_view);
         //business logic
@@ -63,8 +63,9 @@ public class Conversation extends AppCompatActivity {
         setUpChatAdapter();
         ImageView avtSender = findViewById(R.id.sender_image);
         Picasso.get()
-                .load("https://i.imgur.com/w4mkpDj.jpg")
+                .load(ApplicationActivity.queryHelper.getProfilePicture(oppo))
                 .into(avtSender);
+        senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
         chatRecycler.scrollToPosition(historyMessages.size() - 1);
     }
 
@@ -92,13 +93,11 @@ public class Conversation extends AppCompatActivity {
     public void addChangeListener(){
         OrderedRealmCollectionChangeListener<RealmResults<ChatMessage>> changeListener = (collection, changeSet) -> {
             if(changeSet.getInsertions().length != 0){
-                Log.v("checking_realm", "inserted");
                 getMessages();
                 setUpChatAdapter();
                 chatRecycler.setAdapter(chatAdapter);
             }
         };
-        Log.v("checking_realm", "addChangeListener");
         realmQuery.findAll().addChangeListener(changeListener);
     }
 

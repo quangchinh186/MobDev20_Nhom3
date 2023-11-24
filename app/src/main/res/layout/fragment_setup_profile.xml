@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="48.55dp"
-    android:background="@color/black"
     tools:context=".activities.SetupActivity.ProfileSetupFragment">
 
     <TextView

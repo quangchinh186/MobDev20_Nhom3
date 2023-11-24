@@ -135,6 +135,10 @@ public class QueryHelper {
         return getUser(id).getProfile().getPhoto().first();
     }
 
+    public String getProfileName(ObjectId id){
+        return getUser(id).getProfile().getName();
+    }
+
     public ObjectId getFriend(ObjectId roomId){
         ChatRoom chatRoom = realmApp.where(ChatRoom.class).equalTo("_id", roomId).findFirst();
         ObjectId user1 = chatRoom.getUser_1();
