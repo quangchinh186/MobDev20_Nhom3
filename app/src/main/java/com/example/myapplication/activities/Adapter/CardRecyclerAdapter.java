@@ -50,7 +50,7 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
         public ViewHolder(@NonNull View item){
             super(item);
 
-            name = item.findViewById(R.id.name);
+//            name = item.findViewById(R.id.name);
         }
     }
 }
