@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,13 +17,14 @@ import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
+import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class Conversation extends AppCompatActivity {
     private ObjectId roomId;
-    private RealmQuery<ChatMessage> realmQuery;
+    private RealmQuery<ChatMessage> messageRealmQuery;
 
     ArrayList<ChatMessage> history = new ArrayList<>();
     TextView title;
@@ -40,7 +42,7 @@ public class Conversation extends AppCompatActivity {
         messageInput = findViewById(R.id.message);
         messages = findViewById(R.id.messages);
         //business logic
-        realmQuery = ApplicationActivity.queryHelper.getRealmQuery(roomId);
+        messageRealmQuery = ApplicationActivity.queryHelper.getMessageRealmQuery(roomId);
         addChangeListener();
         getMessages();
     }
@@ -55,22 +57,23 @@ public class Conversation extends AppCompatActivity {
     }
 
     public void getMessages(){
-        RealmResults<ChatMessage> m = realmQuery.findAll();
-        for (ChatMessage t: m) {
-            history.add(t);
-        }
+        RealmResults<ChatMessage> m = messageRealmQuery.findAll();
+        history.addAll(m);
     }
 
     public void addChangeListener(){
         OrderedRealmCollectionChangeListener<RealmResults<ChatMessage>> changeListener = (collection, changeSet) -> {
-            if(changeSet.getInsertions().length != 0){
-                //changeSet.getInsertions().
-                String m = realmQuery.findAll().asJSON();
-                realmQuery.findAll();
-                messages.setText(m);
-            }
+//            OrderedCollectionChangeSet.Range[] insertions = changeSet.getInsertionRanges();
+//            Log.v("realm insert", "change listener is working");
+//            for (OrderedCollectionChangeSet.Range range: insertions) {
+//                Log.v("realm insert", range.toString());
+//                realmQuery.
+//
+//            }
+            history.clear();
+            getMessages();
         };
-        realmQuery.findAll().addChangeListener(changeListener);
+        messageRealmQuery.findAll().addChangeListener(changeListener);
     }
 
     @Override

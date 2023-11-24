@@ -54,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
             else {
-//                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
-//                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
+                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
                 System.out.println(it.getError());
             }
         });

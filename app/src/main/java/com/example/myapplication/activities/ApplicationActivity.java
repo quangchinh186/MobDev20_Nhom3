@@ -35,7 +35,10 @@ import org.bson.types.ObjectId;
 import java.util.Map;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
+import io.realm.RealmModel;
+import io.realm.RealmObjectChangeListener;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 
@@ -46,9 +49,7 @@ public class ApplicationActivity extends AppCompatActivity {
     public static App app;
     public static AppUser user;
     public static QueryHelper queryHelper;
-    public void onShow(View view){
-        queryHelper.findAllUsers();
-    }
+
     ImageView imageView;
     ListView chatList;
 
@@ -135,53 +136,53 @@ public class ApplicationActivity extends AppCompatActivity {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
+        //launch a select image view
+        ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode()
+                            == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // do your operation from here....
+                        if (data != null && data.getData() != null) {
+                            Uri selectedImageUri = data.getData();
+                            imageView.setImageURI(selectedImageUri);
+                            MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
+                                @Override
+                                public void onStart(String requestId) {
+                                    //start upload request
+                                }
+
+                                @Override
+                                public void onProgress(String requestId, long bytes, long totalBytes) {
+                                    //request in progress
+                                }
+
+                                @Override
+                                public void onSuccess(String requestId, Map resultData) {
+                                    //success upload the image
+                                    //result
+                                    Log.v("result data", resultData.toString());
+                                    //image url
+                                    Log.v("link image", resultData.get("url").toString());
+                                }
+
+                                @Override
+                                public void onError(String requestId, ErrorInfo error) {
+                                    //handle error
+                                }
+
+                                @Override
+                                public void onReschedule(String requestId, ErrorInfo error) {
+
+                                }
+                            }).dispatch();
+                            Log.v("Image URI",selectedImageUri.toString());
+                        }
+                    }
+                });
         launchSomeActivity.launch(i);
     }
-    //launch a select image view
-    ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode()
-                        == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    // do your operation from here....
-                    if (data != null && data.getData() != null) {
-                        Uri selectedImageUri = data.getData();
-                        imageView.setImageURI(selectedImageUri);
-                        MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
-                            @Override
-                            public void onStart(String requestId) {
-                                //start upload request
-                            }
-
-                            @Override
-                            public void onProgress(String requestId, long bytes, long totalBytes) {
-                                //request in progress
-                            }
-
-                            @Override
-                            public void onSuccess(String requestId, Map resultData) {
-                                //success upload the image
-                                //result
-                                Log.v("result data", resultData.toString());
-                                //image url
-                                Log.v("link image", resultData.get("url").toString());
-                            }
-
-                            @Override
-                            public void onError(String requestId, ErrorInfo error) {
-                                //handle error
-                            }
-
-                            @Override
-                            public void onReschedule(String requestId, ErrorInfo error) {
-
-                            }
-                        }).dispatch();
-                        Log.v("Image URI",selectedImageUri.toString());
-                    }
-                }
-            });
 
     @Override
     protected void onDestroy() {
