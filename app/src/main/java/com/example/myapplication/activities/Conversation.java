@@ -1,11 +1,17 @@
 package com.example.myapplication.activities;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.Adapter.ChatAdapter;
 import com.example.myapplication.schema.ChatMessage;
@@ -22,6 +31,8 @@ import com.squareup.picasso.Picasso;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmQuery;
@@ -47,31 +58,89 @@ public class Conversation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        roomId = new ObjectId(intent.getStringExtra("chatId"));
-        oppo = ApplicationActivity.queryHelper.getFriend(roomId);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_conversation);
-        messageInput = findViewById(R.id.message_edit_text);
-        senderName = findViewById(R.id.sender_name);
-        //UI
-        chatRecycler = findViewById(R.id.chat_recycler_view);
-        //business logic
-        realmQuery = ApplicationActivity.queryHelper.getRealmQuery(roomId);
-        addChangeListener();
-        getMessages();
-        setUpChatAdapter();
-        ImageView avtSender = findViewById(R.id.sender_image);
-        Picasso.get()
-                .load(ApplicationActivity.queryHelper.getProfilePicture(oppo))
-                .into(avtSender);
-        senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
-        chatRecycler.scrollToPosition(historyMessages.size() - 1);
+        try {
+            Intent intent = getIntent();
+            roomId = new ObjectId(Objects.requireNonNull(intent.getStringExtra("chatId")));
+            oppo = ApplicationActivity.queryHelper.getFriend(roomId);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_conversation);
+            messageInput = findViewById(R.id.message_edit_text);
+            senderName = findViewById(R.id.sender_name);
+            //UI
+            chatRecycler = findViewById(R.id.chat_recycler_view);
+            //business logic
+            realmQuery = ApplicationActivity.queryHelper.getRealmQuery(roomId);
+            addChangeListener();
+            getMessages();
+            setUpChatAdapter();
+            ImageView avtSender = findViewById(R.id.sender_image);
+            Picasso.get()
+                    .load(ApplicationActivity.queryHelper.getProfilePicture(oppo))
+                    .into(avtSender);
+            senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
+            chatRecycler.scrollToPosition(historyMessages.size() - 1);
+        } catch (Exception e) {
+            Log.e("Conversation", "onCreate: ", e);
+        }
     }
 
     public void onBackButtonClicked(View view){
         onBackPressed();
     }
+
+    public void onSendImage(View view){
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        launchSomeActivity.launch(i);
+    }
+
+    ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() != Activity.RESULT_OK) {
+                return;
+            }
+            Intent data = result.getData();
+            // do your operation from here....
+            if (data == null || data.getData() == null) {
+                return;
+            }
+            Uri selectedImageUri = data.getData();
+            MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
+                @Override
+                public void onStart(String requestId) {
+                    //start upload request
+                }
+
+                @Override
+                public void onProgress(String requestId, long bytes, long totalBytes) {
+                    //request in progress
+                }
+
+                @Override
+                public void onSuccess(String requestId, Map resultData) {
+                    //success upload the image
+                    //result
+                    Log.v("result data", resultData.toString());
+                    //image url
+                    String imageUrl = Objects.requireNonNull(resultData.get("url")).toString();
+                    ApplicationActivity.queryHelper.sendImage(roomId, ApplicationActivity.user.getId(), imageUrl);
+                    addChangeListener();
+                    chatRecycler.scrollToPosition(historyMessages.size() - 1);
+                }
+
+                @Override
+                public void onError(String requestId, ErrorInfo error) {
+                    //handle error
+                }
+
+                @Override
+                public void onReschedule(String requestId, ErrorInfo error) {
+
+                }
+            }).dispatch();
+            Log.v("Image URI",selectedImageUri.toString());
+        });
 
     public void onSendMessage(View view){
         String m = messageInput.getText().toString();

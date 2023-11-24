@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,12 +24,10 @@ import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
 import com.example.myapplication.system.QueryHelper;
 
-import java.util.Objects;
-
 public class SetupActivity extends AppCompatActivity {
   int currentFragment = 0;
   int numFragments = 4;
-//  Profile profile = new Profile();
+  Profile profile = new Profile();
 
   @SuppressLint("ResourceAsColor")
   @Override
@@ -46,11 +43,11 @@ public class SetupActivity extends AppCompatActivity {
   private void getData() {
     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     if (fragment instanceof BasicInfoSetupFragment) {
-//      profile.setName(((BasicInfoSetupFragment) fragment).getName());
-//      profile.setDob(((BasicInfoSetupFragment) fragment).getDob());
-//      profile.setGender(((BasicInfoSetupFragment) fragment).getGender());
-//      profile.setInterest(((BasicInfoSetupFragment) fragment).getSearch());
-//      System.out.println(profile.getName());
+      profile.setName(((BasicInfoSetupFragment) fragment).getName());
+//      profile.setAge(((BasicInfoSetupFragment) fragment).getDob());
+      profile.setGender(((BasicInfoSetupFragment) fragment).getGender());
+      profile.setInterest(((BasicInfoSetupFragment) fragment).getSearch());
+      System.out.println(profile.getName());
     } else if (fragment instanceof ProfileSetupFragment) {
 
     } else if (fragment instanceof ProfileDescriptionSetup) {
@@ -72,10 +69,10 @@ public class SetupActivity extends AppCompatActivity {
 
   private void transactionFragment(int id, Class fragmentClass) {
     getSupportFragmentManager().beginTransaction()
-      .setCustomAnimations(R.anim.frag_right_to_left_in, R.anim.frag_right_to_left_out)
-      .replace(id, fragmentClass, null)
-      .addToBackStack(fragmentClass.getName())  
-      .commit();
+            .setCustomAnimations(R.anim.frag_right_to_left_in, R.anim.frag_right_to_left_out)
+            .replace(id, fragmentClass, null)
+            .addToBackStack(fragmentClass.getName())
+            .commit();
   }
 
   @Override
@@ -96,33 +93,28 @@ public class SetupActivity extends AppCompatActivity {
 
   public void onNextFragment(View view) {
     // get data of fragment and send to activity
-//    getData();
-    try {
-      if (currentFragment == 1) {
-        transactionFragment(R.id.fragment_container, ProfileSetupFragment.class);
-        setColorForProgress(findViewById(R.id.setup_frag_2), getResources().getColor(R.color.white), Typeface.BOLD, true);
-        setColorForProgress(findViewById(R.id.setup_frag_1), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
-      } else if (currentFragment == 2) {
-        transactionFragment(R.id.fragment_container, ProfileDescriptionSetup.class);
-        setColorForProgress(findViewById(R.id.setup_frag_3), getResources().getColor(R.color.white), Typeface.BOLD, true);
-        setColorForProgress(findViewById(R.id.setup_frag_2), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
-      } else if (currentFragment == 3) {
-        transactionFragment(R.id.fragment_container, FinalSetup.class);
-        setColorForProgress(findViewById(R.id.setup_frag_4), getResources().getColor(R.color.white), Typeface.BOLD, true);
-        setColorForProgress(findViewById(R.id.setup_frag_3), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
-      } else {
-        // send data to server
-        Toast.makeText(this, "Đã hoàn thành", Toast.LENGTH_SHORT).show();
-        BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
-        BatoSystem.writeBoolean("login", true);
+    getData();  // get data from fragment
+    if (currentFragment == 1) {
+      transactionFragment(R.id.fragment_container, ProfileSetupFragment.class);
+      setColorForProgress(findViewById(R.id.setup_frag_2), getResources().getColor(R.color.white), Typeface.BOLD, true);
+      setColorForProgress(findViewById(R.id.setup_frag_1), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
+    } else if (currentFragment == 2) {
+      transactionFragment(R.id.fragment_container, ProfileDescriptionSetup.class);
+      setColorForProgress(findViewById(R.id.setup_frag_3), getResources().getColor(R.color.white), Typeface.BOLD, true);
+      setColorForProgress(findViewById(R.id.setup_frag_2), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
+    } else if (currentFragment == 3) {
+      transactionFragment(R.id.fragment_container, FinalSetup.class);
+      setColorForProgress(findViewById(R.id.setup_frag_4), getResources().getColor(R.color.white), Typeface.BOLD, true);
+      setColorForProgress(findViewById(R.id.setup_frag_3), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
+    } else {
+      // send data to server
+      Toast.makeText(this, "Đã hoàn thành", Toast.LENGTH_SHORT).show();
+      BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
+      BatoSystem.writeBoolean("login", true);
 
-//      ApplicationActivity.queryHelper.createUser(profile);
-        finish();
-      }
-      if (currentFragment < numFragments) currentFragment += 1;
-    } catch (Exception e) {
-      Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-      Log.d("SetupActivity", Objects.requireNonNull(e.getMessage()));
+      startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+      finish();
     }
+    if (currentFragment < numFragments) currentFragment += 1;
   }
 }

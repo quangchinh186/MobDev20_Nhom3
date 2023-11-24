@@ -21,7 +21,6 @@ import com.example.myapplication.R;
 import com.example.myapplication.schema.Profile;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -46,12 +45,10 @@ public class BasicInfoSetupFragment extends Fragment {
     return ((TextView) requireActivity().findViewById(R.id.basic_info_setup_name_input)).getText().toString();
   }
 
-  public Date getDob() {
-    Date date = new Date();
-    date.setDate(Integer.parseInt(((TextView) requireActivity().findViewById(R.id.basic_info_setup_day_input)).getText().toString()));
-    date.setMonth(Integer.parseInt(((TextView) requireActivity().findViewById(R.id.basic_info_setup_month_input)).getText().toString()));
-    date.setYear(Integer.parseInt(((TextView) requireActivity().findViewById(R.id.basic_info_setup_year_input)).getText().toString()));
-    return date;
+  public String getDob() {
+    return  ((TextView) requireActivity().findViewById(R.id.basic_info_setup_day_input)).getText().toString() + "/" +
+            ((TextView) requireActivity().findViewById(R.id.basic_info_setup_month_input)).getText().toString() + "/" +
+            ((TextView) requireActivity().findViewById(R.id.basic_info_setup_year_input)).getText().toString();
   }
 
   public String getGender() {

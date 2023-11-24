@@ -131,6 +131,19 @@ public class QueryHelper {
         });
     }
 
+    public void sendImage(ObjectId roomId, ObjectId from, String imageUrl){
+        realmApp.executeTransaction(r -> {
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setId(new ObjectId());
+            chatMessage.setChatRoom(roomId);
+            chatMessage.setDateTime(new Date());
+            chatMessage.setFrom(from);
+            chatMessage.setImageUrl(imageUrl);
+            r.insert(chatMessage);
+            Log.v("realm", "insert successfully");
+        });
+    }
+
     public String getProfilePicture(ObjectId id){
         return getUser(id).getProfile().getPhoto().first();
     }
