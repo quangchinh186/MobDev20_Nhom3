@@ -55,17 +55,20 @@ android {
         exclude("META-INF/NOTICE.md")
         exclude("META-INF/LICENSE.md")
     }
-
 }
 
 realm {
     isSyncEnabled = true
 }
 
+
+
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation("io.realm:realm-gradle-plugin:10.16.1")
 
@@ -80,7 +83,6 @@ dependencies {
     implementation("com.sun.mail:jakarta.mail:2.0.1")
     //load image from url
     implementation("com.squareup.picasso:picasso:2.8")
-
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -2,6 +2,7 @@ package com.example.myapplication.system;
 
 import android.util.Log;
 
+import com.cloudinary.Url;
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.AppUser;
 import com.example.myapplication.schema.ChatMessage;
@@ -124,6 +125,24 @@ public class QueryHelper {
             r.insert(chatMessage);
             Log.v("realm", "insert successfully");
         });
+    }
+
+    public String getProfilePicture(ObjectId id){
+        return getUser(id).getProfile().getPhoto().first();
+    }
+
+    public String getProfileName(ObjectId id){
+        return getUser(id).getProfile().getName();
+    }
+
+    public ObjectId getFriend(ObjectId roomId){
+        ChatRoom chatRoom = realmApp.where(ChatRoom.class).equalTo("_id", roomId).findFirst();
+        ObjectId user1 = chatRoom.getUser_1();
+        ObjectId user2 = chatRoom.getUser_2();
+        if(user1.equals(ApplicationActivity.user.getId())){
+            return user2;
+        }
+        return user1;
     }
 
     public RealmQuery<ChatMessage> getMessageRealmQuery(ObjectId room){

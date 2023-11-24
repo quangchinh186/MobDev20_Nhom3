@@ -4,24 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="40.59dp"
+    android:paddingTop="273.43dp"
     android:paddingBottom="53.33dp"
     android:orientation="vertical"
-    android:background="@color/black"
     tools:context=".activities.SetupActivity.ProfileSetupFragment">
 
     <TextView
         android:layout_width="wrap_content"
+        android:paddingLeft="10dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:text="Mô tả profile của bản thân" />
+        android:text="Khoảng cách tối đa" />
 
-    <SeekBar
+    <com.google.android.material.slider.Slider
         android:layout_width="268.65671641791dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
         android:progress="60"
         android:progressTint="@color/white"
         android:thumbTint="@color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingTop="46.51dp"
+        android:text="Độ tuổi" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/sliderRange"

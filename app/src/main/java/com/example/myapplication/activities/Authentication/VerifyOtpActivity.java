@@ -1,4 +1,4 @@
-package com.example.myapplication.activities;
+package com.example.myapplication.activities.Authentication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.system.BatoSystem;
 

@@ -1,18 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/decor"
+    android:layout_gravity="bottom"
+    android:translationZ="-1dp"
+    android:background="#12101A">
+
+
+    <ImageView
+        android:id="@+id/decor_blur"
+        android:layout_width="346.415dp"
+        android:layout_height="389dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="-70dp"
+        android:src="@drawable/blur_login" />
 
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="300dp"
+        android:layout_height="305dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/rickroll" />
 
     <TextView
-        android:id="@+id/name"
-        android:textSize="40dp"
-        android:text="NAME"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Rick Astley"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/avatar"
+        android:layout_marginLeft="30dp"/>
+
+    <TextView
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age: 54"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/username"
+        android:layout_marginLeft="30dp"/>
+
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.2km"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/age"
+        android:layout_marginLeft="30dp"/>
+
+    <TextView
+        android:id="@+id/describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Never gonna give you up"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/distance"
+        android:layout_marginLeft="30dp"/>
+
+    <TextView
+        android:id="@+id/tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tag 1"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_below="@id/describe"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tag 2"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/tag1"
+        android:layout_below="@id/describe"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tag1"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="70dp"
+        app:cardCornerRadius="999dp">
+        <ImageButton
+            android:id="@+id/nope_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle_background"
+            android:src="@drawable/nope"
+            android:padding="15dp" />
+    </androidx.cardview.widget.CardView>
+        <!--Remember to change the button image-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tag1"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="70dp"
+        app:cardCornerRadius="999dp">
+        <ImageButton
+            android:id="@+id/dating_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle_background"
+            android:padding="15dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/heart" />
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.myapplication.activities;
+package com.example.myapplication.activities.Authentication;
 
 import static com.example.myapplication.system.BatoSystem.sendMessage;
 
@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.system.BatoSystem;
 
 import java.util.concurrent.atomic.AtomicBoolean;
