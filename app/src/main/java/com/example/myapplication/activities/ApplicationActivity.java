@@ -3,6 +3,9 @@ package com.example.myapplication.activities;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +27,11 @@ import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
+import com.example.myapplication.activities.MainActivity.ChatFragment;
+import com.example.myapplication.activities.MainActivity.HomeFragment;
+import com.example.myapplication.activities.MainActivity.ProfileFragment;
 import com.example.myapplication.activities.SetupActivity.SetupActivity;
+import com.example.myapplication.databinding.ActivityApplicationBinding;
 import com.example.myapplication.schema.AppUser;
 
 import com.example.myapplication.system.BatoSystem;
@@ -40,6 +47,8 @@ import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 
 public class ApplicationActivity extends AppCompatActivity {
+
+    private ActivityApplicationBinding binding;
     Cloudinary cloudinary = new Cloudinary();
     //Mongodb stuff
     String AppId = "mobileappdev-hwhug";
@@ -57,7 +66,27 @@ public class ApplicationActivity extends AppCompatActivity {
         init();
         BatoSystem.initPref(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_application);
+
+        binding = ActivityApplicationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        //set default fragment
+        replaceFragment(new HomeFragment());
+        binding.itemsNav.setBackground(null);
+
+        binding.itemsNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                replaceFragment(new HomeFragment());
+            } else if (itemId == R.id.chat) {
+                replaceFragment(new ChatFragment());
+            } else if (itemId == R.id.profile) {
+                replaceFragment(new ProfileFragment());
+            }
+            return true;
+        });
+
+
         // to check login state
         Boolean isLogin = BatoSystem.readBoolean("login", false);
         if (!isLogin) {
@@ -72,10 +101,18 @@ public class ApplicationActivity extends AppCompatActivity {
         }
 
         String email = BatoSystem.readString("email", "");
-        TextView textView = findViewById(R.id.info_app);
-        textView.setText("email: " + email);
-        imageView = findViewById(R.id.imageHolder);
-        chatList = findViewById(R.id.chatList);
+//        TextView textView = findViewById(R.id.info_app);
+//        textView.setText("email: " + email);
+//        imageView = findViewById(R.id.imageHolder);
+//        chatList = findViewById(R.id.chatList);
+
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
     //create local realm and open sync realm if user is logged in
