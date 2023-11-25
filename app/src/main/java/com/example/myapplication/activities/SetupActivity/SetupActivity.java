@@ -19,6 +19,8 @@ import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
 
+import java.util.Objects;
+
 public class SetupActivity extends AppCompatActivity {
   int currentFragment = 0;
   int numFragments = 4;
@@ -112,4 +114,6 @@ public class SetupActivity extends AppCompatActivity {
     }
     if (currentFragment < numFragments) currentFragment += 1;
   }
+
+
 }

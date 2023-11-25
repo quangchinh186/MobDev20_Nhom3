@@ -2,6 +2,7 @@ package com.example.myapplication.activities.SetupActivity;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
+
+import java.util.Objects;
 
 public class ProfileSetupFragment extends Fragment {
 
@@ -30,39 +33,57 @@ public class ProfileSetupFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    add = getView().findViewById(R.id.setup_profile_add_hobby);
-    layout = getView().findViewById(R.id.hobby_container);
-    nameEdit = getView().findViewById(R.id.setup_profile_hobby);
+
   }
 
-  public void addName(View view) {
-    String name = nameEdit.getText().toString();
-    addCard(name);
+  public void addHobby() {
+    if (nameEdit.getText().toString().length() > 0) {
+      addCard(nameEdit.getText().toString());
+      nameEdit.setText("");
+    }
+  }
+
+  public EditText getNameEdit() {
+    return nameEdit;
   }
 
 
-  private void addCard(String name) {
-    final View view = getLayoutInflater().inflate(R.layout.card, null);
+  public LinearLayout getLayout() {
+    return layout;
+  }
 
-    TextView nameView = getView().findViewById(R.id.name);
-    Button delete = getView().findViewById(R.id.delete);
+  public Button getAdd() {
+    return add;
+  }
+
+
+  public void addCard(String name) {
+    final View view = getLayoutInflater().inflate(R.layout.name_tag, null);
+
+    TextView nameView = view.findViewById(R.id.name);
+    Button delete =  view.findViewById(R.id.delete);
 
     nameView.setText(name);
 
-    delete.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        layout.removeView(view);
-      }
-    });
+    delete.setOnClickListener(v -> layout.removeView(view));
 
     layout.addView(view);
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    add = getActivity().findViewById(R.id.setup_profile_add_hobby);
+    layout = getActivity().findViewById(R.id.hobby_container);
+    nameEdit = getActivity().findViewById(R.id.setup_profile_hobby);
+    add.setOnClickListener(v -> addHobby());
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
+
     return inflater.inflate(R.layout.fragment_setup_profile, container, false);
   }
 }

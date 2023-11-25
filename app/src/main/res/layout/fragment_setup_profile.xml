@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/black"
     android:paddingTop="48.55dp"
     tools:context=".activities.SetupActivity.ProfileSetupFragment">
 
@@ -29,6 +28,13 @@
         android:textColor="@color/white"
         android:text="Thêm sở thích"
         android:layout_marginTop="31.8dp" />
+    <Button
+        android:id="@+id/setup_profile_add_hobby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:background="@android:color/transparent"
+        android:text="Thêm" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,17 +45,9 @@
             android:id="@+id/setup_profile_hobby"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
-        <Button
-            android:id="@+id/setup_profile_add_hobby"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="@android:color/transparent"
-            android:text="Thêm"
-            android:onClick="addname"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,7 +55,7 @@
             android:scrollbars="none">
             <LinearLayout
                 android:id="@+id/hobby_container"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
