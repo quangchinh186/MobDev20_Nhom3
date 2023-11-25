@@ -7,35 +7,56 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
 
 public class ProfileSetupFragment extends Fragment {
-  private static final String ARG_PARAM1 = "param1";
-  private static final String ARG_PARAM2 = "param2";
 
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
+  Button add;
+  LinearLayout layout;
+  EditText nameEdit;
 
   public ProfileSetupFragment() {
   }
   public static ProfileSetupFragment newInstance(String param1, String param2) {
     ProfileSetupFragment fragment = new ProfileSetupFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM1, param1);
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
     return fragment;
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      mParam1 = getArguments().getString(ARG_PARAM1);
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
+    add = getView().findViewById(R.id.setup_profile_add_hobby);
+    layout = getView().findViewById(R.id.hobby_container);
+    nameEdit = getView().findViewById(R.id.setup_profile_hobby);
+  }
+
+  public void addName(View view) {
+    String name = nameEdit.getText().toString();
+    addCard(name);
+  }
+
+
+  private void addCard(String name) {
+    final View view = getLayoutInflater().inflate(R.layout.card, null);
+
+    TextView nameView = getView().findViewById(R.id.name);
+    Button delete = getView().findViewById(R.id.delete);
+
+    nameView.setText(name);
+
+    delete.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        layout.removeView(view);
+      }
+    });
+
+    layout.addView(view);
   }
 
   @Override
