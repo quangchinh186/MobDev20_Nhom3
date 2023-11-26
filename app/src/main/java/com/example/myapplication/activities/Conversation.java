@@ -123,7 +123,8 @@ public class Conversation extends AppCompatActivity {
                     //result
                     Log.v("result data", resultData.toString());
                     //image url
-                    String imageUrl = Objects.requireNonNull(resultData.get("url")).toString();
+                    String imageUrl = "https://res.cloudinary.com/dihtkakro/image/upload/f_auto,q_auto/" + Objects.requireNonNull(resultData.get("public_id")).toString();
+
                     ApplicationActivity.queryHelper.sendImage(roomId, ApplicationActivity.user.getId(), imageUrl);
                     addChangeListener();
                     chatRecycler.scrollToPosition(historyMessages.size() - 1);
