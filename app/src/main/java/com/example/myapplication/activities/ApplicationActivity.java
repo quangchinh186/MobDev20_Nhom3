@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.android.MediaManager;
@@ -159,58 +161,7 @@ public class ApplicationActivity extends AppCompatActivity {
         });
     }
 
-
     //upload image by this function
-    public void selectImage(View view){
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() != Activity.RESULT_OK) {
-                    return;
-                }
-                Intent data = result.getData();
-                // do your operation from here....
-                if (data == null || data.getData() == null) {
-                    return;
-                }
-                Uri selectedImageUri = data.getData();
-                imageView.setImageURI(selectedImageUri);
-                MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
-                    @Override
-                    public void onStart(String requestId) {
-                        //start upload request
-                    }
-
-                    @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-                        //request in progress
-                    }
-
-                    @Override
-                    public void onSuccess(String requestId, Map resultData) {
-                        //success upload the image
-                        //result
-                        Log.v("result data", resultData.toString());
-                        //image url
-                        Log.v("link image", resultData.get("url").toString());
-                    }
-
-                    @Override
-                    public void onError(String requestId, ErrorInfo error) {
-                        //handle error
-                    }
-
-                    @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {
-
-                    }
-                }).dispatch();
-                Log.v("Image URI",selectedImageUri.toString());
-            });
-    }
 
     @Override
     protected void onDestroy() {

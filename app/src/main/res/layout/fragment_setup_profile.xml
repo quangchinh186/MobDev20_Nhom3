@@ -12,16 +12,20 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="Ảnh cho profile của bạn" />
-    <ImageView
-        android:id="@+id/setup_profile_img"
-        android:layout_width="99.5dp"
-        android:layout_height="99.5dp"
+    <LinearLayout
         android:layout_marginTop="18.7dp"
-        android:cropToPadding="true"
-        android:padding="29.85dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/setup_add_img"
-        android:background="@drawable/custom_edit_text" />
+        android:layout_width="99.5dp"
+        android:gravity="center"
+        android:background="@drawable/custom_edit_text"
+        android:layout_height="99.5dp">
+        <ImageView
+            android:id="@+id/setup_profile_img"
+            android:layout_width="39.5dp"
+            android:layout_height="39.5dp"
+            android:cropToPadding="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/setup_add_img" />
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
