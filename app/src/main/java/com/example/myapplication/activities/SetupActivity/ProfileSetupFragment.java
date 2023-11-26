@@ -43,19 +43,10 @@ public class ProfileSetupFragment extends Fragment {
     }
   }
 
-  public EditText getNameEdit() {
-    return nameEdit;
-  }
-
 
   public LinearLayout getLayout() {
     return layout;
   }
-
-  public Button getAdd() {
-    return add;
-  }
-
 
   public void addCard(String name) {
     final View view = getLayoutInflater().inflate(R.layout.name_tag, null);
@@ -74,7 +65,7 @@ public class ProfileSetupFragment extends Fragment {
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     add = getActivity().findViewById(R.id.setup_profile_add_hobby);
-    layout = getActivity().findViewById(R.id.hobby_container);
+    layout = getActivity().findViewById(R.id.setup_profile_hobby_list);
     nameEdit = getActivity().findViewById(R.id.setup_profile_hobby);
     add.setOnClickListener(v -> addHobby());
   }

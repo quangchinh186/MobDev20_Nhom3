@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="wrap_content"
+    android:background="@drawable/hobby_item"
+    android:paddingLeft="9.55dp"
+    android:paddingTop="6.36dp"
+    android:paddingBottom="6.36dp"
+    android:paddingRight="11.94dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="11.14dp"
+        android:layout_marginRight="5dp"
+        android:text="Guitar" />
+    <ImageView
+        android:layout_width="5.57dp"
+        android:layout_height="5.57dp"
+        android:src="@drawable/close_small"></ImageView>
+</LinearLayout>

@@ -99,6 +99,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatModelViewH
     return messages.size();
   }
 
+  public long getItemId(int position) {
+    return position;
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    return position;
+  }
+
   class ChatModelViewHolder extends RecyclerView.ViewHolder{
 
     LinearLayout leftChatLayout,rightChatLayout;
