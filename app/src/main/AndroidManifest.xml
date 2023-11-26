@@ -19,7 +19,9 @@
             android:exported="false" />
         <activity
             android:name=".activities.SetupActivity.SetupActivity"
-            android:exported="true" />
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".activities.Authentication.RegisterActivity"
             android:exported="true" />

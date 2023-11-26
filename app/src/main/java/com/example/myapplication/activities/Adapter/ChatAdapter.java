@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,29 +46,66 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatModelViewH
 
   @Override
   public void onBindViewHolder(@NonNull ChatModelViewHolder holder, int position) {
-    Log.d("ChatAdapter", "onBindViewHolder: "+messages.size());
-
-      //Log.d("ChatAdapter", "onBindViewHolder: "+message.getMessage());
-      if(messages.get(position).getFrom().equals(ApplicationActivity.user.getId())){
-        holder.leftChatLayout.setVisibility(View.GONE);
-        holder.rightChatLayout.setVisibility(View.VISIBLE);
-        holder.rightChatTextview.setText(messages.get(position).getMessage());
-        holder.sendTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
-      } else {
-        holder.rightChatLayout.setVisibility(View.GONE);
-        holder.leftChatLayout.setVisibility(View.VISIBLE);
-        holder.leftChatTextview.setText(messages.get(position).getMessage());
-        holder.receiveTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
-        Picasso.get()
-                .load(ApplicationActivity.queryHelper.getProfilePicture(messages.get(position).getFrom()))
-                .into(holder.senderChatImage);
+    try {
+      if (messages.get(position).getImageUrl() != null) {
+        if (messages.get(position).getFrom().equals(ApplicationActivity.user.getId())) {
+          holder.leftChatLayout.setVisibility(View.GONE);
+          holder.rightChatLayout.setVisibility(View.VISIBLE);
+          holder.rightChatTextview.setVisibility(View.GONE);
+          holder.senderImage.setVisibility(View.VISIBLE);
+          holder.sendTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
+          Picasso.get()
+                  .load(messages.get(position).getImageUrl())
+                  .into(holder.senderImage);
+        } else {
+          holder.rightChatLayout.setVisibility(View.GONE);
+          holder.leftChatLayout.setVisibility(View.VISIBLE);
+          holder.leftChatTextview.setVisibility(View.GONE);
+          holder.receiveTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
+          holder.receiverImage.setVisibility(View.VISIBLE);
+          Picasso.get()
+                  .load(messages.get(position).getImageUrl())
+                  .into(holder.receiverImage);
+          Picasso.get()
+                  .load(ApplicationActivity.queryHelper.getProfilePicture(messages.get(position).getFrom()))
+                  .into(holder.senderChatImage);
+        }
+        return;
       }
-
+    } catch (Exception e) {
+      Log.e("ChatAdapter", "onBindViewHolder: ", e);
+      Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+    if(messages.get(position).getFrom().equals(ApplicationActivity.user.getId())){
+      holder.leftChatLayout.setVisibility(View.GONE);
+      holder.rightChatLayout.setVisibility(View.VISIBLE);
+      holder.senderImage.setVisibility(View.GONE);
+      holder.rightChatTextview.setText(messages.get(position).getMessage());
+      holder.sendTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
+    } else {
+      holder.rightChatLayout.setVisibility(View.GONE);
+      holder.leftChatLayout.setVisibility(View.VISIBLE);
+      holder.receiverImage.setVisibility(View.GONE);
+      holder.leftChatTextview.setText(messages.get(position).getMessage());
+      holder.receiveTime.setText(standardizeTime(messages.get(position).getDateTime().toString()));
+      Picasso.get()
+              .load(ApplicationActivity.queryHelper.getProfilePicture(messages.get(position).getFrom()))
+              .into(holder.senderChatImage);
+    }
   }
 
   @Override
   public int getItemCount() {
     return messages.size();
+  }
+
+  public long getItemId(int position) {
+    return position;
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    return position;
   }
 
   class ChatModelViewHolder extends RecyclerView.ViewHolder{
@@ -76,6 +114,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatModelViewH
     TextView leftChatTextview,rightChatTextview;
     ImageView senderChatImage;
     TextView sendTime, receiveTime;
+    ImageView senderImage, receiverImage;
 
     public ChatModelViewHolder(@NonNull View itemView) {
       super(itemView);
@@ -86,6 +125,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatModelViewH
       senderChatImage = itemView.findViewById(R.id.chat_sender_image);
       sendTime = itemView.findViewById(R.id.sent_message_time_textview);
       receiveTime = itemView.findViewById(R.id.received_message_time_textview);
+      senderImage = itemView.findViewById(R.id.sent_message_image);
+      receiverImage = itemView.findViewById(R.id.received_message_image);
     }
   }
 }

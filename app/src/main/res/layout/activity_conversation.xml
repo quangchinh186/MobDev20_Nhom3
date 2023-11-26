@@ -61,15 +61,15 @@
             android:id="@+id/chat_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="30dp"
             android:layout_weight="15"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:visibility="visible"
             android:overScrollMode="always"
-            android:padding="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
         </androidx.recyclerview.widget.RecyclerView>
         <LinearLayout
@@ -87,6 +87,7 @@
                 android:layout_width="26.26dp"
                 android:layout_height="26.26dp"
                 android:layout_weight="1"
+                android:onClick="onSendImage"
                 android:src="@drawable/imagebutton" />
 
             <EditText

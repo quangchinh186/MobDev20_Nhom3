@@ -167,54 +167,51 @@ public class ApplicationActivity extends AppCompatActivity {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
-        //launch a select image view
         ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode()
-                            == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        // do your operation from here....
-                        if (data != null && data.getData() != null) {
-                            Uri selectedImageUri = data.getData();
-                            imageView.setImageURI(selectedImageUri);
-                            MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
-                                @Override
-                                public void onStart(String requestId) {
-                                    //start upload request
-                                    cloudinary.url().transformation(new Transformation()
-                                            .width(500).crop("scale").chain());
-                                }
-
-                                @Override
-                                public void onProgress(String requestId, long bytes, long totalBytes) {
-                                    //request in progress
-                                }
-
-                                @Override
-                                public void onSuccess(String requestId, Map resultData) {
-                                    //success upload the image
-                                    //result
-                                    Log.v("result data", resultData.toString());
-                                    //image url
-                                    Log.v("link image", resultData.get("url").toString());
-                                }
-
-                                @Override
-                                public void onError(String requestId, ErrorInfo error) {
-                                    //handle error
-                                }
-
-                                @Override
-                                public void onReschedule(String requestId, ErrorInfo error) {
-
-                                }
-                            }).dispatch();
-                            Log.v("Image URI",selectedImageUri.toString());
-                        }
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() != Activity.RESULT_OK) {
+                    return;
+                }
+                Intent data = result.getData();
+                // do your operation from here....
+                if (data == null || data.getData() == null) {
+                    return;
+                }
+                Uri selectedImageUri = data.getData();
+                imageView.setImageURI(selectedImageUri);
+                MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {
+                        //start upload request
                     }
-                });
-        launchSomeActivity.launch(i);
+
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+                        //request in progress
+                    }
+
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        //success upload the image
+                        //result
+                        Log.v("result data", resultData.toString());
+                        //image url
+                        Log.v("link image", resultData.get("url").toString());
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        //handle error
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {
+
+                    }
+                }).dispatch();
+                Log.v("Image URI",selectedImageUri.toString());
+            });
     }
 
     @Override
