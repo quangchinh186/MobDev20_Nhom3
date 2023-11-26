@@ -55,6 +55,8 @@ public class QueryHelper {
                                 realm.where(ChatMessage.class)));
                     subscriptions.addOrUpdate(Subscription.create("chat room query",
                                 realm.where(ChatRoom.class)));
+
+                    Log.v("realm subscription", "size: " + subscriptions.size());
                 })
                 .build();
         // instantiate a realm instance with the flexible sync configuration
@@ -71,8 +73,7 @@ public class QueryHelper {
             appUser.setId(new ObjectId(id));
             appUser.setProfile(profile);
             appUser.setChatRoomList(new RealmList<>());
-            MatchingState matchingState = new MatchingState();
-            appUser.setMatchingState(matchingState);
+            appUser.setMatchingState(new MatchingState());
             r.insert(appUser);
             Log.v("realm", "insert successfully");
         });
@@ -146,8 +147,11 @@ public class QueryHelper {
     }
 
     public RealmQuery<ChatMessage> getMessageRealmQuery(ObjectId room){
-        RealmQuery<ChatMessage> realmQuery = realmApp.where(ChatMessage.class).equalTo("chatRoom", room);
-        return realmQuery;
+        return realmApp.where(ChatMessage.class).equalTo("chatRoom", room);
+    }
+
+    public RealmQuery<ChatRoom> getChatRoomRealmQuery(ObjectId room){
+        return realmApp.where(ChatRoom.class).equalTo("_id", room);
     }
 
     public RealmQuery<AppUser> getUserRealmQuery(ObjectId id){
@@ -158,19 +162,19 @@ public class QueryHelper {
     //get users for display
     public List<AppUser> getUsersForDisplay(ObjectId user){
         //get users
+        AppUser u = getUser(user);
         List<AppUser> list = new ArrayList<>();
         list.addAll(realmApp.where(AppUser.class).findAll());
 
-        //create filter
-        AppUser u = getUser(user);
-        List<ObjectId> filter = new ArrayList<>();
-        filter.addAll(u.getMatchingState().getMatched());
-        filter.addAll(u.getMatchingState().getLike());
-        filter.addAll(u.getMatchingState().getIsNotLikedBy());
-        filter.addAll(u.getMatchingState().getNotLike());
-
-        //filter
-        list.removeIf(i -> (filter.contains(i)));
+//        //create filter
+//        List<ObjectId> filter = new ArrayList<>();
+//        filter.addAll(u.getMatchingState().getMatched());
+//        filter.addAll(u.getMatchingState().getLike());
+//        filter.addAll(u.getMatchingState().getIsNotLikedBy());
+//        filter.addAll(u.getMatchingState().getNotLike());
+//
+//        //filter
+        list.removeIf(i -> (i.getId().equals(u.getId())));
 
         return list;
     }
@@ -180,20 +184,22 @@ public class QueryHelper {
     public void match(ObjectId user1, ObjectId user2){
         AppUser u1 = getUser(user1);
         AppUser u2 = getUser(user2);
-        //update matching state
-        u1.getMatchingState().getMatched().add(user2);
-        u2.getMatchingState().getMatched().add(user1);
-
-        u1.getMatchingState().getIsLikedBy().remove(user2);
-        u2.getMatchingState().getIsLikedBy().remove(user1);
-
-        u1.getMatchingState().getLike().remove(user2);
-        u2.getMatchingState().getLike().remove(user1);
 
         //create a conversation
         createConversation(user1, user2, "default");
 
         realmApp.executeTransaction(r -> {
+            //update matching state
+            u1.getMatchingState().getMatched().add(user2);
+            u2.getMatchingState().getMatched().add(user1);
+
+            u1.getMatchingState().getIsLikedBy().remove(user2);
+            u2.getMatchingState().getIsLikedBy().remove(user1);
+
+            u1.getMatchingState().getLike().remove(user2);
+            u2.getMatchingState().getLike().remove(user1);
+
+
             r.insertOrUpdate(u1);
             r.insertOrUpdate(u2);
         });
@@ -211,9 +217,9 @@ public class QueryHelper {
             match(user, like);
             Log.v("realm matching", user.toString() + " matched with " + like.toString());
         } else {
-            u.getMatchingState().getLike().add(like);
-            u2.getMatchingState().getIsLikedBy().add(user);
             realmApp.executeTransaction(r -> {
+                u.getMatchingState().getLike().add(like);
+                u2.getMatchingState().getIsLikedBy().add(user);
                 r.insertOrUpdate(u);
                 r.insertOrUpdate(u2);
             });
@@ -223,9 +229,9 @@ public class QueryHelper {
     public void dislike(ObjectId user, ObjectId dis){
         AppUser u = getUser(user);
         AppUser u2 = getUser(dis);
-        u.getMatchingState().getNotLike().add(dis);
-        u2.getMatchingState().getIsNotLikedBy().add(user);
         realmApp.executeTransaction(r -> {
+            u.getMatchingState().getNotLike().add(dis);
+            u2.getMatchingState().getIsNotLikedBy().add(user);
             r.insertOrUpdate(u);
             r.insertOrUpdate(u2);
         });
@@ -234,13 +240,14 @@ public class QueryHelper {
     public void unMatch(ObjectId user1, ObjectId user2){
         AppUser u1 = getUser(user1);
         AppUser u2 = getUser(user2);
-        u1.getMatchingState().getMatched().remove(user2);
-        u2.getMatchingState().getMatched().remove(user1);
-
-        u1.getMatchingState().getUnMatch().add(user2);
-        u2.getMatchingState().getUnMatch().add(user1);
 
         realmApp.executeTransaction(r -> {
+            u1.getMatchingState().getMatched().remove(user2);
+            u2.getMatchingState().getMatched().remove(user1);
+
+            u1.getMatchingState().getUnMatch().add(user2);
+            u2.getMatchingState().getUnMatch().add(user1);
+
             r.insertOrUpdate(u1);
             r.insertOrUpdate(u2);
         });

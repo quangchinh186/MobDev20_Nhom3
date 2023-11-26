@@ -85,28 +85,16 @@ public class Conversation extends AppCompatActivity {
     }
 
     public void getMessages(){
-
-        RealmResults<ChatMessage> results = realmQuery.findAll();
+        RealmResults<ChatMessage> results = messageRealmQuery.findAll();
         historyMessages.clear();
         historyMessages.addAll(results);
-
     }
 
     public void addChangeListener(){
         OrderedRealmCollectionChangeListener<RealmResults<ChatMessage>> changeListener = (collection, changeSet) -> {
-
-//            OrderedCollectionChangeSet.Range[] insertions = changeSet.getInsertionRanges();
-//            Log.v("realm insert", "change listener is working");
-//            for (OrderedCollectionChangeSet.Range range: insertions) {
-//                Log.v("realm insert", range.toString());
-//                realmQuery.
-//
-//            }
-
             if(changeSet.getInsertions().length != 0){
                 getMessages();
-                setUpChatAdapter();
-                chatRecycler.setAdapter(chatAdapter);
+                chatAdapter.notifyItemInserted(historyMessages.size()-1);
             }
 
         };

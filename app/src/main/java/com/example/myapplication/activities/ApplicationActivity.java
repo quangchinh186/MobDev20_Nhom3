@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -181,6 +182,8 @@ public class ApplicationActivity extends AppCompatActivity {
                                 @Override
                                 public void onStart(String requestId) {
                                     //start upload request
+                                    cloudinary.url().transformation(new Transformation()
+                                            .width(500).crop("scale").chain());
                                 }
 
                                 @Override
