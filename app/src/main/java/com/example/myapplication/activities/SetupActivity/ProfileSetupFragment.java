@@ -1,5 +1,6 @@
 package com.example.myapplication.activities.SetupActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -10,18 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ProfileSetupFragment extends Fragment {
 
-  Button add;
+  TextView add;
   LinearLayout layout;
   EditText nameEdit;
+  List<String> hobbies = new ArrayList<>();
 
   public ProfileSetupFragment() {
   }
@@ -37,8 +43,13 @@ public class ProfileSetupFragment extends Fragment {
   }
 
   public void addHobby() {
+    if (hobbies.size() == 3) {
+      Toast.makeText(getActivity(), "Bạn chỉ được thêm tối đa 3 sở thích", Toast.LENGTH_SHORT).show();
+      return;
+    }
     if (nameEdit.getText().toString().length() > 0) {
-      addCard(nameEdit.getText().toString());
+      hobbies.add(nameEdit.getText().toString());
+      addHobbyLayout(nameEdit.getText().toString());
       nameEdit.setText("");
     }
   }
@@ -48,17 +59,20 @@ public class ProfileSetupFragment extends Fragment {
     return layout;
   }
 
-  public void addCard(String name) {
-    final View view = getLayoutInflater().inflate(R.layout.name_tag, null);
-
-    TextView nameView = view.findViewById(R.id.name);
-    Button delete =  view.findViewById(R.id.delete);
-
-    nameView.setText(name);
-
-    delete.setOnClickListener(v -> layout.removeView(view));
-
-    layout.addView(view);
+  public void addHobbyLayout(String name) {
+    View view = getLayoutInflater().inflate(R.layout.item__hobby, null);
+    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    params.setMargins(0, 0, 10, 0);
+    view.setLayoutParams(params);
+    LinearLayout list = getActivity().findViewById(R.id.setup_profile_hobby_list);
+    ImageView delete = view.findViewById(R.id.hobby_item_close);
+    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView hobby = view.findViewById(R.id.hobby_item_text);
+    hobby.setText(name);
+    view.setOnClickListener(v -> {
+      list.removeView(view);
+      hobbies.remove(name);
+    });
+    list.addView(view);
   }
 
   @Override
