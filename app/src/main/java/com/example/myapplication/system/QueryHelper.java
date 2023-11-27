@@ -77,6 +77,19 @@ public class QueryHelper {
         });
     }
 
+    public void createUserWithId(Profile profile){
+        String id = user.getId();
+        realmApp.executeTransaction(r -> {
+            AppUser appUser = new AppUser();
+            appUser.setId(new ObjectId(id));
+            appUser.setProfile(profile);
+            appUser.setChatRoomList(new RealmList<>());
+            appUser.setMatchingState(new MatchingState());
+            r.insert(appUser);
+            Log.v("realm", "insert user successfully");
+        });
+    }
+
     public void findAllUsers() {
         RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class);
         Log.v("realm", realmQuery.findAll().asJSON());

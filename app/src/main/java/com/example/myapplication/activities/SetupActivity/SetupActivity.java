@@ -85,7 +85,7 @@ public class SetupActivity extends AppCompatActivity {
           RealmList<String> images = new RealmList<>();
           images.add(imageUrl);
           profile.setPhoto(images);
-          ApplicationActivity.queryHelper.createUser(profile);
+          ApplicationActivity.queryHelper.createUserWithId(profile);
 //          finish activity
           Toast.makeText(getApplicationContext(), "Đã hoàn thành", Toast.LENGTH_SHORT).show();
           BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
