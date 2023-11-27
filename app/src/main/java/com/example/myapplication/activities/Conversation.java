@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+
+
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -34,13 +37,14 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
+import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class Conversation extends AppCompatActivity {
     private ObjectId roomId;
-    private RealmQuery<ChatMessage> realmQuery;
+    private RealmQuery<ChatMessage> messageRealmQuery;
 
     ObjectId oppo;
     EditText messageInput;
@@ -58,30 +62,26 @@ public class Conversation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            Intent intent = getIntent();
-            roomId = new ObjectId(Objects.requireNonNull(intent.getStringExtra("chatId")));
-            oppo = ApplicationActivity.queryHelper.getFriend(roomId);
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_conversation);
-            messageInput = findViewById(R.id.message_edit_text);
-            senderName = findViewById(R.id.sender_name);
-            //UI
-            chatRecycler = findViewById(R.id.chat_recycler_view);
-            //business logic
-            realmQuery = ApplicationActivity.queryHelper.getRealmQuery(roomId);
-            addChangeListener();
-            getMessages();
-            setUpChatAdapter();
-            ImageView avtSender = findViewById(R.id.sender_image);
-            Picasso.get()
-                    .load(ApplicationActivity.queryHelper.getProfilePicture(oppo))
-                    .into(avtSender);
-            senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
-            chatRecycler.scrollToPosition(historyMessages.size() - 1);
-        } catch (Exception e) {
-            Log.e("Conversation", "onCreate: ", e);
-        }
+        Intent intent = getIntent();
+        roomId = new ObjectId(intent.getStringExtra("chatId"));
+        oppo = ApplicationActivity.queryHelper.getFriend(roomId);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_conversation);
+        messageInput = findViewById(R.id.message_edit_text);
+        senderName = findViewById(R.id.sender_name);
+        //UI
+        chatRecycler = findViewById(R.id.chat_recycler_view);
+        //business logic
+        messageRealmQuery = ApplicationActivity.queryHelper.getMessageRealmQuery(roomId);
+        addChangeListener();
+        getMessages();
+        setUpChatAdapter();
+        ImageView avtSender = findViewById(R.id.sender_image);
+        Picasso.get()
+                .load(ApplicationActivity.queryHelper.getProfilePicture(oppo))
+                .into(avtSender);
+        senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
+        chatRecycler.scrollToPosition(historyMessages.size() - 1);
     }
 
     public void onBackButtonClicked(View view){
@@ -156,7 +156,7 @@ public class Conversation extends AppCompatActivity {
     }
 
     public void getMessages(){
-        RealmResults<ChatMessage> results = realmQuery.findAll();
+        RealmResults<ChatMessage> results = messageRealmQuery.findAll();
         historyMessages.clear();
         historyMessages.addAll(results);
     }
@@ -165,11 +165,11 @@ public class Conversation extends AppCompatActivity {
         OrderedRealmCollectionChangeListener<RealmResults<ChatMessage>> changeListener = (collection, changeSet) -> {
             if(changeSet.getInsertions().length != 0){
                 getMessages();
-                setUpChatAdapter();
-                chatRecycler.setAdapter(chatAdapter);
+                chatAdapter.notifyItemInserted(historyMessages.size()-1);
             }
+
         };
-        realmQuery.findAll().addChangeListener(changeListener);
+        messageRealmQuery.findAll().addChangeListener(changeListener);
     }
 
     @Override

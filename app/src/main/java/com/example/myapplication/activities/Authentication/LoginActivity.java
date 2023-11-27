@@ -5,7 +5,9 @@ import static com.example.myapplication.system.BatoSystem.sendMessage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,18 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.loading_scene).setVisibility(View.VISIBLE);
         AtomicBoolean isConfirmed = new AtomicBoolean(false);
         Credentials credentials = Credentials.emailPassword(emailUser, passwordUser);
-//        ApplicationActivity.app.getEmailPassword().retryCustomConfirmationAsync(emailUser, it -> {
-//            isConfirmed.set(it.isSuccess());
-//        });
-//        if(!isConfirmed.get()){
-//            findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
-//            BatoSystem.sendMessage("Tài khoản chưa được xác nhận", this);
-//            Intent verifyOtpAct = new Intent(getApplicationContext(), VerifyOtpActivity.class);
-//            verifyOtpAct.putExtra("email", emailInput.getText().toString());
-//            verifyOtpAct.putExtra("password", passwordInput.getText().toString());
-//            startActivity(verifyOtpAct);
-//            return;
-//        }
         ApplicationActivity.app.loginAsync(credentials, it -> {
             if(it.isSuccess()){
                 // cache login state
@@ -55,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
             else {
-//                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
-//                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
+                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+                sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
                 System.out.println(it.getError());
             }
         });
@@ -65,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
         finish();
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +68,15 @@ public class LoginActivity extends AppCompatActivity {
             passwordInput = findViewById(R.id.password__input);
             // automatically fill text if app has recent email
             emailInput.setText(BatoSystem.readString("recentEmail", ""));
-
+            TextView reset = findViewById(R.id.login_forget_pass);
+            reset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getApplicationContext(), PreResetPasswordActivity.class));
+                    finish();
+                    BatoSystem.sendMessage("click", getApplicationContext());
+                }
+            });
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

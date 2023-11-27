@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -41,7 +42,10 @@ import org.bson.types.ObjectId;
 import java.util.Map;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
+import io.realm.RealmModel;
+import io.realm.RealmObjectChangeListener;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 
@@ -54,9 +58,7 @@ public class ApplicationActivity extends AppCompatActivity {
     public static App app;
     public static AppUser user;
     public static QueryHelper queryHelper;
-    public void onShow(View view){
-        queryHelper.findAllUsers();
-    }
+
     ImageView imageView;
     ListView chatList;
 
@@ -125,43 +127,7 @@ public class ApplicationActivity extends AppCompatActivity {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
         }
     }
-
-    public void onLogout(View view) {
-        BatoSystem.writeBoolean("login", false);
-        BatoSystem.writeString("email", "");
-        Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(loginActivity);
-        app.currentUser().logOutAsync(res -> {
-            if(res.isSuccess()){
-                queryHelper.closeRealm();
-                Log.v("realm", "log out success");
-            } else {
-                Log.v("realm", "fail: " + res.getError().toString());
-            }
-        });
-        finish();
-    }
-
-    public void viewMyProfile(View view){
-        Log.v("realm test profile", user.getProfile().toString());
-    }
-
-    public void viewConversation(View view){
-        RealmList<ObjectId> list = user.getChatRoomList();
-        Log.v("realm test conversation", list.toString());
-        ArrayAdapter<ObjectId> arrayAdapter = new ArrayAdapter<>(this, R.layout.app_list_view, R.id.list_item, list);
-        chatList.setAdapter(arrayAdapter);
-        chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), Conversation.class);
-                intent.putExtra("chatId", arrayAdapter.getItem(i).toString());
-                startActivity(intent);
-            }
-        });
-    }
-
-    //upload image by this function
+   //upload image by this function
 
     @Override
     protected void onDestroy() {

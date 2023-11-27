@@ -43,8 +43,10 @@ public class RegisterActivity extends AppCompatActivity {
         // change activity
         Intent verifyOtpAct = new Intent(getApplicationContext(), VerifyOtpActivity.class);
         verifyOtpAct.putExtra("email", emailInput.getText().toString());
-        findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+        verifyOtpAct.putExtra("action", "REGISTER");
+        //done loading
         startActivity(verifyOtpAct);
+        findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
         finish();
       } else {
         findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);

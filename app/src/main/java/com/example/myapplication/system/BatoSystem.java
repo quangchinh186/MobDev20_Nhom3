@@ -2,12 +2,22 @@ package com.example.myapplication.system;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
@@ -17,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 import java.util.Properties;
 
 import jakarta.mail.Authenticator;
@@ -128,6 +139,10 @@ public class BatoSystem {
             Log.v("notice", "send function complete running");
         }
     }
+
+    //upload image by this function
+
+
 
 
     //test
