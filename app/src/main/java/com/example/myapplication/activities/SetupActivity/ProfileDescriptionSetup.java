@@ -2,13 +2,12 @@ package com.example.myapplication.activities.SetupActivity;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
 
@@ -23,8 +22,6 @@ public class ProfileDescriptionSetup extends Fragment {
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
   private static final String ARG_PARAM2 = "param2";
-
-  private EditText description;
 
   // TODO: Rename and change types of parameters
   private String mParam1;
@@ -52,19 +49,10 @@ public class ProfileDescriptionSetup extends Fragment {
     }
   }
 
-  @Override
-  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    description = getActivity().findViewById(R.id.setup_profile_description);
-  }
-
-  public boolean hasEmptyField() {
-    return getDescription().isEmpty();
-  }
-
   public String getDescription() {
-    return description.getText().toString();
+    return ((TextView) requireActivity().findViewById(R.id.setup_profile_description)).getText().toString();
   }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {

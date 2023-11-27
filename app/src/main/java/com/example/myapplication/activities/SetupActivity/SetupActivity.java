@@ -54,7 +54,6 @@ public class SetupActivity extends AppCompatActivity {
       profile.setDob(((BasicInfoSetupFragment) fragment).getDob());
       profile.setGender(((BasicInfoSetupFragment) fragment).getGender());
       profile.setInterest(((BasicInfoSetupFragment) fragment).getSearch());
-      System.out.println(profile.getName());
     } else if (fragment instanceof ProfileSetupFragment) {
       List<String> hobbies = ((ProfileSetupFragment) fragment).getHobbies();
       RealmList<String> hobbiesRealm = new RealmList<>();
@@ -65,7 +64,6 @@ public class SetupActivity extends AppCompatActivity {
       profile.setDescription(((ProfileDescriptionSetup) fragment).getDescription());
     } else if (fragment instanceof FinalSetup) {
       findViewById(R.id.setup_loading_scene).setVisibility(View.VISIBLE);
-      if (uri == null) return;
       MediaManager.get().upload(uri).callback(new UploadCallback() {
         @Override
         public void onStart(String requestId) {
@@ -144,9 +142,11 @@ public class SetupActivity extends AppCompatActivity {
   }
 
   public void onNextFragment(View view) {
-    // get data of fragment and send to activity
     if (currentFragment == 1 && ((BasicInfoSetupFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).hasEmptyField()) {
       Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+      return;
+    } else if (currentFragment == 2 && ((ProfileSetupFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).getSelectedImageUri() == null) {
+      Toast.makeText(this, "Bạn cần phải thêm hình ảnh", Toast.LENGTH_SHORT).show();
       return;
     }
     getData();  // get data from fragment
@@ -162,6 +162,9 @@ public class SetupActivity extends AppCompatActivity {
       transactionFragment(R.id.fragment_container, FinalSetup.class);
       setColorForProgress(findViewById(R.id.setup_frag_4), getResources().getColor(R.color.white), Typeface.BOLD, true);
       setColorForProgress(findViewById(R.id.setup_frag_3), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
+    } else {
+      // send data to server
+      Toast.makeText(this, "Đã hoàn thành", Toast.LENGTH_SHORT).show();
     }
     if (currentFragment < numFragments) currentFragment += 1;
   }

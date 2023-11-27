@@ -7,19 +7,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.schema.Profile;
 
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +50,6 @@ public class BasicInfoSetupFragment extends Fragment {
     String day = ((TextView) getActivity().findViewById(R.id.basic_info_setup_day_input)).getText().toString();
     String month = ((TextView) getActivity().findViewById(R.id.basic_info_setup_month_input)).getText().toString();
     String year = ((TextView) getActivity().findViewById(R.id.basic_info_setup_year_input)).getText().toString();
-    Log.d("dob", day + " " + month + " " + year);
     return new Date(Integer.parseInt(year) - 1900, Integer.parseInt(month) + 1, Integer.parseInt(day));
   }
 
