@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/test_btn"
-        android:text="conversation"
+        android:text="Create mock data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

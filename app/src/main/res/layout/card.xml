@@ -19,7 +19,15 @@
         android:layout_marginRight="-70dp"
         android:src="@drawable/blur_login" />
 
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/avaProgress"
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"/>
+
     <ImageView
+        android:layout_below="@+id/avaProgress"
         android:id="@+id/avatar"
         android:layout_width="300dp"
         android:layout_height="305dp"
@@ -51,17 +59,6 @@
 
 
     <TextView
-        android:id="@+id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.2km"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/age"
-        android:layout_marginLeft="30dp"/>
-
-    <TextView
         android:id="@+id/describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,14 +66,14 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_below="@id/distance"
+        android:layout_below="@id/age"
         android:layout_marginLeft="30dp"/>
 
     <TextView
-        android:id="@+id/tag1"
+        android:id="@+id/hobbies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tag 1"
+        android:text="Hobbies"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -85,51 +82,39 @@
         android:layout_marginTop="20dp"/>
 
     <TextView
-        android:id="@+id/tag2"
+        android:id="@+id/occupy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tag 2"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_toRightOf="@id/tag1"
-        android:layout_below="@id/describe"
+        android:layout_below="@id/hobbies"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"/>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tag1"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="70dp"
-        app:cardCornerRadius="999dp">
-        <ImageButton
-            android:id="@+id/nope_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/circle_background"
-            android:src="@drawable/nope"
-            android:padding="15dp" />
-    </androidx.cardview.widget.CardView>
-        <!--Remember to change the button image-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/nope_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_weight="1"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/dating_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <TextView
+        android:layout_marginTop="600dp"
+        android:textSize="20sp"
+        android:text="Huong Dan: \nQuet Phai De Like, Trai De Skip \nNhan Ben Phai va Trai Man Hinh De Xem Anh"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tag1"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="70dp"
-        app:cardCornerRadius="999dp">
-        <ImageButton
-            android:id="@+id/dating_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/circle_background"
-            android:padding="15dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/heart" />
-    </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

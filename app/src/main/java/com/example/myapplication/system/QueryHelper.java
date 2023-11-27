@@ -77,6 +77,19 @@ public class QueryHelper {
         });
     }
 
+    public void createUserWithId(Profile profile){
+        String id = user.getId();
+        realmApp.executeTransaction(r -> {
+            AppUser appUser = new AppUser();
+            appUser.setId(new ObjectId(id));
+            appUser.setProfile(profile);
+            appUser.setChatRoomList(new RealmList<>());
+            appUser.setMatchingState(new MatchingState());
+            r.insert(appUser);
+            Log.v("realm", "insert user successfully");
+        });
+    }
+
     public AppUser getUser(ObjectId id){
         RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class).equalTo("_id", id);
         return realmQuery.findFirst();
@@ -196,7 +209,7 @@ public class QueryHelper {
         list.removeIf(i -> (i.getId().equals(u.getId())));
         list.removeIf(i -> (filter.contains(i.getId())));
 
-        return list.subList(0, (Math.min(30, list.size() - 1)));
+        return list.subList(0, (Math.min(30, list.size())));
     }
 
 

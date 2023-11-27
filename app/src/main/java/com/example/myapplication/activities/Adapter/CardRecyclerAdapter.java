@@ -1,12 +1,14 @@
 package com.example.myapplication.activities.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.AppUser;
+import com.example.myapplication.schema.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.time.LocalDate;
@@ -40,23 +43,13 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.name.setText(users.get(position).getProfile().getName());
-        Date dob = users.get(position).getProfile().getDob();
-        int age = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            age = Period.between(dob.toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
-        }
-        holder.age.setText("Age: " + age);
-        List<String> pics = ApplicationActivity.queryHelper.getPictures(users.get(position).getId());
-        if (holder.currentDisplayPhoto > pics.size()){
-            holder.currentDisplayPhoto = pics.size() - 1;
-        }
-        if (holder.currentDisplayPhoto < 0){
-            holder.currentDisplayPhoto = 0;
-        }
+        Log.v("REALM TEST BIND VIEW", users.get(position).getProfile().getName());
+        holder.setProfile(users.get(position).getProfile());
         Picasso.get()
-                .load(pics.get(holder.currentDisplayPhoto))
+                .load(users.get(position).getProfile().getPhoto().get(0))
                 .into(holder.avt);
+        holder.currentDisplay.setMax(users.get(position).getProfile().getPhoto().size());
+        holder.currentDisplay.setProgress(1);
     }
 
     @Override
@@ -65,11 +58,13 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        private Profile profile;
         //everything in a card
         TextView name, age;
-        ImageButton yes, nope;
+        Button yes, nope;
+        ProgressBar currentDisplay;
         ImageView avt;
-        public int currentDisplayPhoto = 0;
+        private int currentDisplayPhoto = 0;
         public ViewHolder(@NonNull View item){
             super(item);
             name = item.findViewById(R.id.username);
@@ -77,20 +72,52 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
             yes = item.findViewById(R.id.dating_button);
             nope = item.findViewById(R.id.nope_button);
             avt = item.findViewById(R.id.avatar);
+            currentDisplay = item.findViewById(R.id.avaProgress);
 
             yes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
+                    if(currentDisplayPhoto == (profile.getPhoto().size() - 1)){
+                        return;
+                    }
                     currentDisplayPhoto += 1;
+                    currentDisplay.setProgress(currentDisplayPhoto + 1);
+                    Picasso.get()
+                            .load(currentPic())
+                            .into(avt);
                 }
             });
 
             nope.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
+                    if(currentDisplayPhoto == 0){
+                        return;
+                    }
                     currentDisplayPhoto -= 1;
+                    currentDisplay.setProgress(currentDisplayPhoto + 1);
+                    Picasso.get()
+                            .load(currentPic())
+                            .into(avt);
                 }
             });
+
+        }
+
+        public String currentPic(){
+            return profile.getPhoto().get(currentDisplayPhoto);
+        }
+
+        public void setProfile(Profile profile) {
+            this.profile = profile;
+            name.setText(profile.getName());
+            int age = 1;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                age = Period.between(profile.getDob().toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
+            }
+            this.age.setText("age: " + age);
 
         }
     }
