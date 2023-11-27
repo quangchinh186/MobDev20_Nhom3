@@ -13,4 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/logoutBtn"
+        android:text="Log out"
+        android:layout_marginTop="200sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </FrameLayout>

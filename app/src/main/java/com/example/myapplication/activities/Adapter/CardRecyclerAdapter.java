@@ -34,14 +34,8 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     }
 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-//        View view = layoutInflater.inflate(R.layout.card, parent, false);
-//        ViewHolder viewHolder = new ViewHolder(view);
-
         View view = LayoutInflater.from(context).inflate(R.layout.card, parent,false);
         return new CardRecyclerAdapter.ViewHolder(view);
-
-        //return viewHolder;
     }
 
     @Override
@@ -53,8 +47,15 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
             age = Period.between(dob.toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
         }
         holder.age.setText("Age: " + age);
+        List<String> pics = ApplicationActivity.queryHelper.getPictures(users.get(position).getId());
+        if (holder.currentDisplayPhoto > pics.size()){
+            holder.currentDisplayPhoto = pics.size() - 1;
+        }
+        if (holder.currentDisplayPhoto < 0){
+            holder.currentDisplayPhoto = 0;
+        }
         Picasso.get()
-                .load(ApplicationActivity.queryHelper.getProfilePicture(users.get(position).getId()))
+                .load(pics.get(holder.currentDisplayPhoto))
                 .into(holder.avt);
     }
 
@@ -68,6 +69,7 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
         TextView name, age;
         ImageButton yes, nope;
         ImageView avt;
+        public int currentDisplayPhoto = 0;
         public ViewHolder(@NonNull View item){
             super(item);
             name = item.findViewById(R.id.username);
@@ -79,14 +81,14 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
             yes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    currentDisplayPhoto += 1;
                 }
             });
 
             nope.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    currentDisplayPhoto -= 1;
                 }
             });
 
