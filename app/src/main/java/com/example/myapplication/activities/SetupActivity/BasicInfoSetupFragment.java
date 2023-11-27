@@ -21,6 +21,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.schema.Profile;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -45,10 +46,11 @@ public class BasicInfoSetupFragment extends Fragment {
     return ((TextView) requireActivity().findViewById(R.id.basic_info_setup_name_input)).getText().toString();
   }
 
-  public String getDob() {
-    return  ((TextView) requireActivity().findViewById(R.id.basic_info_setup_day_input)).getText().toString() + "/" +
-            ((TextView) requireActivity().findViewById(R.id.basic_info_setup_month_input)).getText().toString() + "/" +
-            ((TextView) requireActivity().findViewById(R.id.basic_info_setup_year_input)).getText().toString();
+  public Date getDob() {
+    String day = ((TextView) getActivity().findViewById(R.id.basic_info_setup_day_input)).getText().toString();
+    String month = ((TextView) getActivity().findViewById(R.id.basic_info_setup_month_input)).getText().toString();
+    String year = ((TextView) getActivity().findViewById(R.id.basic_info_setup_year_input)).getText().toString();
+    return new Date(Integer.parseInt(year) - 1900, Integer.parseInt(month) + 1, Integer.parseInt(day));
   }
 
   public String getGender() {
@@ -57,6 +59,10 @@ public class BasicInfoSetupFragment extends Fragment {
 
   public String getSearch() {
     return ((TextView) requireActivity().findViewById(R.id.autoCompleteSearch)).getText().toString();
+  }
+
+  public boolean hasEmptyField() {
+    return getName().isEmpty() || getDob() == null || getGender().isEmpty() || getSearch().isEmpty();
   }
 
   public BasicInfoSetupFragment() {

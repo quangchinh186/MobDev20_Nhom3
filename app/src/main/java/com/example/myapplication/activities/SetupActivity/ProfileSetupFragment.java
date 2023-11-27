@@ -76,6 +76,10 @@ public class ProfileSetupFragment extends Fragment {
     }
   }
 
+  public List<String> getHobbies() {
+    return hobbies;
+  }
+
 
   public LinearLayout getLayout() {
     return layout;
@@ -136,8 +140,7 @@ public class ProfileSetupFragment extends Fragment {
             if (data == null || data.getData() == null) {
               return;
             }
-            Uri selectedImageUri = data.getData();
-            setSelectedImageUri(selectedImageUri);
+            setSelectedImageUri(data.getData());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             Resources r = getResources();
             float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 99.5F, r.getDisplayMetrics());

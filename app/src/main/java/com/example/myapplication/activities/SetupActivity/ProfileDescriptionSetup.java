@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
 
@@ -46,6 +47,10 @@ public class ProfileDescriptionSetup extends Fragment {
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
+  }
+
+  public String getDescription() {
+    return ((TextView) requireActivity().findViewById(R.id.setup_profile_description)).getText().toString();
   }
 
   @Override
