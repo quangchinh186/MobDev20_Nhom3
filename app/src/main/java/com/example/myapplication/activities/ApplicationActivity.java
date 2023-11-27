@@ -30,6 +30,7 @@ import com.example.myapplication.activities.Authentication.LoginActivity;
 import com.example.myapplication.activities.MainActivity.ChatFragment;
 import com.example.myapplication.activities.MainActivity.HomeFragment;
 import com.example.myapplication.activities.MainActivity.ProfileFragment;
+import com.example.myapplication.activities.MainActivity.SettingFragment;
 import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.databinding.ActivityApplicationBinding;
 import com.example.myapplication.schema.AppUser;
@@ -83,6 +84,8 @@ public class ApplicationActivity extends AppCompatActivity {
                 replaceFragment(new ChatFragment());
             } else if (itemId == R.id.profile) {
                 replaceFragment(new ProfileFragment());
+            } else if (itemId == R.id.setting) {
+                replaceFragment(new SettingFragment());
             }
             return true;
         });

@@ -44,7 +44,7 @@ public class ChatFragment extends Fragment {
 
         RealmList<ObjectId> list = ApplicationActivity.user.getChatRoomList();
         Log.v("realm test conversation", list.toString());
-        ArrayAdapter<ObjectId> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.app_list_view, R.id.list_item, list);
+        ArrayAdapter<ObjectId> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.app_list_view, list);
         chatList.setAdapter(arrayAdapter);
         chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
