@@ -2,6 +2,7 @@ package com.example.myapplication.activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +40,7 @@ import org.bson.types.ObjectId;
 
 import java.util.Map;
 
+import io.realm.ObjectChangeSet;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
@@ -54,6 +56,8 @@ public class ApplicationActivity extends AppCompatActivity {
     public static App app;
     public static AppUser user = null;
     public static QueryHelper queryHelper = null;
+
+    int oldMatchSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +107,12 @@ public class ApplicationActivity extends AppCompatActivity {
         if(app.currentUser() == null){
             return;
         }
-        queryHelper = new QueryHelper(app.currentUser());
+        queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
         if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
             startActivity(new Intent(this, SetupActivity.class));
         }
         user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+        addListener();
     }
 
     private void initThingsOnce(){
@@ -125,6 +130,7 @@ public class ApplicationActivity extends AppCompatActivity {
             initSyncRealm();
         } else {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+            addListener();
         }
         replaceFragment(new HomeFragment());
     }
@@ -135,5 +141,19 @@ public class ApplicationActivity extends AppCompatActivity {
             queryHelper.closeRealm();
         }
         super.onDestroy();
+    }
+
+    private void addListener(){
+        user.addChangeListener(new RealmObjectChangeListener<RealmModel>() {
+            @Override
+            public void onChange(RealmModel realmModel, @Nullable ObjectChangeSet changeSet) {
+                user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+                int newMatchSize = user.getMatchingState().getMatched().size();
+                if(oldMatchSize != newMatchSize){
+                    oldMatchSize = newMatchSize;
+                    BatoSystem.sendMessage("Danh Sách Tương Hợp Của Bạn Có Sự Thay Đổi, Kiêm Tra Ngay", getApplicationContext());
+                }
+            }
+        });
     }
 }

@@ -252,6 +252,7 @@ public class ProfileFragment extends Fragment {
         app.currentUser().logOutAsync(res -> {
             if(res.isSuccess()){
                 ApplicationActivity.queryHelper.closeRealm();
+                ApplicationActivity.user = null;
                 ApplicationActivity.queryHelper = null;
                 Log.v("realm", "log out success");
             } else {

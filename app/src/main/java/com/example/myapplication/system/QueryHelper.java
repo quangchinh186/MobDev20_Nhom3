@@ -1,5 +1,6 @@
 package com.example.myapplication.system;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.cloudinary.Url;
@@ -32,11 +33,13 @@ import io.realm.mongodb.sync.SyncConfiguration;
 import io.realm.mongodb.sync.SyncSession;
 
 public class QueryHelper {
+    Context context;
     private Realm realmApp;
     private User user;
 
-    public QueryHelper(User user){
+    public QueryHelper(User user, Context context){
         openRealm(user);
+        this.context = context;
     }
 
     public void closeRealm(){
@@ -256,6 +259,7 @@ public class QueryHelper {
         if(u1.getMatchingState().getIsLikedBy().contains(like)){
             match(user, like);
             Log.v("realm matching", u1.getProfile().getName() + " matched with " + u2.getProfile().getName());
+            BatoSystem.sendMessage("Tương Hợp Mới: " + u2.getProfile().getName(), context);
         } else {
             realmApp.executeTransaction(r -> {
                 u1.getMatchingState().getLike().add(like);
@@ -276,6 +280,8 @@ public class QueryHelper {
             r.insertOrUpdate(u2);
         });
     }
+
+
 
     public void unMatch(ObjectId user1, ObjectId user2){
         AppUser u1 = getUser(user1);
