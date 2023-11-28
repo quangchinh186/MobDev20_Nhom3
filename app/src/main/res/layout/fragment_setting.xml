@@ -24,6 +24,14 @@
             android:layout_marginTop="150dp"
             android:padding="18dp"/>
 
+        <ImageView
+            android:id="@+id/decor_blur"
+            android:layout_width="346.415dp"
+            android:layout_height="389dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="-70dp"
+            android:src="@drawable/blur_login" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -59,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thông Báo"
+                android:text="Thông Báo ngoài màn hình khóa"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -84,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thông Báo"
+                android:text="Âm thanh khi thông báo"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -109,7 +117,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thông Báo"
+                android:text="Rung khi thông báo"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -124,16 +132,6 @@
                 android:layout_marginRight="30dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-
-
-<!--        <ImageView-->
-<!--            android:id="@+id/decor_blur"-->
-<!--            android:layout_width="346.415dp"-->
-<!--            android:layout_height="389dp"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginRight="-70dp"-->
-<!--            android:src="@drawable/blur_login" />-->
 
     </RelativeLayout>
 </FrameLayout>

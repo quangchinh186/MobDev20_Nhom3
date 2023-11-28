@@ -17,6 +17,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -104,6 +106,12 @@ public class ProfileSetupFragment extends Fragment {
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    String[] countries = getResources().getStringArray(R.array.hobby);
+
+    AutoCompleteTextView editText = getActivity().findViewById(R.id.setup_profile_hobby);
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+            R.layout.custom_list_view_items, R.id.text_view_list_item, countries);
+    editText.setAdapter(adapter);
     add = getActivity().findViewById(R.id.setup_profile_add_hobby);
     layout = getActivity().findViewById(R.id.setup_profile_hobby_list);
     nameEdit = getActivity().findViewById(R.id.setup_profile_hobby);
