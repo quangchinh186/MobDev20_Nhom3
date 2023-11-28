@@ -90,6 +90,13 @@ public class QueryHelper {
         });
     }
 
+
+    public void findAllUsers() {
+        RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class);
+        Log.v("realm", realmQuery.findAll().asJSON());
+    }
+
+
     public AppUser getUser(ObjectId id){
         RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class).equalTo("_id", id);
         return realmQuery.findFirst();

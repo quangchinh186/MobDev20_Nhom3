@@ -8,6 +8,7 @@
     tools:context=".activities.MainActivity.HomeFragment"
     android:orientation="vertical">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cardDeck"
         android:layout_width="match_parent"

@@ -12,16 +12,20 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="Ảnh cho profile của bạn" />
-    <ImageView
-        android:id="@+id/setup_profile_img"
-        android:layout_width="99.5dp"
-        android:layout_height="99.5dp"
+    <LinearLayout
         android:layout_marginTop="18.7dp"
-        android:cropToPadding="true"
-        android:padding="29.85dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/setup_add_img"
-        android:background="@drawable/custom_edit_text" />
+        android:layout_width="99.5dp"
+        android:gravity="center"
+        android:background="@drawable/custom_edit_text"
+        android:layout_height="99.5dp">
+        <ImageView
+            android:id="@+id/setup_profile_img"
+            android:layout_width="39.5dp"
+            android:layout_height="39.5dp"
+            android:cropToPadding="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/setup_add_img" />
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,20 +35,37 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_edit_text"
         android:orientation="horizontal"
+        android:paddingEnd="10dp"
+        android:background="@drawable/custom_edit_text"
         android:layout_marginTop="18.7dp">
         <EditText
             android:id="@+id/setup_profile_hobby"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="#00000000"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
         <TextView
+            android:id="@+id/setup_profile_add_hobby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:text="Thêm" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/setup_profile_hobby_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="18.7dp">
     </LinearLayout>
 </LinearLayout>
