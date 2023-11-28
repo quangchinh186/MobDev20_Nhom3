@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
+
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -126,6 +127,7 @@ public class Conversation extends AppCompatActivity {
 
                     ApplicationActivity.queryHelper.sendImage(roomId, ApplicationActivity.user.getId(), imageUrl);
                     addChangeListener();
+                    getMessages();
                     chatRecycler.scrollToPosition(historyMessages.size() - 1);
                 }
 

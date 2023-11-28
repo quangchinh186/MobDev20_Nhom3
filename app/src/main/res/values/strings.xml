@@ -21,4 +21,107 @@
         <item>10</item>
         <item>30</item>
     </string-array>
+
+    <string-array name="hobby">
+        <item>Đọc sách</item>
+        <item>Nghe nhạc</item>
+        <item>Nấu ăn</item>
+        <item>Du lịch</item>
+        <item>Yoga</item>
+        <item>Đi bơi</item>
+        <item>Viết blog</item>
+        <item>Xem phim</item>
+        <item>Chạy bộ</item>
+        <item>Học hỏi</item>
+        <item>Vẽ tranh</item>
+        <item>Chơi game</item>
+        <item>Học guitar</item>
+        <item>Lướt sóng</item>
+        <item>Nghiên cứu</item>
+        <item>Chụp ảnh</item>
+        <item>Máy ảnh</item>
+        <item>Đi xe đạp</item>
+        <item>Thể thao</item>
+        <item>Dãn cơ</item>
+        <item>Lặn biển</item>
+        <item>Cây cảnh</item>
+        <item>Làm vườn</item>
+        <item>Hát karaoke</item>
+        <item>Trượt tuyết</item>
+        <item>Võ thuật</item>
+        <item>Múa ballet</item>
+        <item>Viết thơ</item>
+        <item>Nấu cà phê</item>
+        <item>Tập gym</item>
+        <item>Ngủ nướng</item>
+        <item>Ghi chú</item>
+        <item>Mật ong</item>
+        <item>Ngắm sao</item>
+        <item>Đua xe</item>
+        <item>Nuôi thú cưng</item>
+        <item>Trồng cây</item>
+        <item>Lập trình</item>
+        <item>Tập dưỡng</item>
+        <item>Nấu trà</item>
+        <item>Máy bay</item>
+        <item>Máy tính</item>
+        <item>Trải nghiệm</item>
+        <item>Du thuyền</item>
+        <item>Ngắm hoa</item>
+        <item>Đi picnic</item>
+        <item>Cắm trại</item>
+        <item>Điệu đà</item>
+        <item>Học tiếng</item>
+        <item>Học đàn</item>
+        <item>Lướt sóng</item>
+        <item>Nấu súp</item>
+        <item>Đi học</item>
+        <item>Chạy xe</item>
+        <item>Chế biến</item>
+        <item>Ngủ trưa</item>
+        <item>Ăn trái cây</item>
+        <item>Đua thuyền</item>
+        <item>Học vẽ</item>
+        <item>Gia vị</item>
+        <item>Điện ảnh</item>
+        <item>Thực phẩm</item>
+        <item>Thủ công</item>
+        <item>Đi mua</item>
+        <item>Chăm sóc</item>
+        <item>Trượt patin</item>
+        <item>Tập aerobic</item>
+        <item>Chăm sóc</item>
+        <item>Ăn chay</item>
+        <item>Máy ảnh</item>
+        <item>Trò chơi</item>
+        <item>Sáng tác</item>
+        <item>Nấu canh</item>
+        <item>Học hỏi</item>
+        <item>Thể dục</item>
+        <item>Nấu bánh</item>
+        <item>Học võ</item>
+        <item>Lắp ráp</item>
+        <item>Lái xe</item>
+        <item>Học sáo</item>
+        <item>Nấu lẩu</item>
+        <item>Dự sự kiện</item>
+        <item>Điệu nhảy</item>
+        <item>Làm sushi</item>
+        <item>Viết thư</item>
+        <item>Nấu chè</item>
+        <item>Ngủ sớm</item>
+        <item>Lập kế hoạch</item>
+        <item>Nấu xôi</item>
+        <item>Tìm hiểu</item>
+        <item>Dùng ứng dụng</item>
+        <item>Học piano</item>
+        <item>Tập thể dục</item>
+        <item>Lướt web</item>
+        <item>Điệu nghệ</item>
+        <item>Luyện đề</item>
+        <item>Chơi thể thao</item>
+        <item>Mua sắm</item>
+        <item>Chia sẻ</item>
+    </string-array>
+
 </resources>

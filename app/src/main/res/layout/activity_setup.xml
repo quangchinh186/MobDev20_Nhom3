@@ -161,7 +161,7 @@
 
         android:layout_weight="1" />
     <LinearLayout
-        android:id="@+id/loading_scene"
+        android:id="@+id/setup_loading_scene"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:translationZ="1dp"

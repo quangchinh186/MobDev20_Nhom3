@@ -1,13 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start|center_vertical"
+    android:background="@color/black"
+    android:weightSum="10"
+    android:padding="4dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="999dp">
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/panic02"
+            android:contentDescription="avatar" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item" />
+        android:text="Rick Astley"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"/>
+
+    <include layout="@layout/chat_button_layout"
+        android:id="@+id/chat_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"/>
+
+    <include layout="@layout/nope_button_layout"
+        android:id="@+id/nope_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"/>
+
 </LinearLayout>

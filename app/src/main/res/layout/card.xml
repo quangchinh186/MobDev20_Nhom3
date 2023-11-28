@@ -22,8 +22,9 @@
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="300dp"
-        android:layout_height="305dp"
+        android:layout_height="375dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:scaleType="centerCrop"
         android:src="@drawable/rickroll" />
 
@@ -36,72 +37,68 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_below="@id/avatar"
-        android:layout_marginLeft="30dp"/>
-
-    <TextView
-        android:id="@+id/age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Age: 54"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/username"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"/>
 
 
-    <TextView
+    <include layout="@layout/item_hobby_without_x"
         android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1.2km"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/age"
-        android:layout_marginLeft="30dp"/>
+        android:layout_below="@id/avatar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="35dp" />
 
     <TextView
         android:id="@+id/describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Never gonna give you up"
+        android:text="Ca Sĩ"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/distance"
-        android:layout_marginLeft="30dp"/>
-
-    <TextView
-        android:id="@+id/tag1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tag 1"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/describe"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_below="@id/username"
+        android:fontFamily="@font/plusjakartasans"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="15dp"/>
 
     <TextView
-        android:id="@+id/tag2"
+        android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tag 2"
+        android:text="25 tuổi"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_toRightOf="@id/tag1"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_below="@id/username"
+        android:fontFamily="@font/plusjakartasans"
+        android:layout_toRightOf="@id/describe"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"/>
+
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/hobby1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/describe"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"/>
+
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/hobby2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/describe"
+        android:layout_toRightOf="@id/hobby1"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tag1"
-        android:layout_marginTop="100dp"
+        android:layout_below="@id/hobby1"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="70dp"
         app:cardCornerRadius="999dp">
         <ImageButton
@@ -117,9 +114,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tag1"
+        android:layout_below="@id/hobby1"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:layout_marginRight="70dp"
         app:cardCornerRadius="999dp">
         <ImageButton

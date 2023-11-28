@@ -7,22 +7,34 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import io.realm.RealmList;
+
 public class SetupActivity extends AppCompatActivity {
   int currentFragment = 0;
   int numFragments = 4;
   Profile profile = new Profile();
+  Uri uri;
 
   @SuppressLint("ResourceAsColor")
   @Override
@@ -39,16 +51,61 @@ public class SetupActivity extends AppCompatActivity {
     Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     if (fragment instanceof BasicInfoSetupFragment) {
       profile.setName(((BasicInfoSetupFragment) fragment).getName());
-//      profile.setAge(((BasicInfoSetupFragment) fragment).getDob());
+      profile.setDob(((BasicInfoSetupFragment) fragment).getDob());
       profile.setGender(((BasicInfoSetupFragment) fragment).getGender());
       profile.setInterest(((BasicInfoSetupFragment) fragment).getSearch());
       System.out.println(profile.getName());
     } else if (fragment instanceof ProfileSetupFragment) {
-
+      List<String> hobbies = ((ProfileSetupFragment) fragment).getHobbies();
+      RealmList<String> hobbiesRealm = new RealmList<>();
+      hobbiesRealm.addAll(hobbies);
+      profile.setHobby(hobbiesRealm);
+      uri = ((ProfileSetupFragment) fragment).getSelectedImageUri();
     } else if (fragment instanceof ProfileDescriptionSetup) {
-      // get data from fragment
+      profile.setDescription(((ProfileDescriptionSetup) fragment).getDescription());
     } else if (fragment instanceof FinalSetup) {
-      // get data from fragment
+      findViewById(R.id.setup_loading_scene).setVisibility(View.VISIBLE);
+      if (uri == null) return;
+      MediaManager.get().upload(uri).callback(new UploadCallback() {
+        @Override
+        public void onStart(String requestId) {
+          //start upload request
+        }
+
+        @Override
+        public void onProgress(String requestId, long bytes, long totalBytes) {
+          //request in progress
+        }
+
+        @Override
+        public void onSuccess(String requestId, Map resultData) {
+          //success upload the image
+          //result
+          Log.v("result data", resultData.toString());
+          //image url
+          String imageUrl = "https://res.cloudinary.com/dihtkakro/image/upload/f_auto,q_auto/" + Objects.requireNonNull(resultData.get("public_id")).toString();
+          RealmList<String> images = new RealmList<>();
+          images.add(imageUrl);
+          profile.setPhoto(images);
+          ApplicationActivity.queryHelper.createUser(profile);
+//          finish activity
+          Toast.makeText(getApplicationContext(), "Đã hoàn thành", Toast.LENGTH_SHORT).show();
+          BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
+          BatoSystem.writeBoolean("login", true);
+          findViewById(R.id.setup_loading_scene).setVisibility(View.INVISIBLE);
+          finish();
+        }
+
+        @Override
+        public void onError(String requestId, ErrorInfo error) {
+          //handle error
+        }
+
+        @Override
+        public void onReschedule(String requestId, ErrorInfo error) {
+
+        }
+      }).dispatch();
     }
   }
 
@@ -88,6 +145,10 @@ public class SetupActivity extends AppCompatActivity {
 
   public void onNextFragment(View view) {
     // get data of fragment and send to activity
+    if (currentFragment == 1 && ((BasicInfoSetupFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container)).hasEmptyField()) {
+      Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+      return;
+    }
     getData();  // get data from fragment
     if (currentFragment == 1) {
       transactionFragment(R.id.fragment_container, ProfileSetupFragment.class);
@@ -101,15 +162,9 @@ public class SetupActivity extends AppCompatActivity {
       transactionFragment(R.id.fragment_container, FinalSetup.class);
       setColorForProgress(findViewById(R.id.setup_frag_4), getResources().getColor(R.color.white), Typeface.BOLD, true);
       setColorForProgress(findViewById(R.id.setup_frag_3), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
-    } else {
-      // send data to server
-      Toast.makeText(this, "Đã hoàn thành", Toast.LENGTH_SHORT).show();
-      BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
-      BatoSystem.writeBoolean("login", true);
-
-      startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
-      finish();
     }
     if (currentFragment < numFragments) currentFragment += 1;
   }
+
+
 }

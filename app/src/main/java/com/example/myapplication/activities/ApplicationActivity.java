@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
@@ -28,6 +30,7 @@ import com.example.myapplication.activities.Authentication.LoginActivity;
 import com.example.myapplication.activities.MainActivity.ChatFragment;
 import com.example.myapplication.activities.MainActivity.HomeFragment;
 import com.example.myapplication.activities.MainActivity.ProfileFragment;
+import com.example.myapplication.activities.MainActivity.SettingFragment;
 import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.databinding.ActivityApplicationBinding;
 import com.example.myapplication.schema.AppUser;
@@ -81,6 +84,8 @@ public class ApplicationActivity extends AppCompatActivity {
                 replaceFragment(new ChatFragment());
             } else if (itemId == R.id.profile) {
                 replaceFragment(new ProfileFragment());
+            } else if (itemId == R.id.setting) {
+                replaceFragment(new SettingFragment());
             }
             return true;
         });
@@ -125,58 +130,7 @@ public class ApplicationActivity extends AppCompatActivity {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
         }
     }
-
-    //upload image by this function
-    public void selectImage(View view){
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() != Activity.RESULT_OK) {
-                    return;
-                }
-                Intent data = result.getData();
-                // do your operation from here....
-                if (data == null || data.getData() == null) {
-                    return;
-                }
-                Uri selectedImageUri = data.getData();
-                imageView.setImageURI(selectedImageUri);
-                MediaManager.get().upload(selectedImageUri).callback(new UploadCallback() {
-                    @Override
-                    public void onStart(String requestId) {
-                        //start upload request
-                    }
-
-                    @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-                        //request in progress
-                    }
-
-                    @Override
-                    public void onSuccess(String requestId, Map resultData) {
-                        //success upload the image
-                        //result
-                        Log.v("result data", resultData.toString());
-                        //image url
-                        Log.v("link image", resultData.get("url").toString());
-                    }
-
-                    @Override
-                    public void onError(String requestId, ErrorInfo error) {
-                        //handle error
-                    }
-
-                    @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {
-
-                    }
-                }).dispatch();
-                Log.v("Image URI",selectedImageUri.toString());
-            });
-    }
+   //upload image by this function
 
     @Override
     protected void onDestroy() {
