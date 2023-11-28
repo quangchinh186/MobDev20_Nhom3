@@ -99,8 +99,8 @@ public class BatoSenseiActivity extends AppCompatActivity {
             for (Message m : messageList) {
                 //q is Message type.
                 JSONObject item = new JSONObject();
-                item.put("role", m.sentBy);
-                item.put("content", m.message);
+                item.put("role", m.getSentBy());
+                item.put("content", m.getMessage());
                 array.put(item);
             }
 
@@ -112,7 +112,7 @@ public class BatoSenseiActivity extends AppCompatActivity {
         }
 
         System.out.println(jsonBody.toString());
-        RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
+        RequestBody body = RequestBody.create(JSON, jsonBody.toString());
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .header("Authorization","Bearer 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")
