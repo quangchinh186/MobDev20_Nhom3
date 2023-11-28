@@ -18,8 +18,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,11 +31,15 @@ import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.Adapter.ChatAdapter;
 import com.example.myapplication.schema.ChatMessage;
+import com.example.myapplication.system.BatoSensei;
+import com.example.myapplication.system.Message;
 import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -51,6 +57,7 @@ public class Conversation extends AppCompatActivity {
     ChatAdapter chatAdapter;
     RecyclerView chatRecycler;
     TextView senderName;
+    BatoSensei batoSensei;
 
     ArrayList<ChatMessage> historyMessages = new ArrayList<>();
 
@@ -82,6 +89,7 @@ public class Conversation extends AppCompatActivity {
                 .into(avtSender);
         senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
         chatRecycler.scrollToPosition(historyMessages.size() - 1);
+        batoSensei = new BatoSensei();
     }
 
     public void onBackButtonClicked(View view){
@@ -144,9 +152,22 @@ public class Conversation extends AppCompatActivity {
             Log.v("Image URI",selectedImageUri.toString());
         });
 
+    public void addRecommendLayout(String url){
+        View view = getLayoutInflater().inflate(R.layout.item_recommendation_box, null);
+        LinearLayout layout = findViewById(R.id.recommendation_box);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 37, 0, 0);
+        layout.addView(view);
+    }
+
     public void onSendMessage(View view){
         String m = messageInput.getText().toString();
         if(m.equals("")){
+            return;
+        }
+        List<String> list;
+        list = Arrays.asList(m.split(" "));
+        if(list.size() > 2 && list.get(0).equals("/sensei")){
             return;
         }
         messageInput.setText("");
@@ -171,6 +192,8 @@ public class Conversation extends AppCompatActivity {
         };
         messageRealmQuery.findAll().addChangeListener(changeListener);
     }
+
+
 
     @Override
     public void onBackPressed() {
