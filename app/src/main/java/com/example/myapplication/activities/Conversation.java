@@ -145,9 +145,9 @@ public class Conversation extends AppCompatActivity {
             Log.v("Image URI",selectedImageUri.toString());
         });
 
-    public void onSendMessage(View view){
+    public void onSendMessage(View view) {
         String m = messageInput.getText().toString();
-        if(m.equals("")){
+        if (m.equals("")) {
             return;
         }
         messageInput.setText("");
@@ -168,7 +168,7 @@ public class Conversation extends AppCompatActivity {
                 getMessages();
                 chatAdapter.notifyItemInserted(historyMessages.size()-1);
             }
-
+            chatRecycler.scrollToPosition(historyMessages.size() - 1);
         };
         messageRealmQuery.findAll().addChangeListener(changeListener);
     }

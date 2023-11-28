@@ -30,7 +30,9 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId());
+        if(ApplicationActivity.user != null){
+            data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId());
+        }
         Log.v("realm view data", "data size: " + data.size());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);

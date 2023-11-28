@@ -42,17 +42,17 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private void resetPassword(){
         String password = newPassword.getText().toString();
         if(!password.equals(retype.getText().toString())){
-            BatoSystem.sendMessage("2 Password Phai Giong Nhau", this);
+            BatoSystem.sendMessage("2 Mật Khẩu Phải Khớp Nhau", this);
         }
         String[] args = {"security answer 1", "security answer 2"};
         app.getEmailPassword().callResetPasswordFunctionAsync(email, password, args, it -> {
             if(it.isSuccess()){
-                BatoSystem.sendMessage("Dat Lai Mat Khau Thanh Cong!", this);
+                BatoSystem.sendMessage("Đặt Lại Mật Khẩu Thành Công! Vui Lòng Đăng Nhập Lại", this);
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             } else {
                 Log.e("Realm reset Error", it.getError().toString());
-                BatoSystem.sendMessage(it.getError().getErrorMessage(), this);
+                BatoSystem.sendMessage("Đã Xảy Ra Lỗi, Vui Lòng Thử Lại Sau", this);
             }
         });
     }

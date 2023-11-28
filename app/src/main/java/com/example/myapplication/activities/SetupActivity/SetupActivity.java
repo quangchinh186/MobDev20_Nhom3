@@ -23,6 +23,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
+import com.example.myapplication.system.QueryHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ public class SetupActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_setup);
+    //MediaManager.init(this);
     transactionFragment(R.id.fragment_container, BasicInfoSetupFragment.class);
     setColorForProgress(findViewById(R.id.setup_frag_1), getResources().getColor(R.color.white), Typeface.BOLD, true);
 
@@ -63,47 +65,7 @@ public class SetupActivity extends AppCompatActivity {
     } else if (fragment instanceof ProfileDescriptionSetup) {
       profile.setDescription(((ProfileDescriptionSetup) fragment).getDescription());
     } else if (fragment instanceof FinalSetup) {
-      findViewById(R.id.setup_loading_scene).setVisibility(View.VISIBLE);
-      MediaManager.get().upload(uri).callback(new UploadCallback() {
-        @Override
-        public void onStart(String requestId) {
-          //start upload request
-        }
-
-        @Override
-        public void onProgress(String requestId, long bytes, long totalBytes) {
-          //request in progress
-        }
-
-        @Override
-        public void onSuccess(String requestId, Map resultData) {
-          //success upload the image
-          //result
-          Log.v("result data", resultData.toString());
-          //image url
-          String imageUrl = "https://res.cloudinary.com/dihtkakro/image/upload/f_auto,q_auto/" + Objects.requireNonNull(resultData.get("public_id")).toString();
-          RealmList<String> images = new RealmList<>();
-          images.add(imageUrl);
-          profile.setPhoto(images);
-          ApplicationActivity.queryHelper.createUserWithId(profile);
-//          finish activity
-          Toast.makeText(getApplicationContext(), "Đã hoàn thành", Toast.LENGTH_SHORT).show();
-          BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
-          BatoSystem.writeBoolean("login", true);
-          findViewById(R.id.setup_loading_scene).setVisibility(View.INVISIBLE);
-          finish();
-        }
-
-        @Override
-        public void onError(String requestId, ErrorInfo error) {
-          //handle error
-        }
-
-        @Override
-        public void onReschedule(String requestId, ErrorInfo error) {
-
-        }
-      }).dispatch();
+      uploadImage(uri);
     }
   }
 
@@ -150,6 +112,7 @@ public class SetupActivity extends AppCompatActivity {
       return;
     }
     getData();  // get data from fragment
+
     if (currentFragment == 1) {
       transactionFragment(R.id.fragment_container, ProfileSetupFragment.class);
       setColorForProgress(findViewById(R.id.setup_frag_2), getResources().getColor(R.color.white), Typeface.BOLD, true);
@@ -163,11 +126,49 @@ public class SetupActivity extends AppCompatActivity {
       setColorForProgress(findViewById(R.id.setup_frag_4), getResources().getColor(R.color.white), Typeface.BOLD, true);
       setColorForProgress(findViewById(R.id.setup_frag_3), Color.parseColor("#cccccc"), Typeface.NORMAL, false);
     } else {
-      // send data to server
-      Toast.makeText(this, "Đã hoàn thành", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getApplicationContext(), "Đã hoàn thành", Toast.LENGTH_SHORT).show();
+      BatoSystem.writeString("recentEmail", BatoSystem.readString("email", ""));
+      //findViewById(R.id.setup_loading_scene).setVisibility(View.INVISIBLE);
     }
     if (currentFragment < numFragments) currentFragment += 1;
   }
 
+  private void uploadImage(Uri uri){
+    findViewById(R.id.setup_loading_scene).setVisibility(View.VISIBLE);
+    BatoSystem.sendMessage("Uploading Image", this);
+    MediaManager.get().upload(uri).callback(new UploadCallback() {
+      @Override
+      public void onStart(String requestId) {
+        //start upload request
+      }
+
+      @Override
+      public void onProgress(String requestId, long bytes, long totalBytes) {
+        //request in progress
+      }
+
+      @Override
+      public void onSuccess(String requestId, Map resultData) {
+        //success upload the image
+        findViewById(R.id.setup_loading_scene).setVisibility(View.INVISIBLE);
+        BatoSystem.sendMessage("Upload success", getApplicationContext());
+        //image url
+        String imageUrl = "https://res.cloudinary.com/dihtkakro/image/upload/f_auto,q_auto/" + Objects.requireNonNull(resultData.get("public_id")).toString();
+        profile.getPhoto().add(imageUrl);
+        ApplicationActivity.queryHelper.createUserWithId(profile);
+        finish();
+      }
+
+      @Override
+      public void onError(String requestId, ErrorInfo error) {
+        //handle error
+      }
+
+      @Override
+      public void onReschedule(String requestId, ErrorInfo error) {
+
+      }
+    }).dispatch();
+  }
 
 }

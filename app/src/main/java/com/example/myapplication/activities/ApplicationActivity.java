@@ -31,6 +31,7 @@ import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.databinding.ActivityApplicationBinding;
 import com.example.myapplication.schema.AppUser;
 
+import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
 import com.example.myapplication.system.QueryHelper;
 
@@ -51,22 +52,32 @@ public class ApplicationActivity extends AppCompatActivity {
     //Mongodb stuff
     String AppId = "mobileappdev-hwhug";
     public static App app;
-    public static AppUser user;
-    public static QueryHelper queryHelper;
+    public static AppUser user = null;
+    public static QueryHelper queryHelper = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        init();
-        BatoSystem.initPref(this);
         super.onCreate(savedInstanceState);
 
+        //init once and share pref
+        initThingsOnce();
+        BatoSystem.initPref(this);
+
+
+        // to check login state
+        if (app.currentUser() == null) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        } else {
+            initSyncRealm();
+        }
+
+        //view
         binding = ActivityApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         //set default fragment
+
         replaceFragment(new HomeFragment());
         binding.itemsNav.setBackground(null);
-
         binding.itemsNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
@@ -78,20 +89,6 @@ public class ApplicationActivity extends AppCompatActivity {
             }
             return true;
         });
-
-
-        // to check login state
-        Boolean isLogin = BatoSystem.readBoolean("login", false);
-        if (!isLogin) {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-        } else {
-            Map<String, ?> allEntries = BatoSystem.getSharedPreferences().getAll();
-            for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-                Log.v("realm", entry.getKey() + ": " + entry.getValue().toString());
-            }
-            Log.v("realm", "current user: "+ app.currentUser().getId());
-        }
     }
 
     private void replaceFragment(Fragment fragment){
@@ -101,26 +98,42 @@ public class ApplicationActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-    //create local realm and open sync realm if user is logged in
-    private void init(){
+    //open sync realm if user is logged in
+    private void initSyncRealm(){
+        if(app.currentUser() == null){
+            return;
+        }
+        queryHelper = new QueryHelper(app.currentUser());
+        if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
+            startActivity(new Intent(this, SetupActivity.class));
+        }
+        user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+    }
+
+    private void initThingsOnce(){
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
                 .build());
-        if(app.currentUser() != null){
-            queryHelper = new QueryHelper(app.currentUser());
-            if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
-                startActivity(new Intent(this, SetupActivity.class));
-            }
+        MediaManager.init(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(queryHelper == null){
+            initSyncRealm();
+        } else {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
         }
+        replaceFragment(new HomeFragment());
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if(app.currentUser() != null){
             queryHelper.closeRealm();
         }
+        super.onDestroy();
     }
 }

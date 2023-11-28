@@ -31,21 +31,19 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         findViewById(R.id.loading_scene).setVisibility(View.VISIBLE);
-        AtomicBoolean isConfirmed = new AtomicBoolean(false);
+
         Credentials credentials = Credentials.emailPassword(emailUser, passwordUser);
         ApplicationActivity.app.loginAsync(credentials, it -> {
+            findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
             if(it.isSuccess()){
                 // cache login state
-                BatoSystem.writeBoolean("login", true);
                 BatoSystem.writeString("email", emailUser);
                 BatoSystem.writeString("recentEmail", emailUser);
                 /* change activity */
-                startActivity(new Intent(this, ApplicationActivity.class));
-                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
+                //startActivity(new Intent(this, ApplicationActivity.class));
                 finish();
             }
             else {
-                findViewById(R.id.loading_scene).setVisibility(View.INVISIBLE);
                 sendMessage("Tài khoản hoặc mật khẩu không chính xác", this);
                 System.out.println(it.getError());
             }
@@ -56,34 +54,23 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        try {
-            super.onCreate(savedInstanceState);
-            // initialize
-            setContentView(R.layout.activity_login_page);
-            emailInput = findViewById(R.id.email__input);
-            passwordInput = findViewById(R.id.password__input);
-            // automatically fill text if app has recent email
-            emailInput.setText(BatoSystem.readString("recentEmail", ""));
-            TextView reset = findViewById(R.id.login_forget_pass);
-            reset.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(getApplicationContext(), PreResetPasswordActivity.class));
-                    finish();
-                    BatoSystem.sendMessage("click", getApplicationContext());
-                }
-            });
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_page);
+        emailInput = findViewById(R.id.email__input);
+        passwordInput = findViewById(R.id.password__input);
+        // automatically fill text if app has recent email
+        emailInput.setText(BatoSystem.readString("recentEmail", ""));
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        TextView reset = findViewById(R.id.login_forget_pass);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), PreResetPasswordActivity.class));
+                finish();
+                BatoSystem.sendMessage("click", getApplicationContext());
+            }
+        });
     }
 }

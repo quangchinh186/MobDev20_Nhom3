@@ -60,17 +60,23 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         private Profile profile;
         //everything in a card
-        TextView name, age;
+        TextView name, age, description, hobby, job;
         Button yes, nope;
         ProgressBar currentDisplay;
         ImageView avt;
         private int currentDisplayPhoto = 0;
         public ViewHolder(@NonNull View item){
             super(item);
+            //text v
             name = item.findViewById(R.id.username);
             age = item.findViewById(R.id.age);
+            description = item.findViewById(R.id.describe);
+            hobby = item.findViewById(R.id.hobbies);
+            job = item.findViewById(R.id.occupy);
+            //btn
             yes = item.findViewById(R.id.dating_button);
             nope = item.findViewById(R.id.nope_button);
+            //img
             avt = item.findViewById(R.id.avatar);
             currentDisplay = item.findViewById(R.id.avaProgress);
 
@@ -118,7 +124,13 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
                 age = Period.between(profile.getDob().toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
             }
             this.age.setText("age: " + age);
-
+            description.setText(profile.getDescription());
+            StringBuilder hob = new StringBuilder();
+            for (String i: profile.getHobby()) {
+                hob.append(i).append(", ");
+            }
+            hobby.setText(hob);
+            job.setText(profile.getOccupy());
         }
     }
 }

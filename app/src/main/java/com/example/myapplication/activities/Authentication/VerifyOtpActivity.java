@@ -27,7 +27,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
                     if (result.isSuccess()) {
                         BatoSystem.writeString("recentEmail", email);
                         BatoSystem.writeString("email", email);
-                        startActivity(new Intent(getApplicationContext(), ApplicationActivity.class));
+
                         finish();
                     } else {
                         BatoSystem.sendMessage("Có lỗi đã xảy ra, vui lòng thử lại sau", this);
@@ -53,7 +53,7 @@ public class VerifyOtpActivity extends AppCompatActivity {
 
     public void resendOtpCode(View view) {
         sendVerify();
-        BatoSystem.sendMessage("Đã gửi lại email tới tài khoản", this);
+        BatoSystem.sendMessage("Đã gửi lại mã tới email: " + email, this);
     }
 
     //----------------------------------------

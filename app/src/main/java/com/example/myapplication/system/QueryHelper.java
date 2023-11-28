@@ -34,6 +34,7 @@ import io.realm.mongodb.sync.SyncSession;
 public class QueryHelper {
     private Realm realmApp;
     private User user;
+
     public QueryHelper(User user){
         openRealm(user);
     }
@@ -78,10 +79,9 @@ public class QueryHelper {
     }
 
     public void createUserWithId(Profile profile){
-        String id = user.getId();
         realmApp.executeTransaction(r -> {
             AppUser appUser = new AppUser();
-            appUser.setId(new ObjectId(id));
+            appUser.setId(new ObjectId(user.getId()));
             appUser.setProfile(profile);
             appUser.setChatRoomList(new RealmList<>());
             appUser.setMatchingState(new MatchingState());

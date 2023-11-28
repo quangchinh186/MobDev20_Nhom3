@@ -39,7 +39,6 @@ public class BatoSystem {
     private static SharedPreferences sharedPreferences;
     public static void initPref(Context context){
         if(sharedPreferences == null){
-            MediaManager.init(context);
             sharedPreferences = context.getSharedPreferences("share_pref", Activity.MODE_PRIVATE);
         }
     }

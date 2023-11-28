@@ -9,6 +9,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.system.BatoSystem;
 
 public class PreResetPasswordActivity extends AppCompatActivity {
     Button button;
@@ -22,6 +23,9 @@ public class PreResetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email = mail.getText().toString();
+                if(email.equals("")){
+                    BatoSystem.sendMessage("Vui Lòng Không Bỏ Trống Email", getApplicationContext());
+                }
                 onResetPasswordClick(email);
             }
         });
