@@ -1,4 +1,4 @@
-package com.example.myapplication.activities.apiGpt;
+package com.example.myapplication.system;
 
 public class Message {
     public static String SENT_BY_ME = "user";
