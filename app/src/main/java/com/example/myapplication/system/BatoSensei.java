@@ -47,7 +47,7 @@ public class BatoSensei {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
+        RequestBody body = RequestBody.create(JSON, jsonBody.toString());
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .header("Authorization",API_Key)
@@ -99,7 +99,7 @@ public class BatoSensei {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
+        RequestBody body = RequestBody.create(JSON, jsonBody.toString());
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .header("Authorization", API_Key)
