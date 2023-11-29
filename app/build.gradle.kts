@@ -83,6 +83,10 @@ dependencies {
     implementation("com.sun.mail:jakarta.mail:2.0.1")
     //load image from url
     implementation("com.squareup.picasso:picasso:2.8")
+    //swipe card
+    implementation("com.lorentzos.swipecards:library:1.0.9@aar")
+
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

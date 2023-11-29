@@ -50,7 +50,7 @@
         android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Age: 54"
+        android:text="Age: 54 gender"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -101,13 +101,13 @@
                 android:id="@+id/nope_button"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="300dp" />
             <Button
                 android:layout_weight="1"
                 android:background="?android:attr/selectableItemBackground"
                 android:id="@+id/dating_button"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="300dp" />
         </LinearLayout>
 
     <TextView

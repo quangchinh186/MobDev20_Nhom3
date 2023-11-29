@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -27,110 +29,96 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
-public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapter.ViewHolder>{
+public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
     Context context;
-    List<AppUser> users;
+    TextView name, age, description, hobby, job;
+    Button yes, nope;
+    ProgressBar currentDisplay;
+    ImageView avt;
+    int currentDisplayPhoto = 0;
 
     public CardRecyclerAdapter(Context context, List<AppUser> users){
+        super(context, 0, users);
         this.context = context;
-        this.users = users;
     }
 
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.card, parent,false);
-        return new CardRecyclerAdapter.ViewHolder(view);
-    }
-
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.v("REALM TEST BIND VIEW", users.get(position).getProfile().getName());
-        holder.setProfile(users.get(position).getProfile());
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View currentCard = convertView;
+
+        if(currentCard == null){
+            currentCard = LayoutInflater.from(context).inflate(R.layout.card, parent, false);
+        }
+
+        AppUser currentUser = getItem(position);
+        Profile profile = currentUser.getProfile();
+
+        name = currentCard.findViewById(R.id.username);
+        age = currentCard.findViewById(R.id.age);
+        description = currentCard.findViewById(R.id.describe);
+        hobby = currentCard.findViewById(R.id.hobbies);
+        job = currentCard.findViewById(R.id.occupy);
+        yes = currentCard.findViewById(R.id.dating_button);
+        nope = currentCard.findViewById(R.id.nope_button);
+        avt = currentCard.findViewById(R.id.avatar);
+        currentDisplay = currentCard.findViewById(R.id.avaProgress);
+
+        setProfile(profile);
+
+        return currentCard;
+    }
+
+    public void setProfile(Profile profile) {
+        name.setText(profile.getName());
+        int age = 1;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            age = Period.between(profile.getDob().toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
+        }
+        this.age.setText("age: " + age + "   " + profile.getGender());
+        description.setText(profile.getDescription());
+        StringBuilder hob = new StringBuilder();
+        for (String i: profile.getHobby()) {
+            hob.append(i).append(", ");
+        }
+        hobby.setText(hob);
+        job.setText(profile.getOccupy());
+
         Picasso.get()
-                .load(users.get(position).getProfile().getPhoto().get(0))
-                .into(holder.avt);
-        holder.currentDisplay.setMax(users.get(position).getProfile().getPhoto().size());
-        holder.currentDisplay.setProgress(1);
-    }
+                .load(profile.getPhoto().get(0))
+                .into(avt);
+        currentDisplay.setMax(profile.getPhoto().size());
+        currentDisplay.setProgress(1);
 
-    @Override
-    public int getItemCount() {
-        return users.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private Profile profile;
-        //everything in a card
-        TextView name, age, description, hobby, job;
-        Button yes, nope;
-        ProgressBar currentDisplay;
-        ImageView avt;
-        private int currentDisplayPhoto = 0;
-        public ViewHolder(@NonNull View item){
-            super(item);
-            //text v
-            name = item.findViewById(R.id.username);
-            age = item.findViewById(R.id.age);
-            description = item.findViewById(R.id.describe);
-            hobby = item.findViewById(R.id.hobbies);
-            job = item.findViewById(R.id.occupy);
-            //btn
-            yes = item.findViewById(R.id.dating_button);
-            nope = item.findViewById(R.id.nope_button);
-            //img
-            avt = item.findViewById(R.id.avatar);
-            currentDisplay = item.findViewById(R.id.avaProgress);
-
-            yes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
-                    if(currentDisplayPhoto == (profile.getPhoto().size() - 1)){
-                        return;
-                    }
-                    currentDisplayPhoto += 1;
-                    currentDisplay.setProgress(currentDisplayPhoto + 1);
-                    Picasso.get()
-                            .load(currentPic())
-                            .into(avt);
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
+                if(currentDisplayPhoto == (profile.getPhoto().size() - 1)){
+                    return;
                 }
-            });
+                currentDisplayPhoto += 1;
+                currentDisplay.setProgress(currentDisplayPhoto + 1);
+                Picasso.get()
+                        .load(profile.getPhoto().get(currentDisplayPhoto))
+                        .into(avt);
+            }
+        });
 
-            nope.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
-                    if(currentDisplayPhoto == 0){
-                        return;
-                    }
-                    currentDisplayPhoto -= 1;
-                    currentDisplay.setProgress(currentDisplayPhoto + 1);
-                    Picasso.get()
-                            .load(currentPic())
-                            .into(avt);
+        nope.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
+                if(currentDisplayPhoto == 0){
+                    return;
                 }
-            });
-
-        }
-
-        public String currentPic(){
-            return profile.getPhoto().get(currentDisplayPhoto);
-        }
-
-        public void setProfile(Profile profile) {
-            this.profile = profile;
-            name.setText(profile.getName());
-            int age = 1;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                age = Period.between(profile.getDob().toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
+                currentDisplayPhoto -= 1;
+                currentDisplay.setProgress(currentDisplayPhoto + 1);
+                Picasso.get()
+                        .load(profile.getPhoto().get(currentDisplayPhoto))
+                        .into(avt);
             }
-            this.age.setText("age: " + age);
-            description.setText(profile.getDescription());
-            StringBuilder hob = new StringBuilder();
-            for (String i: profile.getHobby()) {
-                hob.append(i).append(", ");
-            }
-            hobby.setText(hob);
-            job.setText(profile.getOccupy());
-        }
+        });
     }
+
 }
