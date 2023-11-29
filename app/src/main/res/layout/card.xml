@@ -16,15 +16,40 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="-70dp"
         android:src="@drawable/blur_login" />
+<!--    for image viewing-->
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--        <Button-->
+<!--            -->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+<!--    </FrameLayout>-->
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="300dp"
-        android:layout_height="375dp"
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/avatarHolder"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/rickroll" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/avaProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="300dp"
+            android:layout_height="375dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/rickroll" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/username"
@@ -34,22 +59,12 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_below="@id/avatar"
+        android:layout_below="@id/avatarHolder"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"/>
 
-
-    <include layout="@layout/item_hobby_without_x"
-        android:id="@+id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/avatar"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="35dp" />
-
     <TextView
-        android:id="@+id/describe"
+        android:id="@+id/occupy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ca Sĩ"
@@ -71,7 +86,7 @@
         android:textStyle="normal"
         android:layout_below="@id/username"
         android:fontFamily="@font/plusjakartasans"
-        android:layout_toRightOf="@id/describe"
+        android:layout_toRightOf="@id/occupy"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"/>
 
@@ -79,7 +94,7 @@
         android:id="@+id/hobby1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/describe"
+        android:layout_below="@id/occupy"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"/>
 
@@ -87,10 +102,19 @@
         android:id="@+id/hobby2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/describe"
+        android:layout_below="@id/occupy"
         android:layout_toRightOf="@id/hobby1"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp"/>
+
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/hobby3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/occupy"
+        android:layout_toRightOf="@id/hobby2"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"

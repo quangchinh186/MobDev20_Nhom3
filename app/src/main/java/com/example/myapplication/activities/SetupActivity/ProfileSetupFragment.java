@@ -82,9 +82,9 @@ public class ProfileSetupFragment extends Fragment {
     }
   }
 
-  public List<String> getHobbies() {
-    return hobbies;
-  }
+//  public List<String> getHobbies() {
+//    return hobbies;
+//  }
 
 
   public LinearLayout getLayout() {

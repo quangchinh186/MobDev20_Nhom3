@@ -32,7 +32,8 @@ import java.util.List;
 public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
     Context context;
     TextView name, age, description, hobby, job;
-    Button yes, nope;
+    ImageView yes, nope;
+    Button next, prev;
     ProgressBar currentDisplay;
     ImageView avt;
     int currentDisplayPhoto = 0;
@@ -56,8 +57,8 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
 
         name = currentCard.findViewById(R.id.username);
         age = currentCard.findViewById(R.id.age);
-        description = currentCard.findViewById(R.id.describe);
-        hobby = currentCard.findViewById(R.id.hobbies);
+
+
         job = currentCard.findViewById(R.id.occupy);
         yes = currentCard.findViewById(R.id.dating_button);
         nope = currentCard.findViewById(R.id.nope_button);
@@ -76,12 +77,12 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
             age = Period.between(profile.getDob().toInstant().atOffset(ZoneOffset.UTC).toLocalDate(), LocalDate.now()).getYears();
         }
         this.age.setText("age: " + age + "   " + profile.getGender());
-        description.setText(profile.getDescription());
+        //description.setText(profile.getDescription());
         StringBuilder hob = new StringBuilder();
         for (String i: profile.getHobby()) {
             hob.append(i).append(", ");
         }
-        hobby.setText(hob);
+        //hobby.setText(hob);
         job.setText(profile.getOccupy());
 
         Picasso.get()

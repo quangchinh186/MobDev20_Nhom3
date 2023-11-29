@@ -53,9 +53,9 @@ public class ProfileDescriptionSetup extends Fragment {
     }
   }
 
-  public String getDescription() {
-    return ((TextView) requireActivity().findViewById(R.id.setup_profile_description)).getText().toString();
-  }
+//  public String getDescription() {
+//    return ((TextView) requireActivity().findViewById(R.id.setup_profile_description)).getText().toString();
+//  }
 
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {

@@ -11,22 +11,31 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="37.41dp"
             android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="999dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/avatar_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+            </androidx.cardview.widget.CardView>
+
             <!-- Section Name -->
             <TextView
-                android:id="@+id/basic_info_setup_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Họ và tên"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
             <EditText
-                android:id="@+id/basic_info_setup_name_input"
+                android:id="@+id/name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_edit_text"
@@ -299,10 +308,7 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
-
-
 
     </ScrollView>
 
