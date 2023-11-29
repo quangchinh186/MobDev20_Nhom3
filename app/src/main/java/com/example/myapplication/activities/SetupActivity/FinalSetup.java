@@ -2,6 +2,7 @@ package com.example.myapplication.activities.SetupActivity;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.R;
+import com.google.android.material.slider.RangeSlider;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FinalSetup#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FinalSetup extends Fragment {
+public class  FinalSetup extends Fragment {
 
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +27,7 @@ public class FinalSetup extends Fragment {
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
+  private RangeSlider rangeSlider;
 
   public FinalSetup() {
     // Required empty public constructor
@@ -55,6 +58,22 @@ public class FinalSetup extends Fragment {
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
+  }
+
+  public Long getMinAge(){
+    Float minAge = rangeSlider.getValues().get(0);
+    return minAge.longValue();
+  }
+
+  public Long getMaxAge(){
+    Float maxAge = rangeSlider.getValues().get(1);
+    return maxAge.longValue();
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    rangeSlider = getActivity().findViewById(R.id.sliderRange);
   }
 
   @Override

@@ -65,6 +65,8 @@ public class SetupActivity extends AppCompatActivity {
     } else if (fragment instanceof ProfileDescriptionSetup) {
       profile.setDescription(((ProfileDescriptionSetup) fragment).getDescription());
     } else if (fragment instanceof FinalSetup) {
+      profile.setMinAge(((FinalSetup) fragment).getMinAge());
+      profile.setMaxAge(((FinalSetup) fragment).getMaxAge());
       uploadImage(uri);
     }
   }
