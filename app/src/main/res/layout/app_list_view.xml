@@ -45,16 +45,20 @@
         android:gravity="end"
         android:orientation="horizontal">
         <ImageView
+            android:id="@+id/item_conversation_review"
+            android:layout_width="21.89dp"
+            android:layout_height="21.89dp"
+            android:src="@drawable/review"
+            android:layout_marginRight="21.89dp" />
+        <ImageView
             android:id="@+id/item_conversation_view_button"
             android:layout_marginRight="21.89dp"
             android:layout_width="23.48dp"
             android:layout_height="23.48dp"
             android:src="@drawable/chat_button" />
-
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:id="@+id/item_conversation_delete"
             app:cardCornerRadius="999dp">
             <ImageView

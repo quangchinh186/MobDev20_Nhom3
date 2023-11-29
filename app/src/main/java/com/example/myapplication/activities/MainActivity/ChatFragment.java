@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,6 +59,13 @@ public class ChatFragment extends Fragment {
             super.onViewCreated(view, savedInstanceState);
 
             conversationList = getActivity().findViewById(R.id.conversation_list_container);
+            EditText reviewEdit = getActivity().findViewById(R.id.item_conversation_review_edittext);
+            TextView submitReviewBtn = getActivity().findViewById(R.id.item_conversation_submit_review);
+            LinearLayout reviewContainer = getActivity().findViewById(R.id.review_container);
+            FrameLayout chatFragment = getActivity().findViewById(R.id.fragment_chat);
+            chatFragment.setOnClickListener(v -> {
+                reviewContainer.setVisibility(View.GONE);
+            });
 
             RealmList<ObjectId> roomList = ApplicationActivity.user.getChatRoomList();
             if (roomList.size() == 0) {
@@ -69,9 +78,18 @@ public class ChatFragment extends Fragment {
                 TextView name = item.findViewById(R.id.item_conversation_name);
                 ImageView btnView = item.findViewById(R.id.item_conversation_view_button);
                 CardView btnDelete = item.findViewById(R.id.item_conversation_delete);
+                ImageView btnReview = item.findViewById(R.id.item_conversation_review);
                 ObjectId friendId = ApplicationActivity.queryHelper.getFriend(objectId);
                 loadAvatar(ApplicationActivity.queryHelper.getProfilePicture(friendId), avt);
                 name.setText(ApplicationActivity.queryHelper.getProfileName(friendId));
+                btnReview.setOnClickListener(v -> {
+                    reviewContainer.setVisibility(View.VISIBLE);
+                    submitReviewBtn.setOnClickListener(vv -> {
+                        ApplicationActivity.queryHelper.addReview(friendId, reviewEdit.getText().toString());
+                        reviewEdit.setText("");
+                        reviewContainer.setVisibility(View.INVISIBLE);
+                    });
+                });
                 btnView.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), Conversation.class);
                     intent.putExtra("chatId", objectId.toString());
