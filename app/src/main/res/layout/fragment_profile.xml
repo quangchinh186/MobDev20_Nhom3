@@ -11,53 +11,64 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
         <LinearLayout
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="200dp"
             android:layout_marginTop="37.41dp"
             android:orientation="vertical">
-            <!-- Section Title -->
             <TextView
-                android:id="@+id/basic_info_setup_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="Thông tin cơ bản"
                 android:textColor="@color/white"
                 android:textSize="26sp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="50dp"
                 android:textStyle="bold" />
             <!-- Section Avatar -->
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 app:cardCornerRadius="999dp"
-                android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/profile_avatar"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-
+                    android:id="@+id/fragment_profile_avt"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/panic02" />
             </androidx.cardview.widget.CardView>
-
+            <TextView
+                android:id="@+id/fragment_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:text="Tien Dung" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#ccc"
+                android:layout_marginTop="30dp"
+                android:textSize="16sp"
+                android:text="Chỉnh sửa thông tin" />
             <!-- Section Name -->
             <TextView
-                android:id="@+id/basic_info_setup_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Họ và tên"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
             <EditText
-                android:id="@+id/basic_info_setup_name_input"
+                android:id="@+id/fragment_profile_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_edit_text"
@@ -74,7 +85,6 @@
                 android:layout_marginTop="37.41dp"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/basic_info_setup_dob"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày sinh"
@@ -86,7 +96,7 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="15.92dp">
                     <EditText
-                        android:id="@+id/basic_info_setup_day_input"
+                        android:id="@+id/fragment_profile_day_input"
                         android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_edit_text"
@@ -102,7 +112,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false" />
                     <EditText
-                        android:id="@+id/basic_info_setup_month_input"
+                        android:id="@+id/fragment_profile_month_input"
                         android:layout_width="45dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_edit_text"
@@ -118,7 +128,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"/>
                     <EditText
-                        android:id="@+id/basic_info_setup_year_input"
+                        android:id="@+id/fragment_profile_year_input"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_edit_text"
@@ -160,7 +170,7 @@
                         android:background="@drawable/custom_edit_text"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
                         <AutoCompleteTextView
-                            android:id="@+id/autoCompleteGender"
+                            android:id="@+id/fragment_profile_autoCompleteGender"
                             android:layout_width="match_parent"
                             android:layout_height="50.25dp"
                             android:background="@android:color/transparent"
@@ -192,7 +202,7 @@
                         android:background="@drawable/custom_edit_text"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
                         <AutoCompleteTextView
-                            android:id="@+id/autoCompleteSearch"
+                            android:id="@+id/fragment_profile_autoCompleteSearch"
                             android:layout_width="match_parent"
                             android:layout_height="50.25dp"
                             android:background="@android:color/transparent"
@@ -203,39 +213,11 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
-
-            <!-- Section Avatar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="37.41dp"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:text="Ảnh cho profile của bạn" />
-                <LinearLayout
-                    android:layout_marginTop="18.7dp"
-                    android:layout_width="99.5dp"
-                    android:gravity="center"
-                    android:background="@drawable/custom_edit_text"
-                    android:layout_height="99.5dp">
-                    <ImageView
-                        android:id="@+id/setup_profile_img"
-                        android:layout_width="39.5dp"
-                        android:layout_height="39.5dp"
-                        android:cropToPadding="true"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/setup_add_img" />
-                </LinearLayout>
-            </LinearLayout>
             <!-- Section Hobby -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="37.41dp"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
@@ -251,7 +233,7 @@
                     android:background="@drawable/custom_edit_text"
                     android:layout_marginTop="18.7dp">
                     <AutoCompleteTextView
-                        android:id="@+id/setup_profile_hobby"
+                        android:id="@+id/fragment_profile_hobby_input"
                         android:layout_width="200dp"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
@@ -262,7 +244,7 @@
                         android:textColor="@color/white"
                         android:textColorHint="@color/white" />
                     <TextView
-                        android:id="@+id/setup_profile_add_hobby"
+                        android:id="@+id/fragment_profile_add_hobby"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
@@ -273,7 +255,7 @@
                         android:text="Thêm" />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/setup_profile_hobby_list"
+                    android:id="@+id/fragment_profile_hobby_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -294,7 +276,7 @@
                     android:textColor="@color/white"
                     android:text="Mô tả profile của bản thân" />
                 <EditText
-                    android:id="@+id/setup_profile_description"
+                    android:id="@+id/fragment_profile_description"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="18.7dp"
@@ -309,32 +291,62 @@
                     android:background="@drawable/custom_edit_text" />
 
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginTop="30dp"
+                android:text="Khoảng tuổi" />
             <com.google.android.material.slider.RangeSlider
-                android:id="@+id/sliderRange"
+                android:id="@+id/fragment_profile_sliderRange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stepSize="1"
                 android:value="20"
+                android:layout_marginTop="10dp"
                 android:valueFrom="0"
                 android:valueTo="100"
                 app:values="@array/rangeSliderValues" />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="37.41dp"
-                android:orientation="vertical">
-
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp">
+                <Button
+                    android:id="@+id/fragment_profile_save_button"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/addhobbybutton"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="Lưu"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/fragment_profile_reset_button"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/addhobbybutton"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="30dp"
+                    android:text="Reset"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
-
         </LinearLayout>
-
-
-
     </ScrollView>
+    <AbsoluteLayout
+        android:id="@+id/decor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:translationZ="-1dp"
+        android:background="#12101A">
 
+        <ImageView
+            android:id="@+id/decor_blur"
+            android:layout_width="346.415dp"
+            android:layout_height="389dp"
+            android:layout_x="145dp"
+            android:layout_y="335dp"
+            android:src="@drawable/app_blur" />
+    </AbsoluteLayout>
 </FrameLayout>
