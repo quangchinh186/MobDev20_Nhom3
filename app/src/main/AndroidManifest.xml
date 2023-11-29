@@ -14,10 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
-        <receiver
-            android:name=".system.ResponseReceiver"
-            android:enabled="true"
-            android:exported="true"></receiver>
 
         <activity
             android:name=".activities.Authentication.PreResetPasswordActivity"
@@ -53,7 +49,13 @@
         <activity
             android:name=".activities.Authentication.VerifyOtpActivity"
             android:exported="true" />
-
+        <receiver android:name=".activities.Conversation$ResponseReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="getRecommend" />
+            </intent-filter>
+        </receiver>
         <meta-data
             android:name="CLOUDINARY_URL"
             android:value="cloudinary://136232225492213:P3h6JjgOKBBt_JTqkO9NQS8tuP0@dihtkakro" />

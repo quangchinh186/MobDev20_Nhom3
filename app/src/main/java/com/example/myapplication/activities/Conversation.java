@@ -1,22 +1,15 @@
 package com.example.myapplication.activities;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +18,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -37,22 +28,13 @@ import com.example.myapplication.activities.Adapter.ChatAdapter;
 import com.example.myapplication.schema.ChatMessage;
 import com.example.myapplication.system.BatoSensei;
 import com.example.myapplication.system.Message;
-import com.example.myapplication.system.ResponseReceiver;
 import com.squareup.picasso.Picasso;
-
 import org.bson.types.ObjectId;
-
-import java.lang.invoke.MethodHandle;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -68,13 +50,13 @@ public class Conversation extends AppCompatActivity {
     TextView senderName;
     BatoSensei batoSensei;
 
-    ArrayList<ChatMessage> historyMessages = new ArrayList<>();
+    List<ChatMessage> historyMessages = new ArrayList<>();
 
     public class ResponseReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String result = intent.getStringExtra("result");
-            callback(result);
+            retrieveResult(result);
         }
     }
 
@@ -173,19 +155,44 @@ public class Conversation extends AppCompatActivity {
             Log.v("Image URI",selectedImageUri.toString());
         });
 
+    public void clearLayout(LinearLayout layout){
+        while (layout.getChildCount() > 1)
+            layout.removeView(layout.getChildAt(1));
+    }
+
     public void addRecommendLayout(String result){
         View view = getLayoutInflater().inflate(R.layout.item_recommendation_box, null);
+        view.setVisibility(View.VISIBLE);
         LinearLayout layout = findViewById(R.id.recommendation_box);
+        layout.setVisibility(View.VISIBLE);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 37, 0, 0);
+        view.setLayoutParams(params);
+        view.setOnClickListener(v -> {
+            messageInput.setText(result);
+            layout.setVisibility(View.GONE);
+            clearLayout(layout);
+        });
         TextView recommend = view.findViewById(R.id.recommend_chat);
         recommend.setText(result);
         layout.addView(view);
     }
 
-    public void callback(String result){
-        List<String> listResult = Arrays.asList(result.split("/"));
-        addRecommendLayout(result);
+    public void retrieveResult(String result){
+        List<String> listResult = Arrays.asList(result.split("\n"));
+        listResult.forEach(this::addRecommendLayout);
+    }
+
+    public void onAskSensei(List<String> list) {
+        StringBuilder question = new StringBuilder();
+        for(int i = 1; i < list.size(); i++){
+            question.append(list.get(i)).append(" ");
+        }
+        List<String> gender = new ArrayList<>();
+        gender.add(ApplicationActivity.user.getProfile().getGender());
+        gender.add(ApplicationActivity.queryHelper.getProfile(oppo).getGender());
+        List<String> oppoHobbies = ApplicationActivity.queryHelper.getProfile(oppo).getHobby();
+        batoSensei.asyncGetRecommendation(question.toString(), gender, oppoHobbies, getApplicationContext());
     }
 
     public void onSendMessage(View view){
@@ -196,22 +203,11 @@ public class Conversation extends AppCompatActivity {
             }
             List<String> list;
             list = Arrays.asList(m.split(" "));
-            if(list.size() > 2 && list.get(0).equals("/sensei")){
-                List<Message> messages = new ArrayList<>();
-                //lấy 20 tin nhắn gần nhất
-                for(int i = historyMessages.size() - 1; historyMessages.size() - 1 - i <= 20 && i >= 0; i--){
-                    if(historyMessages.get(i).getFrom().equals(ApplicationActivity.user.getId())){
-                        messages.add(new Message(historyMessages.get(i).getMessage(), Message.SENT_BY_ME));
-                    }else{
-                        messages.add(new Message(historyMessages.get(i).getMessage(), Message.SENT_BY_API));
-                    }
-                }
-                //lấy câu hỏi
-                StringBuilder question = new StringBuilder();
-                for(int i = 1; i < list.size(); i++){
-                    question.append(list.get(i)).append(" ");
-                };
-                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender(), getApplicationContext());
+            if(list.size() > 1 && list.get(0).equals("/sensei")){
+                onAskSensei(list);
+                clearLayout(findViewById(R.id.recommendation_box));
+                messageInput.setText("");
+                return;
             }
             messageInput.setText("");
             ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
@@ -219,7 +215,6 @@ public class Conversation extends AppCompatActivity {
             chatRecycler.scrollToPosition(historyMessages.size() - 1);
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("Conversation", e.getMessage(), e);
         }
     }
 

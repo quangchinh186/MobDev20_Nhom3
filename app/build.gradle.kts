@@ -71,7 +71,12 @@ dependencies {
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation("io.realm:realm-gradle-plugin:10.16.1")
+// define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
 
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
     //cloudinary
     implementation("com.cloudinary:cloudinary-android:2.3.1")
     implementation("com.cloudinary:cloudinary-android-download:2.3.1")

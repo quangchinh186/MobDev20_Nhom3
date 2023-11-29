@@ -67,7 +67,7 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         //everything in a card
         TextView name, age;
-        ImageButton yes, nope;
+        ImageView yes, nope;
         ImageView avt;
         public int currentDisplayPhoto = 0;
         public ViewHolder(@NonNull View item){

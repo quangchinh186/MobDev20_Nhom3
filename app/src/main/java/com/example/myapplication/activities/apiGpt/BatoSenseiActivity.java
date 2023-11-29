@@ -72,9 +72,6 @@ public class BatoSenseiActivity extends AppCompatActivity {
             callAPI(question);
             welcomeTextView.setVisibility(View.GONE);
         });
-
-
-
     }
 
     void addToChat(String message,String sentBy){
@@ -116,7 +113,6 @@ public class BatoSenseiActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
                 .header("Authorization","Bearer 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")
-                .post(body)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
