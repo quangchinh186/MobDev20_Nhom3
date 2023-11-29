@@ -147,6 +147,10 @@ public class QueryHelper {
         });
     }
 
+    public Profile getProfile(ObjectId id){
+        return getUser(id).getProfile();
+    }
+
     public String getProfilePicture(ObjectId id){
         return getUser(id).getProfile().getPhoto().first();
     }

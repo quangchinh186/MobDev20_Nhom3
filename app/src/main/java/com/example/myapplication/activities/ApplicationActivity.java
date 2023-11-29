@@ -35,6 +35,7 @@ import com.example.myapplication.activities.SetupActivity.SetupActivity;
 import com.example.myapplication.databinding.ActivityApplicationBinding;
 import com.example.myapplication.schema.AppUser;
 
+import com.example.myapplication.schema.Profile;
 import com.example.myapplication.system.BatoSystem;
 import com.example.myapplication.system.QueryHelper;
 
@@ -130,7 +131,6 @@ public class ApplicationActivity extends AppCompatActivity {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
         }
     }
-   //upload image by this function
 
     @Override
     protected void onDestroy() {

@@ -8,8 +8,6 @@
     android:layout_gravity="bottom"
     android:translationZ="-1dp"
     android:background="#12101A">
-
-
     <ImageView
         android:id="@+id/decor_blur"
         android:layout_width="346.415dp"
@@ -101,13 +99,12 @@
         android:layout_marginTop="50dp"
         android:layout_marginLeft="70dp"
         app:cardCornerRadius="999dp">
-        <ImageButton
+        <ImageView
             android:id="@+id/nope_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/circle_background"
-            android:src="@drawable/nope"
-            android:padding="15dp" />
+            android:src="@drawable/nope" />
     </androidx.cardview.widget.CardView>
         <!--Remember to change the button image-->
 
@@ -119,12 +116,11 @@
         android:layout_marginTop="50dp"
         android:layout_marginRight="70dp"
         app:cardCornerRadius="999dp">
-        <ImageButton
+        <ImageView
             android:id="@+id/dating_button"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/circle_background"
-            android:padding="15dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/heart" />
     </androidx.cardview.widget.CardView>

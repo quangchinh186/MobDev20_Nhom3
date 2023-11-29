@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -42,6 +43,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
@@ -89,7 +92,7 @@ public class Conversation extends AppCompatActivity {
                 .into(avtSender);
         senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
         chatRecycler.scrollToPosition(historyMessages.size() - 1);
-        batoSensei = new BatoSensei();
+        batoSensei = new BatoSensei(senderName.getText().toString(), ApplicationActivity.user.getProfile().getName());
     }
 
     public void onBackButtonClicked(View view){
@@ -152,28 +155,54 @@ public class Conversation extends AppCompatActivity {
             Log.v("Image URI",selectedImageUri.toString());
         });
 
-    public void addRecommendLayout(String url){
+    public void addRecommendLayout(String result){
         View view = getLayoutInflater().inflate(R.layout.item_recommendation_box, null);
         LinearLayout layout = findViewById(R.id.recommendation_box);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 37, 0, 0);
+        TextView recommend = view.findViewById(R.id.recommend_chat);
+        recommend.setText(result);
         layout.addView(view);
     }
 
+    public void callback(String result){
+        List<String> listResult = Arrays.asList(result.split("/"));
+        addRecommendLayout(result);
+    }
+
     public void onSendMessage(View view){
-        String m = messageInput.getText().toString();
-        if(m.equals("")){
-            return;
+        try {
+            String m = messageInput.getText().toString();
+            if(m.equals("")){
+                return;
+            }
+            List<String> list;
+            list = Arrays.asList(m.split(" "));
+            if(list.size() > 2 && list.get(0).equals("/sensei")){
+                List<Message> messages = new ArrayList<>();
+                //lấy 20 tin nhắn gần nhất
+                for(int i = historyMessages.size() - 1; historyMessages.size() - 1 - i <= 20 && i >= 0; i--){
+                    if(historyMessages.get(i).getFrom().equals(ApplicationActivity.user.getId())){
+                        messages.add(new Message(historyMessages.get(i).getMessage(), Message.SENT_BY_ME));
+                    }else{
+                        messages.add(new Message(historyMessages.get(i).getMessage(), Message.SENT_BY_API));
+                    }
+                }
+                //lấy câu hỏi
+                StringBuilder question = new StringBuilder();
+                for(int i = 1; i < list.size(); i++){
+                    question.append(list.get(i)).append(" ");
+                }
+                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender(), this::callback);
+            }
+            messageInput.setText("");
+            ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
+            addChangeListener();
+            chatRecycler.scrollToPosition(historyMessages.size() - 1);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Conversation", e.getMessage(), e);
         }
-        List<String> list;
-        list = Arrays.asList(m.split(" "));
-        if(list.size() > 2 && list.get(0).equals("/sensei")){
-            return;
-        }
-        messageInput.setText("");
-        ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
-        addChangeListener();
-        chatRecycler.scrollToPosition(historyMessages.size() - 1);
     }
 
     public void getMessages(){

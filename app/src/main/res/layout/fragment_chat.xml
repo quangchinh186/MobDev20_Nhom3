@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity.ChatFragment">
-
-    <TextView
-        android:textSize="40dp"
-        android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Danh sach tuong hop" />
+        android:paddingLeft="27.51dp"
+        android:paddingRight="27.51dp"
+        android:paddingTop="112.23dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách tương hợp"
+            android:textColor="@color/white"
+            android:textSize="23.823sp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/conversation_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="72dp"
+            android:layout_marginBottom="130dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+    </LinearLayout>
+    <AbsoluteLayout
+        android:id="@+id/decor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:translationZ="-1dp"
+        android:background="#12101A">
 
-    <ListView
-        android:id="@+id/matched"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+        <ImageView
+            android:layout_width="450dp"
+            android:layout_height="450dp"
+            android:layout_x="50dp"
+            android:layout_y="300dp"
+            android:src="@drawable/blur2" />
+    </AbsoluteLayout>
 </FrameLayout>

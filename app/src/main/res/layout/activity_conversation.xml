@@ -78,6 +78,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="18.7dp"
+            android:visibility="invisible"
             android:background="#1Affffff">
             <TextView
                 android:id="@+id/recommend_chat"
