@@ -57,7 +57,6 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         try {
             super.onViewCreated(view, savedInstanceState);
-
             conversationList = getActivity().findViewById(R.id.conversation_list_container);
             EditText reviewEdit = getActivity().findViewById(R.id.item_conversation_review_edittext);
             TextView submitReviewBtn = getActivity().findViewById(R.id.item_conversation_submit_review);
@@ -72,6 +71,7 @@ public class ChatFragment extends Fragment {
                 return;
             }
             Log.v("realm test conversation", roomList.toString());
+
             roomList.forEach(objectId -> {
                 View item = getLayoutInflater().inflate(R.layout.app_list_view, conversationList, false);
                 ImageView avt = item.findViewById(R.id.item_conversation_avatar);

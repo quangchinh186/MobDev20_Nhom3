@@ -110,12 +110,14 @@ public class ApplicationActivity extends AppCompatActivity {
             return;
         }
         queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
+        queryHelper.findAllUsers();
         if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
             startActivity(new Intent(this, SetupActivity.class));
+        } else {
+            user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+            checkNewMatch();
+            addListener();
         }
-        user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
-        checkNewMatch();
-        addListener();
     }
 
     private void initThingsOnce(){

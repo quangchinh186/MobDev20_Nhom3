@@ -53,11 +53,11 @@ public class QueryHelper {
                 new SyncConfiguration.Builder(user)
                 .allowWritesOnUiThread(true)
                 .initialSubscriptions((realm, subscriptions) -> {
-                    subscriptions.addOrUpdate(Subscription.create("user query",
+                    subscriptions.addOrUpdate(Subscription.create("user_query",
                                 realm.where(AppUser.class)));
-                    subscriptions.addOrUpdate(Subscription.create("chat query",
+                    subscriptions.addOrUpdate(Subscription.create("chat_query",
                                 realm.where(ChatMessage.class)));
-                    subscriptions.addOrUpdate(Subscription.create("chat room query",
+                    subscriptions.addOrUpdate(Subscription.create("chat_room_query",
                                 realm.where(ChatRoom.class)));
 
                     Log.v("realm subscription", "size: " + subscriptions.size());
@@ -212,25 +212,27 @@ public class QueryHelper {
         List<AppUser> list = new ArrayList<>();
         list.addAll(realmApp.where(AppUser.class).findAll());
 
-        //default filter (by Gender)
-        List<ObjectId> filter = new ArrayList<>();
-        filter.addAll(u.getMatchingState().getMatched());
-        filter.addAll(u.getMatchingState().getLike());
-        filter.addAll(u.getMatchingState().getIsNotLikedBy());
-        filter.addAll(u.getMatchingState().getNotLike());
-        list.removeIf(i -> (i.getId().equals(u.getId())));
-        list.removeIf(i -> (filter.contains(i.getId())));
-        list.removeIf(i -> (!i.getProfile().getGender().equals(u.getProfile().getInterest())));
+        return list;
 
-        //filter by age range
-
-        //filter by hobbies
-        if(filterHobbies){
-            //filter
-            list.removeIf(i -> (!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())));
-        }
-
-        return list.subList(0, (Math.min(30, list.size())));
+//        //default filter (by Gender)
+//        List<ObjectId> filter = new ArrayList<>();
+//        filter.addAll(u.getMatchingState().getMatched());
+//        filter.addAll(u.getMatchingState().getLike());
+//        filter.addAll(u.getMatchingState().getIsNotLikedBy());
+//        filter.addAll(u.getMatchingState().getNotLike());
+//        //list.removeIf(i -> (i.getId().equals(u.getId())));
+//        list.removeIf(i -> (filter.contains(i.getId())));
+//        list.removeIf(i -> (!i.getProfile().getGender().equals(u.getProfile().getInterest())));
+//
+//        //filter by age range
+//
+//        //filter by hobbies
+//        if(filterHobbies){
+//            //filter
+//            list.removeIf(i -> (!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())));
+//        }
+//
+//        return list.subList(0, (Math.min(30, list.size())));
     }
 
     private static <T> boolean haveCommonElement(List<T> list1, List<T> list2) {

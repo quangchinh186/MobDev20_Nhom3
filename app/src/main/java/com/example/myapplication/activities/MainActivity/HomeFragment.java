@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(ApplicationActivity.user != null){
             data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
+
         }
         Log.v("realm view data", "data size: " + data.size());
         // Inflate the layout for this fragment

@@ -11,6 +11,7 @@ import io.realm.annotations.Required;
 
 @RealmClass(embedded = true)
 public class Profile extends RealmObject {
+    @Required
     private String name;
     @Required
     private Date dob;
@@ -20,6 +21,8 @@ public class Profile extends RealmObject {
     private String interest;
     private String occupy;
     private String description;
+    private long minAge;
+    private long maxAge;
     @Required
     private RealmList<String> achievement;
     @Required
@@ -36,6 +39,8 @@ public class Profile extends RealmObject {
         this.interest = "";
         this.occupy = "occupy";
         this.description = "description";
+        this.minAge = 18;
+        this.maxAge = 35;
         this.achievement = new RealmList<>();
         this.review = new RealmList<>();
         this.photo = new RealmList<>();
@@ -54,6 +59,25 @@ public class Profile extends RealmObject {
         this.review = review;
         this.photo = photo;
         this.hobby = hobby;
+        this.minAge = 18;
+        this.maxAge = 35;
+    }
+
+
+    public long getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(long minAge) {
+        this.minAge = minAge;
+    }
+
+    public long getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(long maxAge) {
+        this.maxAge = maxAge;
     }
 
     public String getInterest() {
