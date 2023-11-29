@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), PreResetPasswordActivity.class));
                 finish();
-                BatoSystem.sendMessage("click", getApplicationContext());
             }
         });
     }

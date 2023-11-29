@@ -47,7 +47,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         String[] args = {"security answer 1", "security answer 2"};
         app.getEmailPassword().callResetPasswordFunctionAsync(email, password, args, it -> {
             if(it.isSuccess()){
-                BatoSystem.sendMessage("Đặt Lại Mật Khẩu Thành Công! Vui Lòng Đăng Nhập Lại", this);
+                BatoSystem.sendMessage("Đặt Lại Mật Khẩu Thành Công!", this);
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             } else {

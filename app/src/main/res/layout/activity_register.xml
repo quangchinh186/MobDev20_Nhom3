@@ -121,26 +121,6 @@
 
                 </EditText>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Tên hiển thị"
-                    android:textColor="@color/white"/>
-
-                <EditText
-                    android:id="@+id/username_regis_input"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="43.7dp"
-                    android:hint="Tên của bạn"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textSize="15dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="#aaa"
-                    android:background="@drawable/custom_edit_text"
-                    android:inputType="textEmailAddress"/>
             </LinearLayout>
 
             <Button
