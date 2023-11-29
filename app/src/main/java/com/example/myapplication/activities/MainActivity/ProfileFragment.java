@@ -17,6 +17,7 @@ import android.widget.Button;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.activities.Authentication.LoginActivity;
+import com.example.myapplication.schema.AppUser;
 import com.example.myapplication.schema.ChatMessage;
 import com.example.myapplication.schema.ChatRoom;
 import com.example.myapplication.schema.Profile;
@@ -43,6 +44,7 @@ import io.realm.mongodb.App;
 
 public class ProfileFragment extends Fragment {
     App app = ApplicationActivity.app;
+    AppUser user = ApplicationActivity.user;
 
     String[] hoTenVietNam = {
             "Nguyễn Văn A", "Trần Thị Bích", "Lê Văn Cường", "Phạm Thị Diệu", "Hoàng Văn Eo",
@@ -251,6 +253,8 @@ public class ProfileFragment extends Fragment {
         startActivity(loginActivity);
         app.currentUser().logOutAsync(res -> {
             if(res.isSuccess()){
+                BatoSystem.writeInteger(user.getId().toString() + "match", user.getMatchingState().getMatched().size());
+                BatoSystem.writeBoolean(user.getId().toString() + "filter", ApplicationActivity.filterHobbies);
                 ApplicationActivity.queryHelper.closeRealm();
                 ApplicationActivity.user = null;
                 ApplicationActivity.queryHelper = null;

@@ -57,7 +57,7 @@ public class ApplicationActivity extends AppCompatActivity {
     public static AppUser user = null;
     public static QueryHelper queryHelper = null;
 
-    int oldMatchSize;
+    public static boolean filterHobbies = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,6 @@ public class ApplicationActivity extends AppCompatActivity {
         //init once and share pref
         initThingsOnce();
         BatoSystem.initPref(this);
-
 
         // to check login state
         if (app.currentUser() == null) {
@@ -112,6 +111,7 @@ public class ApplicationActivity extends AppCompatActivity {
             startActivity(new Intent(this, SetupActivity.class));
         }
         user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+        checkNewMatch();
         addListener();
     }
 
@@ -130,6 +130,8 @@ public class ApplicationActivity extends AppCompatActivity {
             initSyncRealm();
         } else {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+            filterHobbies = BatoSystem.readBoolean(user.getId() + "filter", false);
+            checkNewMatch();
             addListener();
         }
         
@@ -143,6 +145,8 @@ public class ApplicationActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if(app.currentUser() != null){
+            BatoSystem.writeInteger(user.getId().toString() + "match", user.getMatchingState().getMatched().size());
+            BatoSystem.writeBoolean(user.getId().toString() + "filter", filterHobbies);
             closeSyncRealm();
         }
         super.onDestroy();
@@ -154,15 +158,29 @@ public class ApplicationActivity extends AppCompatActivity {
         user = null;
     }
 
+    private void checkNewMatch(){
+        int oldM = BatoSystem.readInteger(user.getId().toString() + "match", 0);
+        int newM = user.getMatchingState().getMatched().size();
+        if(oldM != newM){
+            BatoSystem.writeInteger(user.getId().toString(), newM);
+            BatoSystem.sendMessage("Danh Sách Tương Hợp Của Bạn Có " + (newM - oldM) + " Sự Thay Đổi, Kiêm Tra Ngay", getApplicationContext());
+        }
+    }
+
     private void addListener(){
         user.addChangeListener(new RealmObjectChangeListener<RealmModel>() {
             @Override
             public void onChange(RealmModel realmModel, @Nullable ObjectChangeSet changeSet) {
-                user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
-                int newMatchSize = user.getMatchingState().getMatched().size();
-                if(oldMatchSize != newMatchSize){
-                    oldMatchSize = newMatchSize;
-                    BatoSystem.sendMessage("Danh Sách Tương Hợp Của Bạn Có Sự Thay Đổi, Kiêm Tra Ngay", getApplicationContext());
+                Log.v("Realm change", "have change");
+                if(changeSet.getChangedFields().length != 0){
+                    user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+                    int newMatchSize = user.getMatchingState().getMatched().size();
+                    int oldMatchSize = BatoSystem.readInteger(user.getId().toString() + "match", 0);
+                    Log.v("Realm Change", "old: " + oldMatchSize + ", new: " + newMatchSize );
+                    if(oldMatchSize != newMatchSize){
+                        BatoSystem.writeInteger(user.getId().toString(), newMatchSize);
+                        BatoSystem.sendMessage("Danh Sách Tương Hợp Của Bạn Có " + (newMatchSize - oldMatchSize) + " Sự Thay Đổi, Kiêm Tra Ngay", getApplicationContext());
+                    }
                 }
             }
         });
