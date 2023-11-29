@@ -38,6 +38,8 @@ import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -192,8 +194,8 @@ public class Conversation extends AppCompatActivity {
                 StringBuilder question = new StringBuilder();
                 for(int i = 1; i < list.size(); i++){
                     question.append(list.get(i)).append(" ");
-                }
-                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender(), this::callback);
+                };
+                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender());
             }
             messageInput.setText("");
             ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);

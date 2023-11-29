@@ -97,7 +97,7 @@ public class BatoSensei  {
 
 
 
-    public void asyncSetRecommendation(List<Message> listMsg, String question, String gender, Method callback) {
+    public void asyncSetRecommendation(List<Message> listMsg, String question, String gender) {
         String prev_prompt = "Tôi cần từ một tới ba câu trả lời khác nhau với định dạng như sau. '<item>/<item>/<item>'";
         String someInfo = "Tôi tên là " + this.SENT_BY_ME + ". Tên người bạn đang trò chuyện là " + this.SENT_BY_OPPO;
         String genderInfo = "Giới tính của người tôi đang chat là " + gender;
@@ -144,7 +144,6 @@ public class BatoSensei  {
                         JSONObject resultJSON = jsonArray.getJSONObject(0).getJSONObject("message");
                         String result = resultJSON.getString("content");
                         responseChat = result.trim();
-                        callback.invoke(result);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (Exception e) {
