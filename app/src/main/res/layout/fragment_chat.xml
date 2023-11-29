@@ -36,7 +36,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
         android:visibility="visible"
-        android:background="#1AFFFFFF"
+        android:background="#2A2831"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:paddingStart="30dp"
@@ -56,7 +56,8 @@
             android:lines="7"
             android:textColorHint="#FFFFFF"
             android:textColor="@color/white"
-            android:hint="Nha xuat"
+            android:hint="Ghi nhận xét vào đây"
+            android:textStyle="italic"
             android:gravity="top"
             android:padding="10dp"
             android:textSize="16sp"
@@ -64,13 +65,12 @@
         <Button
             android:id="@+id/item_conversation_submit_review"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/white"
-            android:text="Thêm nhận xét"
-            android:textSize="20dp"
-            android:gravity="center" />
+            android:layout_height="39.8dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_marginTop="20.7dp"
+            android:text="Nhận Xét"
+            style="@style/button_corner_radius.white" />
     </LinearLayout>
     <AbsoluteLayout
         android:id="@+id/decor"

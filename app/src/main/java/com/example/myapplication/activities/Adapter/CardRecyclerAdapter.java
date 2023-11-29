@@ -32,7 +32,6 @@ import java.util.List;
 public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
     Context context;
     TextView name, age, description, hobby, job;
-    ImageView yes, nope;
     Button next, prev;
     ProgressBar currentDisplay;
     ImageView avt;
@@ -62,8 +61,6 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
 
 
         job = currentCard.findViewById(R.id.occupy);
-        yes = currentCard.findViewById(R.id.dating_button);
-        nope = currentCard.findViewById(R.id.nope_button);
         avt = currentCard.findViewById(R.id.avatar);
         currentDisplay = currentCard.findViewById(R.id.avaProgress);
 
@@ -93,35 +90,6 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         currentDisplay.setMax(profile.getPhoto().size());
         currentDisplay.setProgress(1);
 
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
-                if(currentDisplayPhoto == (profile.getPhoto().size() - 1)){
-                    return;
-                }
-                currentDisplayPhoto += 1;
-                currentDisplay.setProgress(currentDisplayPhoto + 1);
-                Picasso.get()
-                        .load(profile.getPhoto().get(currentDisplayPhoto))
-                        .into(avt);
-            }
-        });
-
-        nope.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("REALM CHANGE PHOTO", "currently display: " + currentDisplayPhoto + " out of " + profile.getPhoto().size());
-                if(currentDisplayPhoto == 0){
-                    return;
-                }
-                currentDisplayPhoto -= 1;
-                currentDisplay.setProgress(currentDisplayPhoto + 1);
-                Picasso.get()
-                        .load(profile.getPhoto().get(currentDisplayPhoto))
-                        .into(avt);
-            }
-        });
     }
 
 }
