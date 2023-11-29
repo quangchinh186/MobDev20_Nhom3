@@ -29,8 +29,9 @@
             android:id="@+id/decor_blur"
             android:layout_width="346.415dp"
             android:layout_height="389dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="-70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="-70dp"
+            android:rotation="180"
             android:src="@drawable/blur_login" />
 
         <RelativeLayout
@@ -81,7 +82,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="70dp"
-                android:src="@drawable/fb_logo"/>
+                android:src="@drawable/fb_logo" />
+
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -115,19 +117,6 @@
                 android:id="@+id/change_password"/>
 
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/donate"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/button_setting"
-            android:text="Donate cho chúng tôi tại"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:layout_marginTop="15dp"
-            android:textStyle="italic"
-            />
 
     </RelativeLayout>
 </FrameLayout>

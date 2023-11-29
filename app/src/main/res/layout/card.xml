@@ -41,13 +41,23 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="300dp"
-            android:layout_height="375dp"
-            android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/rickroll" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="300dp"
+                android:layout_height="375dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/rickroll" />
+
+        </androidx.cardview.widget.CardView>
+
+
 
     </LinearLayout>
 
@@ -60,7 +70,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_below="@id/avatarHolder"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="34.23dp"
         android:layout_marginTop="30dp"/>
 
     <TextView
@@ -73,7 +83,7 @@
         android:textStyle="normal"
         android:layout_below="@id/username"
         android:fontFamily="@font/plusjakartasans"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="34.23dp"
         android:layout_marginTop="15dp"/>
 
     <TextView
@@ -116,37 +126,20 @@
         android:layout_marginTop="30dp"
         android:layout_marginLeft="15dp" />
 
-    <androidx.cardview.widget.CardView
+    <!--  Review  -->
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hobby1"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="70dp"
-        app:cardCornerRadius="999dp">
-        <ImageView
-            android:id="@+id/nope_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/circle_background"
-            android:src="@drawable/nope" />
-    </androidx.cardview.widget.CardView>
-        <!--Remember to change the button image-->
+        android:textSize="15sp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nisl nisl aliquet nisl, nec aliquam nisl nisl nec. Donec euismod, nisl eget aliquam ultricies, nisl nisl aliquet nisl, nec aliquam nisl nisl nec."
+        android:layout_below="@id/hobby3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:padding="14dp"
+        android:layout_marginLeft="34.23dp"
+        android:textColor="@android:color/white"
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hobby1"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="70dp"
-        app:cardCornerRadius="999dp">
-        <ImageView
-            android:id="@+id/dating_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/circle_background"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/heart" />
-    </androidx.cardview.widget.CardView>
+        />
+
 
 </RelativeLayout>

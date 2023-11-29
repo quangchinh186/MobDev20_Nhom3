@@ -40,6 +40,9 @@ import java.util.List;
 
 import io.realm.RealmList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ProfileFragment extends Fragment {
     ImageView profileImage;
@@ -216,7 +219,7 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getActivity(), "Đã reset thông tin", Toast.LENGTH_SHORT).show();
         });
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

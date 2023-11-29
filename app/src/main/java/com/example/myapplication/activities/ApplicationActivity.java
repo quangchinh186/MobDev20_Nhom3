@@ -106,17 +106,17 @@ public class ApplicationActivity extends AppCompatActivity {
 
     //open sync realm if user is logged in
     private void initSyncRealm(){
-        if(app.currentUser() == null){
-            return;
-        }
-        queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
-        queryHelper.findAllUsers();
-        if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
-            startActivity(new Intent(this, SetupActivity.class));
+        if(app.currentUser() != null){
+            queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
+            if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
+                startActivity(new Intent(this, SetupActivity.class));
+            } else {
+                user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+                checkNewMatch();
+                addListener();
+            }
         } else {
-            user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
-            checkNewMatch();
-            addListener();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
     }
 
@@ -131,6 +131,7 @@ public class ApplicationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if(queryHelper == null){
             initSyncRealm();
         } else {
