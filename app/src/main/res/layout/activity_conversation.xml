@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="18.7dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:background="#1Affffff">
             <TextView
                 android:id="@+id/recommend_chat"
@@ -90,10 +90,6 @@
                 android:layout_marginBottom="25dp"
                 android:textStyle="bold"
                 android:text="Gợi ý từ BatoSensei" />
-            <include
-                layout="@layout/item_recommendation_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
