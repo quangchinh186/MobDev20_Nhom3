@@ -65,7 +65,7 @@
             android:id="@+id/item_conversation_submit_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="2AFFFFFF"
+            android:background="@android:color/transparent"
             android:layout_marginTop="30dp"
             android:textColor="@color/white"
             android:text="Thêm nhận xét"
