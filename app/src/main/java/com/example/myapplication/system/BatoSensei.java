@@ -1,9 +1,15 @@
 package com.example.myapplication.system;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.example.myapplication.activities.ApplicationActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,7 +103,7 @@ public class BatoSensei  {
 
 
 
-    public void asyncSetRecommendation(List<Message> listMsg, String question, String gender) {
+    public void asyncSetRecommendation(List<Message> listMsg, String question, String gender, Context context) {
         String prev_prompt = "Tôi cần từ một tới ba câu trả lời khác nhau với định dạng như sau. '<item>/<item>/<item>'";
         String someInfo = "Tôi tên là " + this.SENT_BY_ME + ". Tên người bạn đang trò chuyện là " + this.SENT_BY_OPPO;
         String genderInfo = "Giới tính của người tôi đang chat là " + gender;
@@ -144,6 +150,10 @@ public class BatoSensei  {
                         JSONObject resultJSON = jsonArray.getJSONObject(0).getJSONObject("message");
                         String result = resultJSON.getString("content");
                         responseChat = result.trim();
+                        Intent intent = new Intent();
+                        intent.setAction("getRecommend");
+                        intent.putExtra("result", responseChat);
+                        context.sendBroadcast(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (Exception e) {

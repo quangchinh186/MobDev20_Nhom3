@@ -12,7 +12,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ import com.example.myapplication.activities.Adapter.ChatAdapter;
 import com.example.myapplication.schema.ChatMessage;
 import com.example.myapplication.system.BatoSensei;
 import com.example.myapplication.system.Message;
+import com.example.myapplication.system.ResponseReceiver;
 import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
@@ -66,14 +70,26 @@ public class Conversation extends AppCompatActivity {
 
     ArrayList<ChatMessage> historyMessages = new ArrayList<>();
 
+    public class ResponseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra("result");
+            callback(result);
+        }
+    }
+
     void setUpChatAdapter(){
         chatAdapter = new ChatAdapter(this, historyMessages);
         chatRecycler.setLayoutManager(new LinearLayoutManager(this));
         chatRecycler.setAdapter(chatAdapter);
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("getRecommend");
+        registerReceiver(new ResponseReceiver(), filter);
         Intent intent = getIntent();
         roomId = new ObjectId(intent.getStringExtra("chatId"));
         oppo = ApplicationActivity.queryHelper.getFriend(roomId);
@@ -195,7 +211,7 @@ public class Conversation extends AppCompatActivity {
                 for(int i = 1; i < list.size(); i++){
                     question.append(list.get(i)).append(" ");
                 };
-                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender());
+                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender(), getApplicationContext());
             }
             messageInput.setText("");
             ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
