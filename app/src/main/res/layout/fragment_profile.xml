@@ -12,11 +12,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="37.41dp"
             android:orientation="vertical">
+            <!-- Section Title -->
+            <TextView
+                android:id="@+id/basic_info_setup_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Thông tin cơ bản"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:layout_marginBottom="30dp"
+                android:textStyle="bold" />
+            <!-- Section Avatar -->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                app:cardCornerRadius="999dp"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/profile_avatar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/panic02" />
+            </androidx.cardview.widget.CardView>
+
             <!-- Section Name -->
             <TextView
                 android:id="@+id/basic_info_setup_name"
