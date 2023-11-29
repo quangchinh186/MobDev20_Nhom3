@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(cardDeck == null){
+        if(cardDeck == null && ApplicationActivity.user != null){
             //cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);
             cardDeck = getView().findViewById(R.id.cardDeck);
             cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);

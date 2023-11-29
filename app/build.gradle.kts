@@ -69,7 +69,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
-
     implementation("io.realm:realm-gradle-plugin:10.16.1")
 
     //cloudinary
@@ -85,7 +84,6 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     //swipe card
     implementation("com.lorentzos.swipecards:library:1.0.9@aar")
-
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
