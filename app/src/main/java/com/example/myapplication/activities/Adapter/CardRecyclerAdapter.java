@@ -55,6 +55,8 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         AppUser currentUser = getItem(position);
         Profile profile = currentUser.getProfile();
 
+        Log.v("realm user profile", profile.toString());
+
         name = currentCard.findViewById(R.id.username);
         age = currentCard.findViewById(R.id.age);
 
@@ -85,9 +87,9 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         //hobby.setText(hob);
         job.setText(profile.getOccupy());
 
-//        Picasso.get()
-//                .load(profile.getPhoto().get(0))
-//                .into(avt);
+        Picasso.get()
+                .load(profile.getPhoto().get(0))
+                .into(avt);
         currentDisplay.setMax(profile.getPhoto().size());
         currentDisplay.setProgress(1);
 

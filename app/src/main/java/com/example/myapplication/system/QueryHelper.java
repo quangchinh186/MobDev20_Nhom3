@@ -53,11 +53,11 @@ public class QueryHelper {
                 new SyncConfiguration.Builder(user)
                 .allowWritesOnUiThread(true)
                 .initialSubscriptions((realm, subscriptions) -> {
-                    subscriptions.addOrUpdate(Subscription.create("user_query",
+                    subscriptions.addOrUpdate(Subscription.create("user_query_new",
                                 realm.where(AppUser.class)));
-                    subscriptions.addOrUpdate(Subscription.create("chat_query",
+                    subscriptions.addOrUpdate(Subscription.create("chat_query_new",
                                 realm.where(ChatMessage.class)));
-                    subscriptions.addOrUpdate(Subscription.create("chat_room_query",
+                    subscriptions.addOrUpdate(Subscription.create("chat_room_query_new",
                                 realm.where(ChatRoom.class)));
 
                     Log.v("realm subscription", "size: " + subscriptions.size());
@@ -209,8 +209,8 @@ public class QueryHelper {
     public List<AppUser> getUsersForDisplay(ObjectId user, boolean filterHobbies){
         //get users
         AppUser u = getUser(user);
-        List<AppUser> list = new ArrayList<>();
-        list.addAll(realmApp.where(AppUser.class).findAll());
+
+        List<AppUser> list = new ArrayList<>(realmApp.where(AppUser.class).findAll());
 
         return list;
 

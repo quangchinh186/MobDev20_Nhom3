@@ -21,7 +21,9 @@ public class Profile extends RealmObject {
     private String interest;
     private String occupy;
     private String description;
+
     private long minAge;
+
     private long maxAge;
     @Required
     private RealmList<String> achievement;
