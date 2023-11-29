@@ -132,15 +132,26 @@ public class ApplicationActivity extends AppCompatActivity {
             user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
             addListener();
         }
-        replaceFragment(new HomeFragment());
+        
+        if(binding.itemsNav.getSelectedItemId() != R.id.chat){
+            binding.itemsNav.setSelectedItemId(R.id.home);
+            replaceFragment(new HomeFragment());
+        }
+
     }
 
     @Override
     protected void onDestroy() {
         if(app.currentUser() != null){
-            queryHelper.closeRealm();
+            closeSyncRealm();
         }
         super.onDestroy();
+    }
+
+    public void closeSyncRealm(){
+        queryHelper.closeRealm();
+        queryHelper = null;
+        user = null;
     }
 
     private void addListener(){
