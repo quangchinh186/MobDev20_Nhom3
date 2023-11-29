@@ -3,21 +3,307 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/black"
     tools:context=".activities.MainActivity.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/test_btn"
-        android:text="Create mock data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="37.41dp"
+            android:orientation="vertical">
+            <!-- Section Name -->
+            <TextView
+                android:id="@+id/basic_info_setup_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Họ và tên"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/basic_info_setup_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_edit_text"
+                android:inputType="text"
+                android:padding="10dp"
+                android:layout_marginTop="15.92dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="20sp"/>
+            <!-- Section DOB -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="37.41dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/basic_info_setup_dob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ngày sinh"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15.92dp">
+                    <EditText
+                        android:id="@+id/basic_info_setup_day_input"
+                        android:layout_width="45dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_edit_text"
+                        android:inputType="date"
+                        android:padding="10dp"
+                        android:layout_marginEnd="13.13dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="20sp"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false" />
+                    <EditText
+                        android:id="@+id/basic_info_setup_month_input"
+                        android:layout_width="45dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_edit_text"
+                        android:inputType="date"
+                        android:padding="10dp"
+                        android:textAlignment="center"
+                        android:layout_marginEnd="13.13dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="20sp"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"/>
+                    <EditText
+                        android:id="@+id/basic_info_setup_year_input"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_edit_text"
+                        android:inputType="date"
+                        android:padding="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="20sp"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!-- Section Gender and Searching -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="35.82dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giới tính"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="110.53dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        android:background="@drawable/custom_edit_text"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteGender"
+                            android:layout_width="match_parent"
+                            android:layout_height="50.25dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/white"
+                            android:inputType="none"
+                            android:textSize="16dp"
+                            android:text="Khác" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_gravity="right"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tìm kiếm"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="110.53dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        app:boxBackgroundColor="@android:color/transparent"
+                        android:background="@drawable/custom_edit_text"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="50.25dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/white"
+                            android:inputType="none"
+                            android:textSize="16dp"
+                            android:text="Khác" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/logoutBtn"
-        android:text="Log out"
-        android:layout_marginTop="200sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <!-- Section Avatar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="37.41dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:text="Ảnh cho profile của bạn" />
+                <LinearLayout
+                    android:layout_marginTop="18.7dp"
+                    android:layout_width="99.5dp"
+                    android:gravity="center"
+                    android:background="@drawable/custom_edit_text"
+                    android:layout_height="99.5dp">
+                    <ImageView
+                        android:id="@+id/setup_profile_img"
+                        android:layout_width="39.5dp"
+                        android:layout_height="39.5dp"
+                        android:cropToPadding="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/setup_add_img" />
+                </LinearLayout>
+            </LinearLayout>
+            <!-- Section Hobby -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="37.41dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Thêm sở thích"
+                    android:layout_marginTop="31.8dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/custom_edit_text"
+                    android:layout_marginTop="18.7dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/setup_profile_hobby"
+                        android:layout_width="200dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:background="#00000000"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+                    <TextView
+                        android:id="@+id/setup_profile_add_hobby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="Thêm" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/setup_profile_hobby_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="18.7dp">
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Section Description -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="37.41dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Mô tả profile của bản thân" />
+                <EditText
+                    android:id="@+id/setup_profile_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="18.7dp"
+                    android:cropToPadding="true"
+                    android:gravity="top"
+                    android:singleLine="false"
+                    android:lines="12"
+                    android:paddingTop="10.85dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:maxLength="336"
+                    android:background="@drawable/custom_edit_text" />
+
+            </LinearLayout>
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/sliderRange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1"
+                android:value="20"
+                android:valueFrom="0"
+                android:valueTo="100"
+                app:values="@array/rangeSliderValues" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="37.41dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
 
 </FrameLayout>

@@ -1,13 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@drawable/custom_conversation_item"
+    android:paddingTop="8.75dp"
+    android:paddingBottom="8.75dp"
+    android:paddingStart="14.72dp"
+    android:paddingEnd="14.72dp"
+    tools:ignore="RtlSymmetry">
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_item" />
+        android:layout_marginEnd="8dp"
+        app:cardCornerRadius="999dp">
+        <ImageView
+            android:id="@+id/item_conversation_avatar"
+            android:layout_width="23.48dp"
+            android:layout_height="23.48dp"
+            android:src="@drawable/panic02"
+            android:contentDescription="avatar" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/item_conversation_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rick Astley"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="14.32sp" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/item_conversation_review"
+            android:layout_width="21.89dp"
+            android:layout_height="21.89dp"
+            android:src="@drawable/review"
+            android:layout_marginRight="21.89dp" />
+        <ImageView
+            android:id="@+id/item_conversation_view_button"
+            android:layout_marginRight="21.89dp"
+            android:layout_width="23.48dp"
+            android:layout_height="23.48dp"
+            android:src="@drawable/chat_button" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_conversation_delete"
+            app:cardCornerRadius="999dp">
+            <ImageView
+                android:layout_width="23.48dp"
+                android:layout_height="23.48dp"
+                android:src="@drawable/nope" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
 </LinearLayout>

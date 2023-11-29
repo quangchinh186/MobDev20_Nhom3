@@ -8,8 +8,6 @@
     android:layout_gravity="bottom"
     android:translationZ="-1dp"
     android:background="#12101A">
-
-
     <ImageView
         android:id="@+id/decor_blur"
         android:layout_width="346.415dp"
@@ -19,19 +17,12 @@
         android:layout_marginRight="-70dp"
         android:src="@drawable/blur_login" />
 
-    <ProgressBar
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:id="@+id/avaProgress"
-        android:layout_width="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"/>
-
     <ImageView
-        android:layout_below="@+id/avaProgress"
         android:id="@+id/avatar"
         android:layout_width="300dp"
-        android:layout_height="305dp"
+        android:layout_height="375dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:scaleType="centerCrop"
         android:src="@drawable/rickroll" />
 
@@ -44,77 +35,94 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_below="@id/avatar"
-        android:layout_marginLeft="30dp"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"/>
 
-    <TextView
-        android:id="@+id/age"
+
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Age: 54 gender"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/username"
-        android:layout_marginLeft="30dp"/>
-
+        android:layout_below="@id/avatar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="35dp" />
 
     <TextView
         android:id="@+id/describe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Never gonna give you up"
+        android:text="Ca Sĩ"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/age"
-        android:layout_marginLeft="30dp"/>
-
-    <TextView
-        android:id="@+id/hobbies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hobbies"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/describe"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_below="@id/username"
+        android:fontFamily="@font/plusjakartasans"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="15dp"/>
 
     <TextView
-        android:id="@+id/occupy"
+        android:id="@+id/age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Occupy"
+        android:text="25 tuổi"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/hobbies"
-        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_below="@id/username"
+        android:fontFamily="@font/plusjakartasans"
+        android:layout_toRightOf="@id/describe"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"/>
+
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/hobby1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/describe"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button
-                android:background="?android:attr/selectableItemBackground"
-                android:id="@+id/nope_button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="300dp" />
-            <Button
-                android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground"
-                android:id="@+id/dating_button"
-                android:layout_width="0dp"
-                android:layout_height="300dp" />
-        </LinearLayout>
-
-    <TextView
-        android:layout_marginTop="600dp"
-        android:textSize="20sp"
-        android:text="Huong Dan: \nQuet Phai De Like, Trai De Skip \nNhan Ben Phai va Trai Man Hinh De Xem Anh"
+    <include layout="@layout/item_hobby_without_x"
+        android:id="@+id/hobby2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/describe"
+        android:layout_toRightOf="@id/hobby1"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hobby1"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="70dp"
+        app:cardCornerRadius="999dp">
+        <ImageView
+            android:id="@+id/nope_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle_background"
+            android:src="@drawable/nope" />
+    </androidx.cardview.widget.CardView>
+        <!--Remember to change the button image-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hobby1"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="70dp"
+        app:cardCornerRadius="999dp">
+        <ImageView
+            android:id="@+id/dating_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/circle_background"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/heart" />
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

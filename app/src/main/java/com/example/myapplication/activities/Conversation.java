@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
@@ -19,10 +18,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -30,13 +32,21 @@ import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.Adapter.ChatAdapter;
 import com.example.myapplication.schema.ChatMessage;
+import com.example.myapplication.system.BatoSensei;
+import com.example.myapplication.system.Message;
 import com.squareup.picasso.Picasso;
 
 import org.bson.types.ObjectId;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
@@ -52,6 +62,7 @@ public class Conversation extends AppCompatActivity {
     ChatAdapter chatAdapter;
     RecyclerView chatRecycler;
     TextView senderName;
+    BatoSensei batoSensei;
 
     ArrayList<ChatMessage> historyMessages = new ArrayList<>();
 
@@ -83,6 +94,7 @@ public class Conversation extends AppCompatActivity {
                 .into(avtSender);
         senderName.setText(ApplicationActivity.queryHelper.getProfileName(oppo));
         chatRecycler.scrollToPosition(historyMessages.size() - 1);
+        batoSensei = new BatoSensei(senderName.getText().toString(), ApplicationActivity.user.getProfile().getName());
     }
 
     public void onBackButtonClicked(View view){
@@ -145,15 +157,54 @@ public class Conversation extends AppCompatActivity {
             Log.v("Image URI",selectedImageUri.toString());
         });
 
-    public void onSendMessage(View view) {
-        String m = messageInput.getText().toString();
-        if (m.equals("")) {
-            return;
+    public void addRecommendLayout(String result){
+        View view = getLayoutInflater().inflate(R.layout.item_recommendation_box, null);
+        LinearLayout layout = findViewById(R.id.recommendation_box);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 37, 0, 0);
+        TextView recommend = view.findViewById(R.id.recommend_chat);
+        recommend.setText(result);
+        layout.addView(view);
+    }
+
+    public void callback(String result){
+        List<String> listResult = Arrays.asList(result.split("/"));
+        addRecommendLayout(result);
+    }
+
+    public void onSendMessage(View view){
+        try {
+            String m = messageInput.getText().toString();
+            if(m.equals("")){
+                return;
+            }
+            List<String> list;
+            list = Arrays.asList(m.split(" "));
+            if(list.size() > 2 && list.get(0).equals("/sensei")){
+                List<Message> messages = new ArrayList<>();
+                //lấy 20 tin nhắn gần nhất
+                for(int i = historyMessages.size() - 1; historyMessages.size() - 1 - i <= 20 && i >= 0; i--){
+                    if(historyMessages.get(i).getFrom().equals(ApplicationActivity.user.getId())){
+                        messages.add(new Message(historyMessages.get(i).getMessage(), Message.SENT_BY_ME));
+                    }else{
+                        messages.add(new Message(historyMessages.get(i).getMessage(), Message.SENT_BY_API));
+                    }
+                }
+                //lấy câu hỏi
+                StringBuilder question = new StringBuilder();
+                for(int i = 1; i < list.size(); i++){
+                    question.append(list.get(i)).append(" ");
+                };
+                batoSensei.asyncSetRecommendation(messages, question.toString(), ApplicationActivity.user.getProfile().getGender());
+            }
+            messageInput.setText("");
+            ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
+            addChangeListener();
+            chatRecycler.scrollToPosition(historyMessages.size() - 1);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Conversation", e.getMessage(), e);
         }
-        messageInput.setText("");
-        ApplicationActivity.queryHelper.sendMessage(roomId, ApplicationActivity.user.getId(), m);
-        addChangeListener();
-        chatRecycler.scrollToPosition(historyMessages.size() - 1);
     }
 
     public void getMessages(){
@@ -168,10 +219,12 @@ public class Conversation extends AppCompatActivity {
                 getMessages();
                 chatAdapter.notifyItemInserted(historyMessages.size()-1);
             }
-            chatRecycler.scrollToPosition(historyMessages.size() - 1);
+
         };
         messageRealmQuery.findAll().addChangeListener(changeListener);
     }
+
+
 
     @Override
     public void onBackPressed() {
