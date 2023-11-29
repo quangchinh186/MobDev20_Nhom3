@@ -16,12 +16,13 @@
             android:id="@+id/setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tuỳ Chọn"
+            android:text="Cài Đặt"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="100dp"
             android:padding="18dp"/>
 
         <ImageView
@@ -29,7 +30,6 @@
             android:layout_width="346.415dp"
             android:layout_height="389dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginRight="-70dp"
             android:src="@drawable/blur_login" />
 
@@ -42,13 +42,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thông Báo"
+                android:text="Cho phép matching theo sở thích"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginLeft="30dp"
                 android:padding="18dp"/>
-
 
             <include layout="@layout/toggle_button"
                 android:layout_width="wrap_content"
@@ -57,81 +56,78 @@
                 android:layout_marginRight="30dp"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/follow_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Theo dõi chúng tôi tại Batolove"
+            android:textColor="@color/white"
+            android:layout_below="@+id/setting1"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:padding="18dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/setting2"
-            android:layout_below="@id/setting1"
+            android:id="@+id/follow_button"
+            android:layout_below="@id/follow_title"
+            android:layout_marginTop="15dp"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thông Báo ngoài màn hình khóa"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="30dp"
-                android:padding="18dp"/>
-
-
-            <include layout="@layout/toggle_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="70dp"
+                android:src="@drawable/fb_logo"/>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:layout_centerVertical="true"/>
+                android:layout_marginRight="70dp"
+                android:src="@drawable/github_logo"/>
+
         </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/setting3"
-            android:layout_below="@id/setting2"
+            android:id="@+id/button_setting"
+            android:layout_below="@id/follow_button"
+            android:layout_marginTop="50dp"
             android:layout_height="wrap_content">
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Âm thanh khi thông báo"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="30dp"
-                android:padding="18dp"/>
+                android:text="Đăng xuất"
+                android:id="@+id/logout"
+                android:layout_marginLeft="40dp"
+                android:layout_height="wrap_content"/>
 
-
-            <include layout="@layout/toggle_button"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:layout_centerVertical="true"/>
+                android:layout_marginRight="40dp"
+                android:text="Đổi mật khẩu"
+                android:id="@+id/change_password"/>
+
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:id="@+id/setting4"
-            android:layout_below="@id/setting3"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rung khi thông báo"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="30dp"
-                android:padding="18dp"/>
-
-
-            <include layout="@layout/toggle_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/donate"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/button_setting"
+            android:text="Donate cho chúng tôi tại"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="15dp"
+            android:textStyle="italic"
+            />
 
     </RelativeLayout>
 </FrameLayout>

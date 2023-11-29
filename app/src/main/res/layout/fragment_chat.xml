@@ -36,7 +36,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
         android:visibility="visible"
-        android:background="@color/white"
+        android:background="#1AFFFFFF"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:paddingStart="30dp"
@@ -46,29 +46,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nhận xét về người này"
-            android:textSize="16sp"
-            android:textColor="@color/black" />
+            android:textSize="18sp"
+            android:textColor="@color/white" />
         <EditText
             android:id="@+id/item_conversation_review_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:lines="7"
-            android:textColorHint="@color/black"
+            android:textColorHint="#FFFFFF"
             android:textColor="@color/white"
             android:hint="Nha xuat"
             android:gravity="top"
             android:padding="10dp"
             android:textSize="16sp"
-            android:background="@color/black" />
-        <TextView
+            android:background="@drawable/custom_edit_text" />
+        <Button
             android:id="@+id/item_conversation_submit_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/black"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/white"
             android:text="Thêm nhận xét"
+            android:textSize="20dp"
             android:gravity="center" />
     </LinearLayout>
     <AbsoluteLayout
