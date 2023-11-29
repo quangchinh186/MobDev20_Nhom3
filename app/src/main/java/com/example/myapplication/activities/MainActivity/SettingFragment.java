@@ -1,5 +1,7 @@
 package com.example.myapplication.activities.MainActivity;
 
+import static com.example.myapplication.activities.ApplicationActivity.user;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,7 +32,6 @@ public class SettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -68,7 +69,11 @@ public class SettingFragment extends Fragment {
         startActivity(loginActivity);
         app.currentUser().logOutAsync(res -> {
             if(res.isSuccess()){
+                BatoSystem.writeInteger(user.getId().toString() + "match", user.getMatchingState().getMatched().size());
+                BatoSystem.writeBoolean(user.getId().toString() + "filter", ApplicationActivity.filterHobbies);
                 ApplicationActivity.queryHelper.closeRealm();
+                user = null;
+                ApplicationActivity.queryHelper = null;
                 Log.v("realm", "log out success");
             } else {
                 Log.v("realm", "fail: " + res.getError().toString());

@@ -55,6 +55,7 @@ public class ProfileFragment extends Fragment {
     List<String> hobbies;
     EditText bioInput;
     RangeSlider ageRangeSlider;
+    Profile profile;
 
     public void onChangeProfileImage(View view) {
         Intent i = new Intent();
@@ -152,15 +153,15 @@ public class ProfileFragment extends Fragment {
     public void getInfoFromUser() {
         try {
             Log.e("ProfileFragment", ApplicationActivity.user.getId().toString());
-            profileName.setText(ApplicationActivity.user.getProfile().getName());
-            dayInput.setText(ApplicationActivity.user.getProfile().getDob().getDay());
-            monthInput.setText(ApplicationActivity.user.getProfile().getDob().getMonth());
-            yearInput.setText(ApplicationActivity.user.getProfile().getDob().getYear());
-            genderInput.setText(ApplicationActivity.user.getProfile().getGender());
-            searchGenderInput.setText(ApplicationActivity.user.getProfile().getInterest());
-            bioInput.setText(ApplicationActivity.user.getProfile().getDescription());
-            ageRangeSlider.setValues((float) ApplicationActivity.user.getProfile().getMinAge(), (float) ApplicationActivity.user.getProfile().getMaxAge());
-            hobbies = ApplicationActivity.user.getProfile().getHobby();
+            profileName.setText(profile.getName());
+            dayInput.setText(profile.getDob().getDay());
+            monthInput.setText(profile.getDob().getMonth());
+            yearInput.setText(profile.getDob().getYear());
+            genderInput.setText(profile.getGender());
+            searchGenderInput.setText(profile.getInterest());
+            bioInput.setText(profile.getDescription());
+            ageRangeSlider.setValues((float) profile.getMinAge(), (float) profile.getMaxAge());
+            hobbies = profile.getHobby();
             for (String hobby : hobbies) {
                 addHobbyLayout(hobby);
             }
@@ -174,6 +175,7 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //  for profile image
+        profile = ApplicationActivity.user.getProfile();
         profileImage = getView().findViewById(R.id.fragment_profile_avt);
         Picasso.get().load(ApplicationActivity.user.getProfile().toString()).into(profileImage);
         profileImage.setOnClickListener(this::onChangeProfileImage);
