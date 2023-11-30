@@ -24,6 +24,8 @@ import com.example.myapplication.system.BatoSystem;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment {
         if(cardDeck == null && ApplicationActivity.user != null){
             //cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);
             cardDeck = getView().findViewById(R.id.cardDeck);
+            Collections.shuffle(data);
             cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);
             cardDeck.setAdapter(cardRecyclerAdapter);
 

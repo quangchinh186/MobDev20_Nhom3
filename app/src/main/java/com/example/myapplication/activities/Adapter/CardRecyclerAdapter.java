@@ -84,9 +84,9 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         //hobby.setText(hob);
         job.setText(profile.getOccupy());
 
-//        Picasso.get()
-//                .load(profile.getPhoto().get(0))
-//                .into(avt);
+        Picasso.get()
+                .load(profile.getPhoto().get(0))
+                .into(avt);
         currentDisplay.setMax(profile.getPhoto().size());
         currentDisplay.setProgress(1);
 

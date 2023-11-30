@@ -27,9 +27,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.myapplication.R;
 import com.example.myapplication.activities.ApplicationActivity;
 import com.example.myapplication.schema.Profile;
+import com.example.myapplication.system.BatoSystem;
 import com.google.android.material.slider.RangeSlider;
 import com.squareup.picasso.Picasso;
 
@@ -43,6 +47,8 @@ import io.realm.RealmList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -57,6 +63,7 @@ public class ProfileFragment extends Fragment {
     List<String> hobbies;
     EditText bioInput;
     RangeSlider ageRangeSlider;
+    Profile profile;
 
     public void onChangeProfileImage(View view) {
         Intent i = new Intent();
@@ -165,7 +172,7 @@ public class ProfileFragment extends Fragment {
     public void getInfoFromUser() {
         try {
             Log.e("ProfileFragment", ApplicationActivity.user.getId().toString());
-            if (ApplicationActivity.user.getProfile() != null) {
+            if (ApplicationActivity.user.getProfile().getPhoto() != null) {
                 Picasso.get().load(ApplicationActivity.user.getProfile().getPhoto().get(0)).into(profileImage);
             }
             if (ApplicationActivity.user.getProfile().getName() != null) {
@@ -194,6 +201,46 @@ public class ProfileFragment extends Fragment {
             ageRangeSlider.setValues((float) ApplicationActivity.user.getProfile().getMinAge(), (float) ApplicationActivity.user.getProfile().getMaxAge());
         } catch (Exception e) {
             Toast.makeText(getActivity(), "Lỗi khi lấy thông tin từ server", Toast.LENGTH_SHORT).show();
+            Log.e("ProfileFragment", e.getMessage());
+        }
+    }
+
+    private void uploadImage(Uri uri){
+        try {
+            MediaManager.get().upload(uri).callback(new UploadCallback() {
+                @Override
+                public void onStart(String requestId) {
+                    //start upload request
+                }
+
+                @Override
+                public void onProgress(String requestId, long bytes, long totalBytes) {
+                    //request in progress
+                }
+
+                @Override
+                public void onSuccess(String requestId, Map resultData) {
+                    RealmList<String> photoList = new RealmList<>();
+                    photoList.add(resultData.get("url").toString());
+                    String imageUrl = "https://res.cloudinary.com/dihtkakro/image/upload/f_auto,q_auto/" + Objects.requireNonNull(resultData.get("public_id")).toString();
+                    profile.getPhoto().add(imageUrl);
+                    getActivity().findViewById(R.id.fragment_chat_loading_scene).setVisibility(View.INVISIBLE);
+                    Toast.makeText(getActivity(), "Đã lưu thông tin", Toast.LENGTH_SHORT).show();
+                    ApplicationActivity.queryHelper.updateUser(ApplicationActivity.user.getId(), profile);
+                }
+
+                @Override
+                public void onError(String requestId, ErrorInfo error) {
+                    //handle error
+                }
+
+                @Override
+                public void onReschedule(String requestId, ErrorInfo error) {
+
+                }
+            }).dispatch();
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Lỗi khi upload ảnh", Toast.LENGTH_SHORT).show();
             Log.e("ProfileFragment", e.getMessage());
         }
     }
@@ -234,7 +281,8 @@ public class ProfileFragment extends Fragment {
         // for button
         getActivity().findViewById(R.id.fragment_profile_save_button).setOnClickListener(v -> {
             try {
-                Profile profile = new Profile();
+                getActivity().findViewById(R.id.fragment_chat_loading_scene).setVisibility(View.VISIBLE);
+                profile = new Profile();
                 profile.setName(profileName.getText().toString());
                 profile.setDob(getDob());
                 profile.setGender(genderInput.getText().toString());
@@ -245,8 +293,7 @@ public class ProfileFragment extends Fragment {
                 profile.setDescription(bioInput.getText().toString());
                 profile.setMinAge(ageRangeSlider.getValues().get(0).longValue());
                 profile.setMaxAge((int) ageRangeSlider.getValues().get(1).longValue());
-                ApplicationActivity.queryHelper.updateUser(ApplicationActivity.user.getId(), profile);
-                Toast.makeText(getActivity(), "Đã lưu thông tin", Toast.LENGTH_SHORT).show();
+                uploadImage(profileImageUri);
             } catch (Exception e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("ProfileFragment", e.getMessage());

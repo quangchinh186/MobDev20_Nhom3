@@ -220,27 +220,23 @@ public class QueryHelper {
 
         List<AppUser> list = new ArrayList<>(realmApp.where(AppUser.class).findAll());
 
-        return list;
 
-//        //default filter (by Gender)
-//        List<ObjectId> filter = new ArrayList<>();
-//        filter.addAll(u.getMatchingState().getMatched());
-//        filter.addAll(u.getMatchingState().getLike());
-//        filter.addAll(u.getMatchingState().getIsNotLikedBy());
-//        filter.addAll(u.getMatchingState().getNotLike());
-//        //list.removeIf(i -> (i.getId().equals(u.getId())));
-//        list.removeIf(i -> (filter.contains(i.getId())));
-//        list.removeIf(i -> (!i.getProfile().getGender().equals(u.getProfile().getInterest())));
-//
-//        //filter by age range
-//
-//        //filter by hobbies
+        //default filter (by Gender)
+        List<ObjectId> filter = new ArrayList<>();
+        filter.addAll(u.getMatchingState().getMatched());
+        filter.addAll(u.getMatchingState().getLike());
+        filter.addAll(u.getMatchingState().getIsNotLikedBy());
+        filter.addAll(u.getMatchingState().getNotLike());
+        list.removeIf(i -> (i.getId().equals(u.getId())));
+        list.removeIf(i -> (filter.contains(i.getId())));
+        list.removeIf(i -> (!i.getProfile().getGender().equals(u.getProfile().getInterest())));
+
 //        if(filterHobbies){
 //            //filter
 //            list.removeIf(i -> (!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())));
 //        }
-//
-//        return list.subList(0, (Math.min(30, list.size())));
+
+        return list.subList(0, (Math.min(30, list.size())));
     }
 
     private static <T> boolean haveCommonElement(List<T> list1, List<T> list2) {

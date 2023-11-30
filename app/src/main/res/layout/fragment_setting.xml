@@ -18,21 +18,12 @@
             android:layout_height="wrap_content"
             android:text="Cài Đặt"
             android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="100dp"
             android:padding="18dp"/>
 
-        <ImageView
-            android:id="@+id/decor_blur"
-            android:layout_width="346.415dp"
-            android:layout_height="389dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="-70dp"
-            android:rotation="180"
-            android:src="@drawable/blur_login" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,6 +37,7 @@
                 android:text="Cho phép matching theo sở thích"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:id="@+id/allow_matching"
                 android:textStyle="bold"
                 android:layout_marginLeft="30dp"
                 android:padding="18dp"/>
@@ -58,65 +50,55 @@
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/follow_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Theo dõi chúng tôi tại Batolove"
-            android:textColor="@color/white"
-            android:layout_below="@+id/setting1"
-            android:layout_centerHorizontal="true"
-            android:textSize="18sp"
-            android:layout_marginTop="30dp"
-            android:textStyle="bold"
-            android:padding="18dp"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:id="@+id/follow_button"
-            android:layout_below="@id/follow_title"
-            android:layout_marginTop="15dp"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="70dp"
-                android:src="@drawable/fb_logo" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="70dp"
-                android:src="@drawable/github_logo"/>
-
-        </RelativeLayout>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:id="@+id/button_setting"
-            android:layout_below="@id/follow_button"
-            android:layout_marginTop="50dp"
+            android:layout_below="@id/setting1"
+            android:layout_marginTop="100dp"
             android:layout_height="wrap_content">
 
             <Button
-                android:layout_width="wrap_content"
-                android:text="Đăng xuất"
                 android:id="@+id/logout"
-                android:layout_marginLeft="40dp"
-                android:layout_height="wrap_content"/>
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/addhobbybutton"
+                android:textColor="@color/white"
+                android:text="Đăng Xuất"
+                style="@style/button_corner_radius.white"/>
 
             <Button
+                android:layout_marginLeft="30dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="40dp"
+                android:layout_height="45dp"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/white"
                 android:text="Đổi mật khẩu"
+                android:background="@drawable/addhobbybutton"
+                style="@style/button_corner_radius.white"
+                android:layout_below="@id/logout"
+                android:layout_marginTop="15dp"
                 android:id="@+id/change_password"/>
 
         </RelativeLayout>
+        <AbsoluteLayout
+            android:id="@+id/blur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:translationZ="-1dp"
+            android:background="#12101A">
+
+            <ImageView
+                android:id="@+id/decor_blur"
+                android:layout_width="346.415dp"
+                android:layout_height="389dp"
+                android:layout_x="145dp"
+                android:layout_y="335dp"
+                android:src="@drawable/app_blur" />
+        </AbsoluteLayout>
 
     </RelativeLayout>
 </FrameLayout>
