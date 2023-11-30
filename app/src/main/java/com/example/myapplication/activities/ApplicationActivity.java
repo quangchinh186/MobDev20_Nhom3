@@ -55,6 +55,7 @@ public class ApplicationActivity extends AppCompatActivity {
     //Mongodb stuff
     String AppId = "mobileappdev-hwhug";
     public static App app;
+
     public static AppUser user = null;
     public static QueryHelper queryHelper = null;
 
@@ -64,9 +65,11 @@ public class ApplicationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.v("app act", "created");
         //init once and share pref
         initThingsOnce();
         BatoSystem.initPref(this);
+
 
         // to check login state
         if (app.currentUser() == null) {
@@ -106,21 +109,22 @@ public class ApplicationActivity extends AppCompatActivity {
 
     //open sync realm if user is logged in
     private void initSyncRealm(){
-        if(app.currentUser() != null){
-            queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
-            if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
-                startActivity(new Intent(this, SetupActivity.class));
-            } else {
-                user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
-                checkNewMatch();
-                addListener();
-            }
+        if (queryHelper != null){
+            return;
+        }
+        queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
+        if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
+            startActivity(new Intent(this, SetupActivity.class));
         } else {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+            Log.e("realm main user", user.getId().toString() + " " + user.getProfile().getName());
+            checkNewMatch();
+            addListener();
         }
     }
 
     private void initThingsOnce(){
+        Log.e("init", "called");
         Realm.init(this);
         app = new App(new AppConfiguration.Builder(AppId)
                 .appName("My App")
@@ -131,20 +135,15 @@ public class ApplicationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if(queryHelper == null){
-            initSyncRealm();
+        if(app.currentUser() == null){
+            startActivity(new Intent(this, LoginActivity.class));
         } else {
-            user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
-            filterHobbies = BatoSystem.readBoolean(user.getId() + "filter", false);
-            checkNewMatch();
-            addListener();
+            initSyncRealm();
         }
         if(binding.itemsNav.getSelectedItemId() == R.id.home){
             binding.itemsNav.setSelectedItemId(R.id.home);
             replaceFragment(new HomeFragment());
         }
-
     }
 
 
@@ -180,6 +179,7 @@ public class ApplicationActivity extends AppCompatActivity {
                 Log.v("Realm change", "have change");
                 if(changeSet.getChangedFields().length != 0){
                     user = queryHelper.getUser(new ObjectId(app.currentUser().getId()));
+                    Log.v("realm main user", user.getId().toString() + " " + user.getProfile().getName());
                     int newMatchSize = user.getMatchingState().getMatched().size();
                     int oldMatchSize = BatoSystem.readInteger(user.getId().toString() + "match", 0);
                     Log.v("Realm Change", "old: " + oldMatchSize + ", new: " + newMatchSize );
