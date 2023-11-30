@@ -105,14 +105,6 @@ public class QueryHelper {
         return realmQuery.findFirst();
     }
 
-    public void updateUser(ObjectId id, Profile profile){
-        AppUser u = getUser(id);
-        realmApp.executeTransaction(r -> {
-            u.setProfile(profile);
-            r.insertOrUpdate(u);
-        });
-    }
-
     public Boolean hasUser(ObjectId id){
         RealmQuery<AppUser> realmQuery = realmApp.where(AppUser.class).equalTo("_id", id);
         RealmResults<AppUser> a = realmQuery.findAll();

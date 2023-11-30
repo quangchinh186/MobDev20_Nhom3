@@ -135,12 +135,14 @@ public class ApplicationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("realm sync", queryHelper + "");
         if(app.currentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             initSyncRealm();
         }
-        if(binding.itemsNav.getSelectedItemId() == R.id.home){
+
+        if(binding.itemsNav.getSelectedItemId() == R.id.home || binding.itemsNav.getSelectedItemId() == R.id.setting){
             binding.itemsNav.setSelectedItemId(R.id.home);
             replaceFragment(new HomeFragment());
         }

@@ -65,8 +65,7 @@ public class SettingFragment extends Fragment {
     public void onLogout() {
         BatoSystem.writeBoolean("login", false);
         BatoSystem.writeString("email", "");
-        Intent loginActivity = new Intent(getContext(), LoginActivity.class);
-        startActivity(loginActivity);
+
         app.currentUser().logOutAsync(res -> {
             if(res.isSuccess()){
                 BatoSystem.writeInteger(user.getId().toString() + "match", user.getMatchingState().getMatched().size());
@@ -75,6 +74,7 @@ public class SettingFragment extends Fragment {
                 ApplicationActivity.user = null;
                 ApplicationActivity.queryHelper = null;
                 Log.v("realm", "log out success" + ApplicationActivity.app.currentUser());
+                startActivity(new Intent(getContext(), LoginActivity.class));
             } else {
                 Log.v("realm", "fail: " + res.getError().toString());
             }
