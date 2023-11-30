@@ -35,7 +35,7 @@
         android:layout_gravity="center"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="#2A2831"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
