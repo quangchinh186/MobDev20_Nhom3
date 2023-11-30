@@ -72,14 +72,14 @@ public class SettingFragment extends Fragment {
                 BatoSystem.writeInteger(user.getId().toString() + "match", user.getMatchingState().getMatched().size());
                 BatoSystem.writeBoolean(user.getId().toString() + "filter", ApplicationActivity.filterHobbies);
                 ApplicationActivity.queryHelper.closeRealm();
-                user = null;
+                ApplicationActivity.user = null;
                 ApplicationActivity.queryHelper = null;
-                Log.v("realm", "log out success");
+                Log.v("realm", "log out success" + ApplicationActivity.app.currentUser());
             } else {
                 Log.v("realm", "fail: " + res.getError().toString());
             }
         });
-        getActivity().finish();
+        //getActivity().finish();
     }
 
     public void generate(){
