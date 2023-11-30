@@ -182,7 +182,7 @@ public class ProfileFragment extends Fragment {
             if (ApplicationActivity.user.getProfile().getDob() != null) {
                 dayInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getDate()));
                 monthInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getMonth()));
-                yearInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getYear()));
+                yearInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getYear() + 1900));
             }
             if (ApplicationActivity.user.getProfile().getGender() != null) {
                 genderInput.setText(ApplicationActivity.user.getProfile().getGender());

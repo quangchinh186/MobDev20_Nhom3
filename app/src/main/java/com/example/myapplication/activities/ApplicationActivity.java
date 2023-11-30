@@ -83,7 +83,7 @@ public class ApplicationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         //set default fragment
 
-        replaceFragment(new HomeFragment());
+
         binding.itemsNav.setBackground(null);
         binding.itemsNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/decor"
+    android:id="@+id/card_container"
     android:layout_gravity="bottom"
     android:translationZ="-1dp"
     android:background="#12101A">
@@ -131,15 +131,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
+        android:id="@+id/displayReview"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nisl nisl aliquet nisl, nec aliquam nisl nisl nec. Donec euismod, nisl eget aliquam ultricies, nisl nisl aliquet nisl, nec aliquam nisl nisl nec."
-        android:layout_below="@id/hobby3"
+        android:layout_below="@id/hobby1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:padding="14dp"
         android:layout_marginLeft="34.23dp"
         android:textColor="@android:color/white"
 
         />
-
-
+    <TextView
+        android:id="@+id/reviews_container"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@color/black"
+        android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:visibility="invisible"
+        android:layout_height="wrap_content">
+    </TextView>
 </RelativeLayout>

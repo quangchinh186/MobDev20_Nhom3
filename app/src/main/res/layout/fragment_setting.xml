@@ -30,24 +30,6 @@
             android:id="@+id/setting1"
             android:layout_below="@id/setting"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cho phép matching theo sở thích"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:id="@+id/allow_matching"
-                android:textStyle="bold"
-                android:layout_marginLeft="30dp"
-                android:padding="18dp"/>
-
-            <include layout="@layout/toggle_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:layout_centerVertical="true"/>
         </RelativeLayout>
 
 

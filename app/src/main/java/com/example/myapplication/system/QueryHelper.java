@@ -236,7 +236,7 @@ public class QueryHelper {
 //            list.removeIf(i -> (!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())));
 //        }
 
-        return list.subList(0, (Math.min(30, list.size())));
+        return list.subList(0, (Math.min(80, list.size())));
     }
 
     private static <T> boolean haveCommonElement(List<T> list1, List<T> list2) {

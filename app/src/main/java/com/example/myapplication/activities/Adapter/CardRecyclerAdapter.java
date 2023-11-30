@@ -1,5 +1,6 @@
 package com.example.myapplication.activities.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,8 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +39,12 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
     Button next, prev;
     ProgressBar currentDisplay;
     ImageView avt;
+    LinearLayout hobby1;
+    LinearLayout hobby2;
+    LinearLayout hobby3;
+    TextView reviewBtn;
+    TextView reviewLayout;
+    RelativeLayout cardcontainer;
     int currentDisplayPhoto = 0;
 
     public CardRecyclerAdapter(Context context, List<AppUser> users){
@@ -42,6 +52,7 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         this.context = context;
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -63,6 +74,18 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         job = currentCard.findViewById(R.id.occupy);
         avt = currentCard.findViewById(R.id.avatar);
         currentDisplay = currentCard.findViewById(R.id.avaProgress);
+
+        hobby1 = currentCard.findViewById(R.id.hobby1);
+        hobby2 = currentCard.findViewById(R.id.hobby2);
+        hobby3 = currentCard.findViewById(R.id.hobby3);
+
+        cardcontainer = currentCard.findViewById(R.id.card_container);
+        description = currentCard.findViewById(R.id.displayReview);
+        reviewLayout = currentCard.findViewById(R.id.reviews_container);
+
+        cardcontainer.setOnClickListener(v -> {
+            reviewLayout.setVisibility(View.GONE);
+        });
 
         setProfile(profile);
 
@@ -87,9 +110,29 @@ public class CardRecyclerAdapter extends ArrayAdapter<AppUser> {
         Picasso.get()
                 .load(profile.getPhoto().get(0))
                 .into(avt);
+        hobby1.setVisibility(View.GONE);
+        hobby2.setVisibility(View.GONE);
+        hobby3.setVisibility(View.GONE);
+        for (int i = 0; i < profile.getHobby().size(); i++) {
+            if (i == 0) {
+                hobby1.setVisibility(View.VISIBLE);
+                ((TextView) hobby1.findViewById(R.id.hobby_item_text)).setText(profile.getHobby().get(i));
+            } else if (i == 1) {
+                hobby2.setVisibility(View.VISIBLE);
+                ((TextView) hobby2.findViewById(R.id.hobby_item_text)).setText(profile.getHobby().get(i));
+            } else if (i == 2) {
+                hobby3.setVisibility(View.VISIBLE);
+                ((TextView) hobby3.findViewById(R.id.hobby_item_text)).setText(profile.getHobby().get(i));
+            }
+        }
+        description.setText(profile.getDescription());
         currentDisplay.setMax(profile.getPhoto().size());
         currentDisplay.setProgress(1);
-
+        StringBuilder tex = new StringBuilder();
+        profile.getReview().forEach(review -> {
+            tex.append(review).append("\n");
+        });
+        description.setText(description.getText() + "\n\n\n\nNhận xét của người khác: \n" + tex);
     }
 
 }

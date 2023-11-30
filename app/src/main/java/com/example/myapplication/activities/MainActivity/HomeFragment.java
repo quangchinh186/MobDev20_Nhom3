@@ -37,10 +37,14 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(ApplicationActivity.user != null) {
-            data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
-
+        try {
+            if(ApplicationActivity.user != null) {
+                data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
         }
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -54,55 +58,61 @@ public class HomeFragment extends Fragment {
             Collections.shuffle(data);
             cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);
             cardDeck.setAdapter(cardRecyclerAdapter);
+            try {
+                cardDeck.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+                    @Override
+                    public void removeFirstObjectInAdapter() {
+                        // this is the simplest way to delete an object from the Adapter (/AdapterView)
+                        cardRecyclerAdapter.notifyDataSetChanged();
+                    }
 
-            cardDeck.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+                    @Override
+                    public void onLeftCardExit(Object dataObject) {
+                        //Do something on the left!
+                        //You also have access to the original object.
+                        //If you want to use it just cast it (String) dataObject
+                        swipeLeft(0);
+                        data.remove(0);
+                        //BatoSystem.sendMessage("You disliked ", getContext());
+                    }
 
-                @Override
-                public void removeFirstObjectInAdapter() {
-                    // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                    data.remove(0);
-                    cardRecyclerAdapter.notifyDataSetChanged();
-                }
+                    @Override
+                    public void onRightCardExit(Object dataObject) {
+                        swipeRight(0);
+                        data.remove(0);
+                        //BatoSystem.sendMessage("You liked ", getContext());
+                    }
 
-                @Override
-                public void onLeftCardExit(Object dataObject) {
-                    //Do something on the left!
-                    //You also have access to the original object.
-                    //If you want to use it just cast it (String) dataObject
-                    swipeLeft(0);
-                    //BatoSystem.sendMessage("You disliked ", getContext());
-                }
+                    @Override
+                    public void onAdapterAboutToEmpty(int itemsInAdapter) {
+                        data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
+                        // Ask for more data here
+                        cardRecyclerAdapter.notifyDataSetChanged();
+                        System.out.println("itemsInAdapter = " + itemsInAdapter);
+                    }
 
-                @Override
-                public void onRightCardExit(Object dataObject) {
-                    swipeRight(0);
-                    //BatoSystem.sendMessage("You liked ", getContext());
-                }
+                    @Override
+                    public void onScroll(float scrollProgressPercent) {
 
-                @Override
-                public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                    data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
-                    // Ask for more data here
-                    cardRecyclerAdapter.notifyDataSetChanged();
-                    System.out.println("itemsInAdapter = " + itemsInAdapter);
-                }
+                    }
+                });
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
+            }
 
-                @Override
-                public void onScroll(float scrollProgressPercent) {
-
-                }
-            });
         }
 
     }
 
     public void swipeRight(int pos){
         AppUser temp = data.get(pos);
+        Log.v("realm swipe", temp.getId() + " " + temp.getProfile().getName());
         ApplicationActivity.queryHelper.like(ApplicationActivity.user.getId(), temp.getId());
     }
 
     public void swipeLeft(int pos){
         AppUser temp = data.get(pos);
+        Log.v("realm swipe", temp.getId() + " " + temp.getProfile().getName());
         ApplicationActivity.queryHelper.dislike(ApplicationActivity.user.getId(), temp.getId());
     }
 
