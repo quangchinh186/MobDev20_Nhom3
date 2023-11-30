@@ -38,6 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 
 import java.util.ArrayList;
@@ -56,7 +57,6 @@ public class ProfileFragment extends Fragment {
     List<String> hobbies;
     EditText bioInput;
     RangeSlider ageRangeSlider;
-    Profile profile;
 
     public void onChangeProfileImage(View view) {
         Intent i = new Intent();
@@ -127,9 +127,15 @@ public class ProfileFragment extends Fragment {
             return;
         }
         if (hobbyInput.getText().toString().length() > 0) {
-            hobbies.add(hobbyInput.getText().toString());
-            addHobbyLayout(hobbyInput.getText().toString());
-            hobbyInput.setText("");
+           try {
+               Log.e("ProfileFragment", hobbyInput.getText().toString());
+               hobbies.add(String.valueOf(hobbyInput.getText()));
+               addHobbyLayout(hobbyInput.getText().toString());
+               hobbyInput.setText("");
+           } catch (Exception e) {
+               Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+               Log.e("ProfileFragment", e.getMessage());
+           }
         }
     }
 
@@ -178,7 +184,8 @@ public class ProfileFragment extends Fragment {
                 searchGenderInput.setText(ApplicationActivity.user.getProfile().getInterest());
             }
             if (ApplicationActivity.user.getProfile().getHobby() != null) {
-                hobbies = ApplicationActivity.user.getProfile().getHobby();
+                RealmList<String> hobbyList= ApplicationActivity.user.getProfile().getHobby();
+                hobbies.addAll(hobbyList);
                 hobbies.forEach(this::addHobbyLayout);
             }
             if (ApplicationActivity.user.getProfile().getDescription() != null) {
@@ -195,7 +202,6 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //  for profile image
-        profile = ApplicationActivity.user.getProfile();
         Log.e("ProfileFragment", ApplicationActivity.user.getProfile().getName());
         profileImage = getActivity().findViewById(R.id.fragment_profile_avt);
         profileImage.setOnClickListener(this::onChangeProfileImage);
@@ -227,17 +233,24 @@ public class ProfileFragment extends Fragment {
         getInfoFromUser();
         // for button
         getActivity().findViewById(R.id.fragment_profile_save_button).setOnClickListener(v -> {
-            Profile profile = ApplicationActivity.user.getProfile();
-            profile.setName(profileName.getText().toString());
-            profile.setDob(getDob());
-            profile.setGender(genderInput.getText().toString());
-            profile.setInterest(searchGenderInput.getText().toString());
-            profile.setHobby((RealmList<String>) hobbies);
-            profile.setDescription(bioInput.getText().toString());
-            profile.setMinAge(ageRangeSlider.getValues().get(0).longValue());
-            profile.setMaxAge((int) ageRangeSlider.getValues().get(1).longValue());
-            ApplicationActivity.user.setProfile(profile);
-            Toast.makeText(getActivity(), "Đã lưu thông tin", Toast.LENGTH_SHORT).show();
+            try {
+                Profile profile = new Profile();
+                profile.setName(profileName.getText().toString());
+                profile.setDob(getDob());
+                profile.setGender(genderInput.getText().toString());
+                profile.setInterest(searchGenderInput.getText().toString());
+                RealmList<String> hobbyList = new RealmList<>();
+                hobbyList.addAll(hobbies);
+                profile.setHobby(hobbyList);
+                profile.setDescription(bioInput.getText().toString());
+                profile.setMinAge(ageRangeSlider.getValues().get(0).longValue());
+                profile.setMaxAge((int) ageRangeSlider.getValues().get(1).longValue());
+                ApplicationActivity.queryHelper.updateUser(ApplicationActivity.user.getId(), profile);
+                Toast.makeText(getActivity(), "Đã lưu thông tin", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("ProfileFragment", e.getMessage());
+            }
         });
         getActivity().findViewById(R.id.fragment_profile_reset_button).setOnClickListener(v -> {
             getInfoFromUser();

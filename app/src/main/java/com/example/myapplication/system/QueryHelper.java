@@ -170,6 +170,14 @@ public class QueryHelper {
         });
     }
 
+    public void updateUser(ObjectId id, Profile profile){
+        AppUser u = getUser(id);
+        realmApp.executeTransaction(r -> {
+            u.setProfile(profile);
+            r.insertOrUpdate(u);
+        });
+    }
+
     public Profile getProfile(ObjectId id){
         return getUser(id).getProfile();
     }
