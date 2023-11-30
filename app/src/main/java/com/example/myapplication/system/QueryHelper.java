@@ -46,6 +46,14 @@ public class QueryHelper {
         realmApp.close();
     }
 
+    public void updateUser(ObjectId id, Profile profile){
+        AppUser u = getUser(id);
+        realmApp.executeTransaction(r -> {
+            u.setProfile(profile);
+            r.insertOrUpdate(u);
+        });
+    }
+
     private void openRealm(User user){
         this.user = user;
         // add an initial subscription to the sync configuration
