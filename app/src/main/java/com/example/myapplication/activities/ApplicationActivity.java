@@ -140,8 +140,7 @@ public class ApplicationActivity extends AppCompatActivity {
             checkNewMatch();
             addListener();
         }
-        
-        if(binding.itemsNav.getSelectedItemId() != R.id.chat){
+        if(binding.itemsNav.getSelectedItemId() == R.id.home){
             binding.itemsNav.setSelectedItemId(R.id.home);
             replaceFragment(new HomeFragment());
         }

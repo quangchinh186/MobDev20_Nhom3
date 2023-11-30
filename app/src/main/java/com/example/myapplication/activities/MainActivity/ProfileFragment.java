@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
     ImageView profileImage;
     Uri profileImageUri;
     TextView profileName;
+    EditText profileNameEditText;
     EditText dayInput, monthInput, yearInput;
     AutoCompleteTextView genderInput, searchGenderInput;
     EditText hobbyInput;
@@ -61,22 +62,27 @@ public class ProfileFragment extends Fragment {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
-        launchSomeActivity.launch(i);
+        getImage.launch(i);
     }
 
-    ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+    ActivityResultLauncher<Intent> getImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                if (result.getResultCode() != Activity.RESULT_OK) {
-                    return;
+                try {
+                    if (result.getResultCode() != Activity.RESULT_OK) {
+                        return;
+                    }
+                    Intent data = result.getData();
+                    // do your operation from here....
+                    if (data == null || data.getData() == null) {
+                        return;
+                    }
+                    profileImageUri = data.getData();
+                    profileImage.setImageURI(profileImageUri);
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), "Lỗi khi chọn ảnh", Toast.LENGTH_SHORT).show();
+                    Log.e("ProfileFragment", e.getMessage());
                 }
-                Intent data = result.getData();
-                // do your operation from here....
-                if (data == null || data.getData() == null) {
-                    return;
-                }
-                profileImageUri = data.getData();
-                profileImage.setImageURI(profileImageUri);
             });
 
     public void onPickDate(View view) {
@@ -153,18 +159,32 @@ public class ProfileFragment extends Fragment {
     public void getInfoFromUser() {
         try {
             Log.e("ProfileFragment", ApplicationActivity.user.getId().toString());
-            profileName.setText(profile.getName());
-            dayInput.setText(profile.getDob().getDay());
-            monthInput.setText(profile.getDob().getMonth());
-            yearInput.setText(profile.getDob().getYear());
-            genderInput.setText(profile.getGender());
-            searchGenderInput.setText(profile.getInterest());
-            bioInput.setText(profile.getDescription());
-            ageRangeSlider.setValues((float) profile.getMinAge(), (float) profile.getMaxAge());
-            hobbies = profile.getHobby();
-            for (String hobby : hobbies) {
-                addHobbyLayout(hobby);
+            if (ApplicationActivity.user.getProfile() != null) {
+                Picasso.get().load(ApplicationActivity.user.getProfile().getPhoto().get(0)).into(profileImage);
             }
+            if (ApplicationActivity.user.getProfile().getName() != null) {
+                profileName.setText(ApplicationActivity.user.getProfile().getName());
+                profileNameEditText.setText(ApplicationActivity.user.getProfile().getName());
+            }
+            if (ApplicationActivity.user.getProfile().getDob() != null) {
+                dayInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getDate()));
+                monthInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getMonth()));
+                yearInput.setText(String.valueOf(ApplicationActivity.user.getProfile().getDob().getYear()));
+            }
+            if (ApplicationActivity.user.getProfile().getGender() != null) {
+                genderInput.setText(ApplicationActivity.user.getProfile().getGender());
+            }
+            if (ApplicationActivity.user.getProfile().getInterest() != null) {
+                searchGenderInput.setText(ApplicationActivity.user.getProfile().getInterest());
+            }
+            if (ApplicationActivity.user.getProfile().getHobby() != null) {
+                hobbies = ApplicationActivity.user.getProfile().getHobby();
+                hobbies.forEach(this::addHobbyLayout);
+            }
+            if (ApplicationActivity.user.getProfile().getDescription() != null) {
+                bioInput.setText(ApplicationActivity.user.getProfile().getDescription());
+            }
+            ageRangeSlider.setValues((float) ApplicationActivity.user.getProfile().getMinAge(), (float) ApplicationActivity.user.getProfile().getMaxAge());
         } catch (Exception e) {
             Toast.makeText(getActivity(), "Lỗi khi lấy thông tin từ server", Toast.LENGTH_SHORT).show();
             Log.e("ProfileFragment", e.getMessage());
@@ -176,34 +196,37 @@ public class ProfileFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //  for profile image
         profile = ApplicationActivity.user.getProfile();
-        profileImage = getView().findViewById(R.id.fragment_profile_avt);
-        Picasso.get().load(ApplicationActivity.user.getProfile().toString()).into(profileImage);
+        Log.e("ProfileFragment", ApplicationActivity.user.getProfile().getName());
+        profileImage = getActivity().findViewById(R.id.fragment_profile_avt);
         profileImage.setOnClickListener(this::onChangeProfileImage);
         // for profile name
-        profileName = getView().findViewById(R.id.fragment_profile_name);
+        profileNameEditText = getActivity().findViewById(R.id.fragment_profile_name_edit_text);
+        profileName = getActivity().findViewById(R.id.fragment_profile_name);
         // for profile birthday
-        dayInput = getView().findViewById(R.id.fragment_profile_day_input);
-        monthInput = getView().findViewById(R.id.fragment_profile_month_input);
-        yearInput = getView().findViewById(R.id.fragment_profile_year_input);
+        dayInput = getActivity().findViewById(R.id.fragment_profile_day_input);
+        monthInput = getActivity().findViewById(R.id.fragment_profile_month_input);
+        yearInput = getActivity().findViewById(R.id.fragment_profile_year_input);
         dayInput.setOnClickListener(this::onPickDate);
         monthInput.setOnClickListener(this::onPickDate);
         yearInput.setOnClickListener(this::onPickDate);
         // for gender
+        genderInput = getActivity().findViewById(R.id.fragment_profile_autoCompleteGender);
+        searchGenderInput = getActivity().findViewById(R.id.fragment_profile_autoCompleteSearch);
         createGenderSelection();
         createSearchSelection();
         // for hobby
         hobbies = new ArrayList<>();
-        hobbyInput = getView().findViewById(R.id.fragment_profile_hobby_input);
-        addHobbyButton = getView().findViewById(R.id.fragment_profile_add_hobby);
+        hobbyInput = getActivity().findViewById(R.id.fragment_profile_hobby_input);
+        addHobbyButton = getActivity().findViewById(R.id.fragment_profile_add_hobby);
         addHobbyButton.setOnClickListener(v -> addHobby());
         // for bio
-        bioInput = getView().findViewById(R.id.fragment_profile_description);
+        bioInput = getActivity().findViewById(R.id.fragment_profile_description);
         // for age range
-        ageRangeSlider = getView().findViewById(R.id.fragment_profile_sliderRange);
+        ageRangeSlider = getActivity().findViewById(R.id.fragment_profile_sliderRange);
         // get info from user
         getInfoFromUser();
         // for button
-        getView().findViewById(R.id.fragment_profile_save_button).setOnClickListener(v -> {
+        getActivity().findViewById(R.id.fragment_profile_save_button).setOnClickListener(v -> {
             Profile profile = ApplicationActivity.user.getProfile();
             profile.setName(profileName.getText().toString());
             profile.setDob(getDob());
@@ -216,7 +239,7 @@ public class ProfileFragment extends Fragment {
             ApplicationActivity.user.setProfile(profile);
             Toast.makeText(getActivity(), "Đã lưu thông tin", Toast.LENGTH_SHORT).show();
         });
-        getView().findViewById(R.id.fragment_profile_reset_button).setOnClickListener(v -> {
+        getActivity().findViewById(R.id.fragment_profile_reset_button).setOnClickListener(v -> {
             getInfoFromUser();
             Toast.makeText(getActivity(), "Đã reset thông tin", Toast.LENGTH_SHORT).show();
         });
