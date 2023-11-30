@@ -98,7 +98,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/black"
+                android:background="@drawable/addhobbybutton"
+                android:textColor="@color/white"
                 android:text="Đăng Xuất"
                 style="@style/button_corner_radius.white"/>
 
@@ -107,8 +108,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:text="Đổi mật khẩu"
+                android:background="@drawable/addhobbybutton"
                 style="@style/button_corner_radius.white"
                 android:layout_below="@id/logout"
                 android:layout_marginTop="15dp"
