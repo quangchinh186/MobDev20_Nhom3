@@ -70,8 +70,6 @@ public class ChatFragment extends Fragment {
             if (roomList.size() == 0) {
                 return;
             }
-            Log.v("realm test conversation", roomList.toString());
-
             roomList.forEach(objectId -> {
                 View item = getLayoutInflater().inflate(R.layout.app_list_view, conversationList, false);
                 ImageView avt = item.findViewById(R.id.item_conversation_avatar);

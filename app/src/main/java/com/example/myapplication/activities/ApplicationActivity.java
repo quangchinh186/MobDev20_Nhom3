@@ -74,24 +74,21 @@ public class ApplicationActivity extends AppCompatActivity {
         binding = ActivityApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //set default fragment
+        binding.itemsNav.setBackground(null);
+        binding.itemsNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.home) {
+                replaceFragment(new HomeFragment());
+            } else if (itemId == R.id.chat) {
+                replaceFragment(new ChatFragment());
+            } else if (itemId == R.id.profile) {
+                replaceFragment(new ProfileFragment());
+            } else if (itemId == R.id.setting) {
+                replaceFragment(new SettingFragment());
+            }
+            return true;
+        });
 
-
-        if(user != null){
-            binding.itemsNav.setBackground(null);
-            binding.itemsNav.setOnItemSelectedListener(item -> {
-                int itemId = item.getItemId();
-                if (itemId == R.id.home) {
-                    replaceFragment(new HomeFragment());
-                } else if (itemId == R.id.chat) {
-                    replaceFragment(new ChatFragment());
-                } else if (itemId == R.id.profile) {
-                    replaceFragment(new ProfileFragment());
-                } else if (itemId == R.id.setting) {
-                    replaceFragment(new SettingFragment());
-                }
-                return true;
-            });
-        }
     }
 
     private void replaceFragment(Fragment fragment){
@@ -125,17 +122,17 @@ public class ApplicationActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Log.e("realm sync", app.currentUser().getId() + "");
+        //Log.e("realm sync", app.currentUser().getId() + "");
         super.onResume();
         Log.e("realm sync", app.currentUser() + "");
         if(app.currentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             initSyncRealm();
-            if(binding.itemsNav.getSelectedItemId() == R.id.home || binding.itemsNav.getSelectedItemId() == R.id.setting){
-                binding.itemsNav.setSelectedItemId(R.id.home);
-                replaceFragment(new HomeFragment());
-            }
+        }
+        if(binding.itemsNav.getSelectedItemId() == R.id.home || binding.itemsNav.getSelectedItemId() == R.id.setting){
+            binding.itemsNav.setSelectedItemId(R.id.home);
+            replaceFragment(new HomeFragment());
         }
     }
 

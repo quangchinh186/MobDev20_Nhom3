@@ -38,11 +38,10 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {
-            if(ApplicationActivity.user != null) {
-                data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
-            }
+            data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
+
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
         }
 
         // Inflate the layout for this fragment
@@ -53,7 +52,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(cardDeck == null && ApplicationActivity.user != null){
-            //cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);
+            //data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
             cardDeck = getView().findViewById(R.id.cardDeck);
             Collections.shuffle(data);
             cardRecyclerAdapter = new CardRecyclerAdapter(view.getContext(), data);
@@ -85,9 +84,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                        //data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
-                        // Ask for more data here
-                        //cardRecyclerAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
                         System.out.println("itemsInAdapter = " + itemsInAdapter);
                     }
 
@@ -97,7 +94,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
             } catch (Exception e) {
-                Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Hãy đợi có thêm người dùng tham gia ứng dụng nhé!", Toast.LENGTH_LONG).show();
             }
 
         }

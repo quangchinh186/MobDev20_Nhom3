@@ -231,15 +231,15 @@ public class QueryHelper {
 
         List<AppUser> under = new ArrayList<>();
         //filter by hobbies
-        for (AppUser i : list) {
-            if(!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())){
-                under.add(i);
-                list.remove(i);
-            }
-        }
+//        for (AppUser i : list) {
+//            if(!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())){
+//                under.add(i);
+//                list.remove(i);
+//            }
+//        }
         list.addAll(under);
-
-        return list; //.subList(0, (Math.min(100, list.size())));
+        Log.v("realm display", list.size() + "");
+        return list.subList(0, (Math.min(100, list.size())));
     }
 
     private static <T> boolean haveCommonElement(List<T> list1, List<T> list2) {
