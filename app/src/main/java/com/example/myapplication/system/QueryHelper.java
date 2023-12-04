@@ -217,9 +217,7 @@ public class QueryHelper {
     public List<AppUser> getUsersForDisplay(ObjectId user, boolean filterHobbies){
         //get users
         AppUser u = getUser(user);
-
         List<AppUser> list = new ArrayList<>(realmApp.where(AppUser.class).findAll());
-
 
         //default filter (by Gender)
         List<ObjectId> filter = new ArrayList<>();
@@ -231,12 +229,17 @@ public class QueryHelper {
         list.removeIf(i -> (filter.contains(i.getId())));
         list.removeIf(i -> (!i.getProfile().getGender().equals(u.getProfile().getInterest())));
 
-//        if(filterHobbies){
-//            //filter
-//            list.removeIf(i -> (!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())));
-//        }
+        List<AppUser> under = new ArrayList<>();
+        //filter by hobbies
+        for (AppUser i : list) {
+            if(!haveCommonElement(i.getProfile().getHobby(), u.getProfile().getHobby())){
+                under.add(i);
+                list.remove(i);
+            }
+        }
+        list.addAll(under);
 
-        return list.subList(0, (Math.min(80, list.size())));
+        return list; //.subList(0, (Math.min(100, list.size())));
     }
 
     private static <T> boolean haveCommonElement(List<T> list1, List<T> list2) {

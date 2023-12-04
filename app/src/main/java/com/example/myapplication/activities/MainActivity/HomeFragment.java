@@ -85,9 +85,9 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                        data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
+                        //data = ApplicationActivity.queryHelper.getUsersForDisplay(ApplicationActivity.user.getId(), ApplicationActivity.filterHobbies);
                         // Ask for more data here
-                        cardRecyclerAdapter.notifyDataSetChanged();
+                        //cardRecyclerAdapter.notifyDataSetChanged();
                         System.out.println("itemsInAdapter = " + itemsInAdapter);
                     }
 

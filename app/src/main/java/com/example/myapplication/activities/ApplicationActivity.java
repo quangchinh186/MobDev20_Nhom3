@@ -69,35 +69,29 @@ public class ApplicationActivity extends AppCompatActivity {
         //init once and share pref
         initThingsOnce();
         BatoSystem.initPref(this);
-
-
-        // to check login state
-        if (app.currentUser() == null) {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        } else {
-            initSyncRealm();
-        }
-
+        Log.e("realm sync", app.currentUser() + "");
         //view
         binding = ActivityApplicationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //set default fragment
 
 
-        binding.itemsNav.setBackground(null);
-        binding.itemsNav.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.home) {
-                replaceFragment(new HomeFragment());
-            } else if (itemId == R.id.chat) {
-                replaceFragment(new ChatFragment());
-            } else if (itemId == R.id.profile) {
-                replaceFragment(new ProfileFragment());
-            } else if (itemId == R.id.setting) {
-                replaceFragment(new SettingFragment());
-            }
-            return true;
-        });
+        if(user != null){
+            binding.itemsNav.setBackground(null);
+            binding.itemsNav.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                if (itemId == R.id.home) {
+                    replaceFragment(new HomeFragment());
+                } else if (itemId == R.id.chat) {
+                    replaceFragment(new ChatFragment());
+                } else if (itemId == R.id.profile) {
+                    replaceFragment(new ProfileFragment());
+                } else if (itemId == R.id.setting) {
+                    replaceFragment(new SettingFragment());
+                }
+                return true;
+            });
+        }
     }
 
     private void replaceFragment(Fragment fragment){
@@ -109,9 +103,6 @@ public class ApplicationActivity extends AppCompatActivity {
 
     //open sync realm if user is logged in
     private void initSyncRealm(){
-        if (queryHelper != null){
-            return;
-        }
         queryHelper = new QueryHelper(app.currentUser(), getApplicationContext());
         if(!queryHelper.hasUser(new ObjectId(app.currentUser().getId()))){
             startActivity(new Intent(this, SetupActivity.class));
@@ -134,17 +125,17 @@ public class ApplicationActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.e("realm sync", app.currentUser().getId() + "");
         super.onResume();
-        Log.e("realm sync", queryHelper + "");
+        Log.e("realm sync", app.currentUser() + "");
         if(app.currentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             initSyncRealm();
-        }
-
-        if(binding.itemsNav.getSelectedItemId() == R.id.home || binding.itemsNav.getSelectedItemId() == R.id.setting){
-            binding.itemsNav.setSelectedItemId(R.id.home);
-            replaceFragment(new HomeFragment());
+            if(binding.itemsNav.getSelectedItemId() == R.id.home || binding.itemsNav.getSelectedItemId() == R.id.setting){
+                binding.itemsNav.setSelectedItemId(R.id.home);
+                replaceFragment(new HomeFragment());
+            }
         }
     }
 
