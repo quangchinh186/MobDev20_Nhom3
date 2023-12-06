@@ -27,7 +27,6 @@
             android:text="Đăng nhập"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold"
             android:layout_marginTop="-10dp" />
         <LinearLayout
             android:id="@+id/email_section"
@@ -46,7 +45,7 @@
             <EditText
                 android:id="@+id/email__input"
                 android:layout_width="fill_parent"
-                android:layout_height="43.7dp"
+                android:layout_height="50dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="14sp"
@@ -76,7 +75,7 @@
                 android:id="@+id/password__input"
                 android:inputType="textPassword"
                 android:layout_width="fill_parent"
-                android:layout_height="43.78dp"
+                android:layout_height="50dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="14sp"
@@ -110,10 +109,10 @@
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="268.65dp"
-            android:layout_height="39.8dp"
+            android:layout_height="50dp"
             android:backgroundTint="@color/white"
             android:textColor="@color/black"
-            android:layout_marginTop="20.7dp"
+            android:layout_marginTop="10dp"
             android:text="Đăng nhập"
             android:onClick="onLoginClick"
             style="@style/button_corner_radius.white"/>
