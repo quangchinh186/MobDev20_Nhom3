@@ -1,3 +1,2 @@
-# Mobile App Dev
- INT3120_20
-document: https://docs.google.com/document/d/1m-dAMcGDjj9xNT0WRiJQZTFBJ58viyKIAI7ZvmDg23I/edit
+Mobile App for INT3120_20 class
+document: https://drive.google.com/drive/folders/1cQPiSPqwjLFciyWHW13FWyN9hS35q-th?usp=sharing
